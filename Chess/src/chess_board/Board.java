@@ -2,6 +2,8 @@ package chess_board;
 
 import java.util.Scanner;
 
+import chess_piece.Pawn;
+
 
 public class Board {
 	private int[][] grids;
@@ -83,6 +85,24 @@ public class Board {
 					!(grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] >= 7 &&
 					grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] <= 12));
 		}
+		if(grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] == 7 || grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] == 1) {
+			Pawn pawn = new Pawn();	
+			pawnMovement(input, pawn);
+		}
+		
+		
+	}
+
+	private void pawnMovement(String input, Pawn pawn) {
+		if(turn == 1 && pawn.validateMovement(grids, (8 - (input.charAt(1) - 48)), (input.charAt(0) - 65), (8 - (input.charAt(4) - 48)), (input.charAt(3) - 65))) {
+			validMovement(input);
+		}	
+		else if(pawn.validateBlackMovement(grids, (8 - (input.charAt(1) - 48)), (input.charAt(0) - 65), (8 - (input.charAt(4) - 48)), (input.charAt(3) - 65))){
+			validMovement(input);
+		}
+	}
+
+	private void validMovement(String input) {
 		grids[8 - (input.charAt(4) - 48)][input.charAt(3) - 65] = grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65];
 		grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] = 0;
 		turn *= -1;
