@@ -3,6 +3,7 @@ package chess_board;
 import java.util.Scanner;
 
 import chess_piece.Pawn;
+import chess_piece.Rook;
 
 
 public class Board {
@@ -85,12 +86,19 @@ public class Board {
 					!(grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] >= 7 &&
 					grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] <= 12));
 		}
+		// klo inputan pawn
 		if(grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] == 7 || grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] == 1) {
 			Pawn pawn = new Pawn();	
 			pawnMovement(input, pawn);
 		}
 		
-		
+		//klo inputan rook
+		else if(grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] == 8 || grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] == 2) {
+			Rook rook = new Rook();
+			if(rook.validateMovement(grids, (8 - (input.charAt(1) - 48)), (input.charAt(0) - 65), (8 - (input.charAt(4) - 48)), (input.charAt(3) - 65))) {
+				validMovement(input);
+			}
+		}
 	}
 
 	private void pawnMovement(String input, Pawn pawn) {
