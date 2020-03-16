@@ -1,7 +1,19 @@
 package chess_board;
 
+import java.util.Scanner;
+
+
 public class Board {
 	private int[][] grids;
+	
+	public int[][] getGrids() {
+		return grids;
+	}
+
+	public void setGrids(int[][] grids) {
+		this.grids = grids;
+	}
+
 	private int turn;
 
 	public Board() {		
@@ -31,7 +43,50 @@ public class Board {
 		}
 	}
 	
-	
+	Scanner scan = new Scanner(System.in);
+	public void doTurn() {
+		String input = null;
+		print();
+		System.out.println();
+		if(turn == 1) {	
+			do{ 
+				System.out.print("white move: ");
+				input = scan.nextLine();
+				
+			} while(input.length() != 5 || 
+					!(input.charAt(0) >= 'A' && 
+					input.charAt(0) <= 'H') ||
+					!(input.charAt(1) >= '1' &&
+					input.charAt(1) <= '8') ||
+					(input.charAt(2) != '-') ||
+					!(input.charAt(3) >= 'A' && 
+					input.charAt(3) <= 'H') ||
+					!(input.charAt(4) >= '1' &&
+					input.charAt(4) <= '8') ||
+					!(grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] <= 6 &&
+					grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] >= 1));
+		}
+		else if(turn != 1) {
+			do {
+				System.out.print("black move: ");
+				input = scan.nextLine();
+			} while(input.length() != 5 || 
+					!(input.charAt(0) >= 'A' && 
+					input.charAt(0) <= 'H') ||
+					!(input.charAt(1) >= '1' &&
+					input.charAt(1) <= '8') ||
+					(input.charAt(2) != '-') ||
+					!(input.charAt(3) >= 'A' && 
+					input.charAt(3) <= 'H') ||
+					!(input.charAt(4) >= '1' &&
+					input.charAt(4) <= '8') ||
+					!(grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] >= 7 &&
+					grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] <= 12));
+		}
+		grids[8 - (input.charAt(4) - 48)][input.charAt(3) - 65] = grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65];
+		grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] = 0;
+		turn *= -1;
+	}
 	
 	public void print() {	
 		int boardNumber = 8;
@@ -120,5 +175,6 @@ public class Board {
 				}
 			}
 		}
+		System.out.println();
 	}
 }

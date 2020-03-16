@@ -6,7 +6,11 @@ public class Main {
 
 	public Main() {
 		Board board = new Board();
-		board.print();
+		
+		do {
+			board.doTurn();
+		} while(true);
+		
 	}
 
 	public static void main(String[] args) {
