@@ -5,6 +5,7 @@ import java.util.Scanner;
 import chess_piece.Bishop;
 import chess_piece.Knight;
 import chess_piece.Pawn;
+import chess_piece.Queen;
 import chess_piece.Rook;
 
 
@@ -118,6 +119,17 @@ public class Board {
 			{
 				validMovement(input);
 			}
+		}
+		
+		//kalo inputannya queen
+		else if(grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] == 5  || grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] == 11 )
+		{
+			Queen queen = new Queen();
+			if(queen.validateMovement(grids, (8 - (input.charAt(1) - 48)), (input.charAt(0) - 65), (8 - (input.charAt(4) - 48)), (input.charAt(3) - 65)))
+			{
+				validMovement(input);
+			}
+					
 		}
 	}
 
