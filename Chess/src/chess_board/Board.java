@@ -2,6 +2,7 @@ package chess_board;
 
 import java.util.Scanner;
 
+import chess_piece.Bishop;
 import chess_piece.Knight;
 import chess_piece.Pawn;
 import chess_piece.Rook;
@@ -97,6 +98,14 @@ public class Board {
 		else if(grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] == 8 || grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] == 2) {
 			Rook rook = new Rook();
 			if(rook.validateMovement(grids, (8 - (input.charAt(1) - 48)), (input.charAt(0) - 65), (8 - (input.charAt(4) - 48)), (input.charAt(3) - 65))) {
+				validMovement(input);
+			}
+		}
+		
+		//klo inputan bishop
+		else if(grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] == 10 || grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] == 4) {
+			Bishop bishop = new Bishop();
+			if(bishop.validateMovement(grids, (8 - (input.charAt(1) - 48)), (input.charAt(0) - 65), (8 - (input.charAt(4) - 48)), (input.charAt(3) - 65))) {
 				validMovement(input);
 			}
 		}
