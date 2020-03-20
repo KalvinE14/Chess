@@ -17,9 +17,9 @@ public class Bishop extends Pieces {
 			j = y1 - 1;
 			for (int i = x1 - 1; i >= x2; i--) {
 				//if(j > 7 || j < 0) break;
-				if(i == x2 && gridsArray[i][j] != 0) return true;
-				if(gridsArray[i][j] != 0) return false;
-				if(i == x2) return true;
+				if(i == x2 && j == y2 && gridsArray[i][j] != 0) return true;
+				if(i == x2 && j == y2) return true;
+				if(i != x2 && j != y2 && gridsArray[i][j] != 0) return false;
 				j--;
 			}
 		}
@@ -29,9 +29,9 @@ public class Bishop extends Pieces {
 			j = y1 + 1;
 			for (int i = x1 + 1; i <= x2; i++) {
 				//if(j > 7 || j < 0) break;
-				if(i == x2 && gridsArray[i][j] != 0) return true;
-				if(gridsArray[i][j] != 0) return false;
-				if(i == x2) return true;
+				if(i == x2 && j == y2 && gridsArray[i][j] != 0) return true;
+				if(i == x2 && j == y2) return true;
+				if(i != x2 && j != y2 && gridsArray[i][j] != 0) return false;
 				j++;
 			}
 		}
@@ -41,9 +41,9 @@ public class Bishop extends Pieces {
 			j = y1 - 1;
 			for (int i = x1 + 1; i <= x2; i++) {
 				//if(j > 7 || j < 0) break;
-				if(i == x2 && gridsArray[i][j] != 0) return true;
-				if(gridsArray[i][j] != 0) return false;
-				if(i == x2) return true;
+				if(i == x2 && j == y2 && gridsArray[i][j] != 0) return true;
+				if(i == x2 && j == y2) return true;
+				if(i != x2 && j != y2 && gridsArray[i][j] != 0) return false;
 				j--;
 			}
 		}
@@ -53,9 +53,9 @@ public class Bishop extends Pieces {
 			j = y1 + 1;
 			for (int i = x1 - 1; i >= x2; i--) {
 				//if(j > 7 || j < 0) break;
-				if(i == x2 && gridsArray[i][j] != 0) return true;
-				if(gridsArray[i][j] != 0) return false;
-				if(i == x2) return true;
+				if(i == x2 && j == y2 && gridsArray[i][j] != 0) return true;
+				if(i == x2 && j == y2) return true;
+				if(i != x2 && j != y2 && gridsArray[i][j] != 0) return false;
 				j++;
 			}
 		}
