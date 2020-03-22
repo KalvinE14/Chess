@@ -3,6 +3,7 @@ package chess_board;
 import java.util.Scanner;
 
 import chess_piece.Bishop;
+import chess_piece.King;
 import chess_piece.Knight;
 import chess_piece.Pawn;
 import chess_piece.Queen;
@@ -72,7 +73,7 @@ public class Board {
 					!(grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] <= 6 &&
 					grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] >= 1));
 		}
-		else if(turn != 1) {
+		else if(turn == -1) {
 			do {
 				System.out.print("black move: ");
 				input = scan.nextLine();
@@ -129,15 +130,23 @@ public class Board {
 			{
 				validMovement(input);
 			}
-					
+							
+		}
+		
+		//klo inputannya king
+		else if(grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] == 6  || grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] == 12 ) {
+			King king = new King();
+			if(king.validateMovement(grids, (8 - (input.charAt(1) - 48)), (input.charAt(0) - 65), (8 - (input.charAt(4) - 48)), (input.charAt(3) - 65))) {
+				validMovement(input);
+			}
 		}
 	}
 
 	private void pawnMovement(String input, Pawn pawn) {
-		if(turn == 1 && pawn.validateMovement(grids, (8 - (input.charAt(1) - 48)), (input.charAt(0) - 65), (8 - (input.charAt(4) - 48)), (input.charAt(3) - 65))) {
+		if(turn == 1 && pawn.validateMovement(grids, (8 - (input.charAt(1) - 48)), (input.charAt(0) - 65), (8 - (input.charAt(4) - 48)), (input.charAt(3) - 65)) == true) {
 			validMovement(input);
 		}	
-		else if(pawn.validateBlackMovement(grids, (8 - (input.charAt(1) - 48)), (input.charAt(0) - 65), (8 - (input.charAt(4) - 48)), (input.charAt(3) - 65))){
+		else if(turn == -1 && pawn.validateBlackMovement(grids, (8 - (input.charAt(1) - 48)), (input.charAt(0) - 65), (8 - (input.charAt(4) - 48)), (input.charAt(3) - 65)) == true){
 			validMovement(input);
 		}
 	}

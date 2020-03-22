@@ -1,10 +1,9 @@
 package chess_piece;
 
-public class Queen extends Pieces{
+public class Queen extends Pieces {
 
-	 @Override
+	@Override
 	public boolean validateMovement(int[][] gridsArray, int x1, int y1, int x2, int y2) {
-		
 		if((gridsArray[x1][y1] > 0 && gridsArray[x1][y1] < 7 && gridsArray[x2][y2] > 0 && gridsArray[x2][y2] < 7) || gridsArray[x1][y1] > 6 && gridsArray[x1][y1] < 13 && gridsArray[x2][y2] > 6 && gridsArray[x2][y2] < 13)
 		{
 			print_invalid_queen_move();
@@ -145,8 +144,8 @@ public class Queen extends Pieces{
 		 
 		 return false;
 	}
-
-	private void print_invalid_queen_move() {
+	
+	public void print_invalid_queen_move() {
 		System.out.println("Invalid queen move!");
 		System.out.println("");
 	}
