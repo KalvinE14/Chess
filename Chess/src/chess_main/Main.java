@@ -6,7 +6,7 @@ public class Main {
 
 	public Main() {
 		Board board = new Board();
-		
+
 		do {
 			board.doTurn();
 		} while(true);

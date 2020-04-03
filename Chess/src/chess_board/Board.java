@@ -8,6 +8,7 @@ import chess_piece.Knight;
 import chess_piece.Pawn;
 import chess_piece.Queen;
 import chess_piece.Rook;
+import chess_rule.Check;
 
 
 public class Board {
@@ -141,7 +142,14 @@ public class Board {
 			}
 		}
 	}
-
+	
+	private void checkSign() {
+		Check check = new Check();
+		if(check.validateCheck(grids, turn) == true) {
+			System.out.println("CHECK !!!");
+		}
+	}
+	
 	private void pawnMovement(String input, Pawn pawn) {
 		if(turn == 1 && pawn.validateMovement(grids, (8 - (input.charAt(1) - 48)), (input.charAt(0) - 65), (8 - (input.charAt(4) - 48)), (input.charAt(3) - 65)) == true) {
 			validMovement(input);
@@ -154,6 +162,8 @@ public class Board {
 	private void validMovement(String input) {
 		grids[8 - (input.charAt(4) - 48)][input.charAt(3) - 65] = grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65];
 		grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] = 0;
+		System.out.println("");
+		checkSign();
 		turn *= -1;
 	}
 	
