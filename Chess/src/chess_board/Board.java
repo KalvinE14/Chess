@@ -9,6 +9,7 @@ import chess_piece.Pawn;
 import chess_piece.Queen;
 import chess_piece.Rook;
 import chess_rule.Check;
+import chess_rule.InvalidMove;
 
 
 public class Board {
@@ -58,8 +59,10 @@ public class Board {
 		System.out.println();
 		if(turn == 1) {	
 			do{ 
+				System.out.println("==========================");
 				System.out.print("white move: ");
 				input = scan.nextLine();
+				System.out.println("==========================");
 				
 			} while(input.length() != 5 || 
 					!(input.charAt(0) >= 'A' && 
@@ -76,8 +79,10 @@ public class Board {
 		}
 		else if(turn == -1) {
 			do {
+				System.out.println("==========================");
 				System.out.print("black move: ");
 				input = scan.nextLine();
+				System.out.println("==========================");
 			} while(input.length() != 5 || 
 					!(input.charAt(0) >= 'A' && 
 					input.charAt(0) <= 'H') ||
@@ -143,10 +148,37 @@ public class Board {
 		}
 	}
 	
+	int checkBlack;
+	int checkWhite;
+	
 	private void checkSign() {
 		Check check = new Check();
-		if(check.validateCheck(grids, turn) == true) {
-			System.out.println("CHECK !!!");
+		if(check.validateCheck(grids, turn) ==  true) {
+			if(turn == 1)
+			{
+				checkBlack = 1;
+				System.out.println("CheckBlack: "+ checkBlack);
+				System.out.println("CheckWhite: " + checkWhite);
+			}else
+			{
+				checkWhite = 1;
+				System.out.println("CheckBlack: "+ checkBlack);
+				System.out.println("CheckWhite: " + checkWhite);
+			}
+
+		}else
+		{
+			if(turn == 1)
+			{
+				checkBlack = 0;
+				System.out.println("CheckBlack: "+ checkBlack);
+				System.out.println("CheckWhite: " + checkWhite);
+			}else
+			{
+				checkWhite = 0;
+				System.out.println("CheckBlack: "+ checkBlack);
+				System.out.println("CheckWhite: " + checkWhite);
+			}
 		}
 	}
 	
@@ -162,9 +194,22 @@ public class Board {
 	private void validMovement(String input) {
 		grids[8 - (input.charAt(4) - 48)][input.charAt(3) - 65] = grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65];
 		grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] = 0;
-		System.out.println("");
-		checkSign();
-		turn *= -1;
+		InvalidMove invalidMove = new InvalidMove();
+		if(invalidMove.validateInvalidMove(grids, turn)) {
+			grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] = grids[8 - (input.charAt(4) - 48)][input.charAt(3) - 65];
+			grids[8 - (input.charAt(4) - 48)][input.charAt(3) - 65] = 0;
+			System.out.println("");
+			checkSign();
+			System.out.println("");
+			System.out.println("!! please protect your king !!");
+			System.out.println("");
+		}
+		else {
+			System.out.println("");
+			checkSign();
+			System.out.println("");
+			turn *= -1;
+		}		
 	}
 	
 	public void print() {	

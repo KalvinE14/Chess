@@ -268,6 +268,207 @@ public class Check {
 		return false;
 	}
 	
+	public boolean validateKnightPath(int turn, int gridsArray[][], int x, int y) {
+		if(turn == 1) {
+			if(x == 0 && y == 0)
+			{
+				if(gridsArray[x+1][y+2] == 12 || gridsArray[x+2][y+1] == 12) return true;
+			}else if(x == 0 && y == 7)
+			{
+				if(gridsArray[x+1][y-2] == 12 || gridsArray[x+2][y-1] == 12) return true;
+			}else if(x == 7 && y == 7)
+			{
+				if(gridsArray[x-1][y-2] == 12 || gridsArray[x-2][y-1] == 12) return true;
+			}else if(x == 7 && y == 0)
+			{
+				if(gridsArray[x-1][y+2] == 12 || gridsArray[x-2][y+1] == 12) return true;
+			}else if(x == 0)
+			{
+				if(y == 1)
+				{
+					if(gridsArray[x+2][y-1] == 12 || gridsArray[x+2][y+1] == 12 || gridsArray[x+1][y+2] == 12) return true;
+				}else if(y == 6)
+				{
+					if(gridsArray[x+2][y+1] == 12 || gridsArray[x+2][y-1] == 12 || gridsArray[x+1][y-2] == 12) return true;
+				}else
+				{
+					if(gridsArray[x+1][y-2] == 12 || gridsArray[x+2][y-1] == 12 || gridsArray[x+2][y+1] == 12 || gridsArray[x+1][y+2] == 12) return true;
+				}
+			}else if(x == 7)
+			{
+				if(y == 1)
+				{
+					if(gridsArray[x-2][y-1] == 12 || gridsArray[x-2][y+1] == 12 || gridsArray[x-1][y+2] == 12) return true;
+				}else if(y == 6)
+				{
+					if(gridsArray[x-2][y+1] == 12 || gridsArray[x-2][y-1] == 12 || gridsArray[x-1][y-2] == 12) return true;
+				}else
+				{
+					if(gridsArray[x-2][y-1] == 12 || gridsArray[x-2][y+1] == 12 || gridsArray[x-1][y+2] == 12 || gridsArray[x-1][y-2] == 12) return true;
+				}
+			}else if(y == 0)
+			{
+				if(x == 1)
+				{
+					if(gridsArray[x-1][y+2] == 12 || gridsArray[x+1][y+2] == 12 || gridsArray[x+2][y+1] == 12) return true;
+				}else if(x == 6)
+				{
+					if(gridsArray[x-2][y+1] == 12 || gridsArray[x-1][y+2] == 12 || gridsArray[x+1][y+2] == 12) return true;
+				}else
+				{
+					if(gridsArray[x-1][y+2] == 12 || gridsArray[x+1][y+2] == 12 || gridsArray[x+2][y+1] == 12 || gridsArray[x-2][y+1] == 12) return true;
+				}
+			}else if(y == 7)
+			{
+				if(x == 1)
+				{
+					if(gridsArray[x-1][y-2] == 12 || gridsArray[x+1][y-2] == 12 || gridsArray[x+2][y-1] == 12) return true;
+				}else if(x == 6)
+				{
+					if(gridsArray[x-1][y-2] == 12 || gridsArray[x+1][y-2] == 12 ||  gridsArray[x-2][y-1] == 12) return true;
+				}else
+				{
+					if(gridsArray[x-1][y-2] == 12 || gridsArray[x+1][y-2] == 12 || gridsArray[x+2][y-1] == 12 || gridsArray[x-2][y-1] == 12) return true;
+				}
+			}else if(x == 1)
+			{
+				if(y == 1)
+				{
+					if(gridsArray[x+2][y-1] == 12 || gridsArray[x+2][y+1] == 12 || gridsArray[x+1][y+2] == 12 || gridsArray[x-1][y+2] == 12) return true;
+				}else if(y == 6)
+				{
+					if(gridsArray[x+2][y-1] == 12 || gridsArray[x+2][y+1] == 12 || gridsArray[x+1][y-2] == 12 || gridsArray[x-1][y-2] == 12) return true;
+				}else
+				{
+					if(gridsArray[x+2][y-1] == 12 || gridsArray[x+2][y+1] == 12 || gridsArray[x+1][y+2] == 12 || gridsArray[x-1][y+2] == 12 || gridsArray[x+1][y-2] == 12 || gridsArray[x-1][y-2] == 12) return true;
+				}
+			}else if(x == 6)
+			{
+				if(y == 1)
+				{
+					if(gridsArray[x+1][y+2] == 12 || gridsArray[x-1][y+2] == 12 || gridsArray[x-2][y+1] == 12 || gridsArray[x-2][y-1] == 12) return true;
+				}else if(y == 6)
+				{
+					if(gridsArray[x+1][y-2] == 12 || gridsArray[x-1][y-2] == 12 || gridsArray[x-2][y+1] == 12 || gridsArray[x-2][y-1] == 12) return true;
+				}else
+				{
+					if(gridsArray[x+1][y+2] == 12 || gridsArray[x-1][y+2] == 12 || gridsArray[x-2][y+1] == 12 || gridsArray[x-2][y-1] == 12 || gridsArray[x+1][y-2] == 12 || gridsArray[x-1][y-2] == 12) return true;
+				}
+			}else if(y == 1)
+			{
+				if(gridsArray[x-2][y+1] == 12 || gridsArray[x-1][y+2] == 12 || gridsArray[x-2][y-1] == 12 || gridsArray[x+2][y-1] == 12 || gridsArray[x+2][y+1] == 12 || gridsArray[x+1][y+2] == 12) return true;
+			}else if(y == 6)
+			{
+				if(gridsArray[x-2][y+1] == 12 || gridsArray[x-2][y-1] == 12 || gridsArray[x-1][y-2] == 12 || gridsArray[x+2][y-1] == 12 || gridsArray[x+1][y-2] == 12 || gridsArray[x+2][y+1] == 12) return true;
+			}else
+			{
+				if(gridsArray[x-2][y+1] == 12 || gridsArray[x-1][y+2] == 12 || gridsArray[x-2][y-1] == 12 
+						|| gridsArray[x-1][y-2] == 12 || gridsArray[x+2][y-1] == 12 || gridsArray[x+1][y-2] == 12
+						|| gridsArray[x+2][y+1] == 12 || gridsArray[x+1][y+2] == 12) return true;
+			}
+		}
+		else if(turn == -1) {
+			if(x == 0 && y == 0)
+			{
+				if(gridsArray[x+1][y+2] == 6 || gridsArray[x+2][y+1] == 6) return true;
+			}else if(x == 0 && y == 7)
+			{
+				if(gridsArray[x+1][y-2] == 6 || gridsArray[x+2][y-1] == 6) return true;
+			}else if(x == 7 && y == 7)
+			{
+				if(gridsArray[x-1][y-2] == 6 || gridsArray[x-2][y-1] == 6) return true;
+			}else if(x == 7 && y == 0)
+			{
+				if(gridsArray[x-1][y+2] == 6 || gridsArray[x-2][y+1] == 6) return true;
+			}else if(x == 0)
+			{
+				if(y == 1)
+				{
+					if(gridsArray[x+2][y-1] == 6 || gridsArray[x+2][y+1] == 6 || gridsArray[x+1][y+2] == 6) return true;
+				}else if(y == 6)
+				{
+					if(gridsArray[x+2][y+1] == 6 || gridsArray[x+2][y-1] == 6 || gridsArray[x+1][y-2] == 6) return true;
+				}else
+				{
+					if(gridsArray[x+1][y-2] == 6 || gridsArray[x+2][y-1] == 6 || gridsArray[x+2][y+1] == 6 || gridsArray[x+1][y+2] == 6) return true;
+				}
+			}else if(x == 7)
+			{
+				if(y == 1)
+				{
+					if(gridsArray[x-2][y-1] == 6 || gridsArray[x-2][y+1] == 6 || gridsArray[x-1][y+2] == 6) return true;
+				}else if(y == 6)
+				{
+					if(gridsArray[x-2][y+1] == 6 || gridsArray[x-2][y-1] == 6 || gridsArray[x-1][y-2] == 6) return true;
+				}else
+				{
+					if(gridsArray[x-2][y-1] == 6 || gridsArray[x-2][y+1] == 6 || gridsArray[x-1][y+2] == 6 || gridsArray[x-1][y-2] == 6) return true;
+				}
+			}else if(y == 0)
+			{
+				if(x == 1)
+				{
+					if(gridsArray[x-1][y+2] == 6 || gridsArray[x+1][y+2] == 6 || gridsArray[x+2][y+1] == 6) return true;
+				}else if(x == 6)
+				{
+					if(gridsArray[x-2][y+1] == 6 || gridsArray[x-1][y+2] == 6 || gridsArray[x+1][y+2] == 6) return true;
+				}else
+				{
+					if(gridsArray[x-1][y+2] == 6 || gridsArray[x+1][y+2] == 6 || gridsArray[x+2][y+1] == 6 || gridsArray[x-2][y+1] == 6) return true;
+				}
+			}else if(y == 7)
+			{
+				if(x == 1)
+				{
+					if(gridsArray[x-1][y-2] == 6 || gridsArray[x+1][y-2] == 6 || gridsArray[x+2][y-1] == 6) return true;
+				}else if(x == 6)
+				{
+					if(gridsArray[x-1][y-2] == 6 || gridsArray[x+1][y-2] == 6 ||  gridsArray[x-2][y-1] == 6) return true;
+				}else
+				{
+					if(gridsArray[x-1][y-2] == 6 || gridsArray[x+1][y-2] == 6 || gridsArray[x+2][y-1] == 6 || gridsArray[x-2][y-1] == 6) return true;
+				}
+			}else if(x == 1)
+			{
+				if(y == 1)
+				{
+					if(gridsArray[x+2][y-1] == 6 || gridsArray[x+2][y+1] == 6 || gridsArray[x+1][y+2] == 6 || gridsArray[x-1][y+2] == 6) return true;
+				}else if(y == 6)
+				{
+					if(gridsArray[x+2][y-1] == 6 || gridsArray[x+2][y+1] == 6 || gridsArray[x+1][y-2] == 6 || gridsArray[x-1][y-2] == 6) return true;
+				}else
+				{
+					if(gridsArray[x+2][y-1] == 6 || gridsArray[x+2][y+1] == 6 || gridsArray[x+1][y+2] == 6 || gridsArray[x-1][y+2] == 6 || gridsArray[x+1][y-2] == 6 || gridsArray[x-1][y-2] == 6) return true;
+				}
+			}else if(x == 6)
+			{
+				if(y == 1)
+				{
+					if(gridsArray[x+1][y+2] == 6 || gridsArray[x-1][y+2] == 6 || gridsArray[x-2][y+1] == 6 || gridsArray[x-2][y-1] == 6) return true;
+				}else if(y == 6)
+				{
+					if(gridsArray[x+1][y-2] == 6 || gridsArray[x-1][y-2] == 6 || gridsArray[x-2][y+1] == 6 || gridsArray[x-2][y-1] == 6) return true;
+				}else
+				{
+					if(gridsArray[x+1][y+2] == 6 || gridsArray[x-1][y+2] == 6 || gridsArray[x-2][y+1] == 6 || gridsArray[x-2][y-1] == 6 || gridsArray[x+1][y-2] == 6 || gridsArray[x-1][y-2] == 6) return true;
+				}
+			}else if(y == 1)
+			{
+				if(gridsArray[x-2][y+1] == 6 || gridsArray[x-1][y+2] == 6 || gridsArray[x-2][y-1] == 6 || gridsArray[x+2][y-1] == 6 || gridsArray[x+2][y+1] == 6 || gridsArray[x+1][y+2] == 6) return true;
+			}else if(y == 6)
+			{
+				if(gridsArray[x-2][y+1] == 6 || gridsArray[x-2][y-1] == 6 || gridsArray[x-1][y-2] == 6 || gridsArray[x+2][y-1] == 6 || gridsArray[x+1][y-2] == 6 || gridsArray[x+2][y+1] == 6) return true;
+			}else
+			{
+				if(gridsArray[x-2][y+1] == 6 || gridsArray[x-1][y+2] == 6 || gridsArray[x-2][y-1] == 6 
+						|| gridsArray[x-1][y-2] == 6 || gridsArray[x+2][y-1] == 6 || gridsArray[x+1][y-2] == 6
+						|| gridsArray[x+2][y+1] == 6 || gridsArray[x+1][y+2] == 6) return true;
+			}
+		}
+		return false;
+
+	}
+	
 	public boolean validateCheck(int gridsArray[][], int turn) {
 		for(int i = 0; i <= 7; i++) {
 			for(int j = 0; j <= 7; j++) {
@@ -277,6 +478,9 @@ public class Check {
 					}
 					else if(gridsArray[i][j] == 2) {
 						if(validateRookPath(turn, gridsArray, i, j)) return true;
+					}
+					else if(gridsArray[i][j] == 3) {
+						if(validateKnightPath(turn, gridsArray, i, j)) return true;
 					}
 					else if(gridsArray[i][j] == 4) {
 						if(validateBishopPath(turn, gridsArray, i, j)) return true;
@@ -294,6 +498,9 @@ public class Check {
 					}
 					else if(gridsArray[i][j] == 8) {
 						if(validateRookPath(turn, gridsArray, i, j)) return true;
+					}
+					else if(gridsArray[i][j] == 9) {
+						if(validateKnightPath(turn, gridsArray, i, j)) return true;
 					}
 					else if(gridsArray[i][j] == 10) {	
 						if(validateBishopPath(turn, gridsArray, i, j)) return true;
