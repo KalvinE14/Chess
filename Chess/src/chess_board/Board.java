@@ -24,6 +24,22 @@ public class Board {
 	}
 
 	private int turn;
+	
+	private int checkBlack = 0;
+	
+	private int checkWhite = 0;
+	
+	private int moveKingBlack = 0;
+	
+	private int moveKingWhite = 0;
+	
+	private int moveRookLeftBlack = 0;
+	
+	private int moveRookRightBlack = 0;
+	
+	private int moveRookLeftWhite = 0;
+	
+	private int moveRookRightWhite = 0;
 
 	public Board() {		
 		grids = new int[8][8];
@@ -107,6 +123,7 @@ public class Board {
 			Rook rook = new Rook();
 			if(rook.validateMovement(grids, (8 - (input.charAt(1) - 48)), (input.charAt(0) - 65), (8 - (input.charAt(4) - 48)), (input.charAt(3) - 65))) {
 				validMovement(input);
+				rookHasMoved(input);
 			}
 		}
 		
@@ -142,14 +159,232 @@ public class Board {
 		//klo inputannya king
 		else if(grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] == 6  || grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] == 12 ) {
 			King king = new King();
+			
+			castlingSign(input, king);
+			
+		}
+	}
+
+	private void castlingSign(String input, King king) {
+		//kingside castling white
+		if(turn == 1 && (8 - (input.charAt(4) - 48)) - (8 - (input.charAt(1) - 48)) == 0 && (input.charAt(3) - 65) - (input.charAt(0) - 65) == 2 && checkWhite == 0 && moveRookRightWhite == 0 && moveKingWhite == 0 && grids[7][7] == 2)
+		{
+			System.out.println("Kingside castling white");
+			if(checkWhite == 0)
+			{
+				if(grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65 + 1] == 0 && grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65 + 2] == 0)
+				{
+					validMovement(input);
+					checkSign();
+					if(turn == -1 && checkWhite == 0)
+					{
+						grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65 + 1] = 6;
+						checkSign();
+						if(checkWhite == 1)
+						{
+							System.out.println("Invalid move! violated kingside castling move!");
+							grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65 + 1] = 0;
+							grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] = grids[8 - (input.charAt(4) - 48)][input.charAt(3) - 65];
+							grids[8 - (input.charAt(4) - 48)][input.charAt(3) - 65] = 0;
+						}else
+						{
+							grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65 + 1] = grids[7][7];
+							grids[7][7] = 0;
+						}
+					}else if(turn == -1 && checkWhite == 1)
+					{
+						grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] = grids[8 - (input.charAt(4) - 48)][input.charAt(3) - 65];
+						grids[8 - (input.charAt(4) - 48)][input.charAt(3) - 65] = 0;
+						turn *= -1;
+						System.out.println("Invalid move! Destination area is dangerous for your king!");
+					}
+				}else
+				{
+					System.out.println("Invalid Kingside Castling Move!");
+				}
+			}else
+			{
+				System.out.println("Invalid move! cannot do castling, you have been checked!");
+			}
+			
+		}
+		//queenside castling white
+		else if(turn == 1 && (8 - (input.charAt(4) - 48)) - (8 - (input.charAt(1) - 48)) == 0 && (input.charAt(3) - 65) - (input.charAt(0) - 65) == -2 && checkWhite == 0 && moveRookLeftWhite == 0 && moveKingWhite == 0 && grids[7][0] == 2)
+		{
+			System.out.println("queenside castling white");
+			if(checkWhite == 0)
+			{
+				if(grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65 - 1] == 0 && grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65 - 2] == 0 && grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65 - 3] == 0)
+				{
+					validMovement(input);
+					checkSign();
+					if(turn == -1 && checkWhite == 0)
+					{
+						grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65 - 1] = 6;
+						checkSign();
+						if(checkWhite == 1)
+						{
+							System.out.println("Invalid move! violated kingside castling move!");
+							grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65 - 1] = 0;
+							grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] = grids[8 - (input.charAt(4) - 48)][input.charAt(3) - 65];
+							grids[8 - (input.charAt(4) - 48)][input.charAt(3) - 65] = 0;
+						}else
+						{
+							grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65 - 1] = grids[7][0];
+							grids[7][0] = 0;
+						}
+					}else if(turn == -1 && checkWhite == 1)
+					{
+						grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] = grids[8 - (input.charAt(4) - 48)][input.charAt(3) - 65];
+						grids[8 - (input.charAt(4) - 48)][input.charAt(3) - 65] = 0;
+						turn *= -1;
+						System.out.println("Invalid move! Destination area is dangerous for your king!");
+					}
+				}else
+				{
+					System.out.println("Invalid Queenside Castling Move!");
+				}
+			}else
+			{
+				System.out.println("Invalid move! cannot do castling, you have been checked!");
+			}
+			
+		}
+		//kingside castling black
+		else if(turn == -1 && (8 - (input.charAt(4) - 48)) - (8 - (input.charAt(1) - 48)) == 0 && (input.charAt(3) - 65) - (input.charAt(0) - 65) == 2 && checkBlack == 0 && moveRookRightBlack == 0 && moveKingBlack == 0 && grids[0][7] == 8)
+		{
+			System.out.println("Kingside castling black");
+			if(checkBlack == 0)
+			{
+				if(grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65 + 1] == 0 && grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65 + 2] == 0)
+				{
+					validMovement(input);
+					checkSign();
+					if(turn == 1 && checkBlack == 0)
+					{
+						grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65 + 1] = 12;
+						checkSign();
+						if(checkBlack == 1)
+						{
+							System.out.println("Invalid move! violated kingside castling move!");
+							grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65 + 1] = 0;
+							grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] = grids[8 - (input.charAt(4) - 48)][input.charAt(3) - 65];
+							grids[8 - (input.charAt(4) - 48)][input.charAt(3) - 65] = 0;
+						}else
+						{
+							grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65 + 1] = grids[0][7];
+							grids[0][7] = 0;
+						}
+					}else if(turn == 1 && checkBlack == 1)
+					{
+						grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] = grids[8 - (input.charAt(4) - 48)][input.charAt(3) - 65];
+						grids[8 - (input.charAt(4) - 48)][input.charAt(3) - 65] = 0;
+						turn *= -1;
+						System.out.println("Invalid move! Destination area is dangerous for your king!");
+					}
+				}else
+				{
+					System.out.println("Invalid Kingside Castling Move!");
+				}
+			}else
+			{
+				System.out.println("Invalid move! cannot do castling, you have been checked!");	
+			}
+			
+		}
+		//queenside castling black
+		else if(turn == -1 && (8 - (input.charAt(4) - 48)) - (8 - (input.charAt(1) - 48)) == 0 && (input.charAt(3) - 65) - (input.charAt(0) - 65) == -2 && checkBlack == 0 && moveRookLeftBlack == 0 && moveKingBlack == 0 && grids[0][0] == 8)
+		{
+			System.out.println("queenside castling black");
+			if(checkBlack == 0)
+			{
+				if(grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65 - 1] == 0 && grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65 - 2] == 0 && grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65 - 3] == 0)
+				{
+					validMovement(input);
+					checkSign();
+					if(turn == 1 && checkBlack == 0)
+					{
+						grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65 - 1] = 12;
+						checkSign();
+						if(checkBlack == 1)
+						{
+							System.out.println("Invalid move! violated kingside castling move!");
+							grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65 - 1] = 0;
+							grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] = grids[8 - (input.charAt(4) - 48)][input.charAt(3) - 65];
+							grids[8 - (input.charAt(4) - 48)][input.charAt(3) - 65] = 0;
+						}else
+						{
+							grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65 - 1] = grids[0][0];
+							grids[0][0] = 0;
+						}
+					}else if(turn == 1 && checkBlack == 1)
+					{
+						grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] = grids[8 - (input.charAt(4) - 48)][input.charAt(3) - 65];
+						grids[8 - (input.charAt(4) - 48)][input.charAt(3) - 65] = 0;
+						turn *= -1;
+						System.out.println("Invalid move! Destination area is dangerous for your king!");
+					}
+				}else
+				{
+					System.out.println("Invalid Queenside Castling Move!");
+				}
+			}else
+			{
+				System.out.println("Invalid move! cannot do castling, you have been checked!");	
+			}
+			
+		}else
+		{
 			if(king.validateMovement(grids, (8 - (input.charAt(1) - 48)), (input.charAt(0) - 65), (8 - (input.charAt(4) - 48)), (input.charAt(3) - 65))) {
+				System.out.println("test");
 				validMovement(input);
+				kingHasMoved(input);
 			}
 		}
 	}
+
+	private void kingHasMoved(String input) {
+		//karena turn udh keganti di validMovement, jadinya turnnya kebalik
+		if(turn == -1 && moveKingWhite == 0 && 8 - (input.charAt(1) - 48) == 7 && input.charAt(0) - 65 == 4)
+		{
+			System.out.println("Raja putih digerakin");
+			moveKingWhite = 1;
+		}else if(turn == 1 && moveKingBlack == 0 && 8 - (input.charAt(1) - 48) == 0 && input.charAt(0) - 65 == 4)
+		{
+			System.out.println("Raja hitam digerakin");
+			moveKingBlack = 1;
+		}
+	}
+
+	private void rookHasMoved(String input) {
+		//karena turn udh keganti di validMovement, jadinya turnnya kebalik
+		if(turn == -1 && 8 - (input.charAt(1) - 48) == 7 && input.charAt(0) - 65 == 0 && moveRookLeftWhite == 0)
+		{
+			System.out.println("Benteng kiri putih digerakin");
+			moveRookLeftWhite = 1;
+		}else if(turn == -1 && 8 - (input.charAt(1) - 48) == 7 && input.charAt(0) - 65 == 7 && moveRookRightWhite == 0)
+		{
+			System.out.println("Benteng kanan putih digerakin");
+			moveRookRightWhite = 1;
+		}else if(turn == 1 && 8 - (input.charAt(1) - 48) == 0 && input.charAt(0) - 65 == 0 && moveRookLeftBlack == 0)
+		{
+			System.out.println("Benteng kiri hitam digerakin");
+			moveRookLeftBlack = 1;
+		}else if(turn == 1 && 8 - (input.charAt(1) - 48) == 0 && input.charAt(0) - 65 == 7 && moveRookRightBlack == 0)
+		{
+			System.out.println("Benteng kanan hitam digerakin");
+			moveRookRightBlack = 1;
+		}
+	}
+
 	
-	int checkBlack;
-	int checkWhite;
+//	private void castlingSign()
+//	{
+//		Castling castling = new Castling();
+//		if(turn == 1 && )
+//		
+//		
+//	}
 	
 	private void checkSign() {
 		Check check = new Check();
@@ -157,27 +392,27 @@ public class Board {
 			if(turn == 1)
 			{
 				checkBlack = 1;
-				System.out.println("CheckBlack: "+ checkBlack);
+				System.out.println("Checkblack: "+ checkBlack);
 				System.out.println("CheckWhite: " + checkWhite);
 			}else
 			{
 				checkWhite = 1;
-				System.out.println("CheckBlack: "+ checkBlack);
-				System.out.println("CheckWhite: " + checkWhite);
+				System.out.println("Checkblack: "+ checkBlack);
+				System.out.println("Checkwhite:" + checkWhite);
 			}
-
+			System.out.println("CHECK !!!");
 		}else
 		{
 			if(turn == 1)
 			{
 				checkBlack = 0;
-				System.out.println("CheckBlack: "+ checkBlack);
-				System.out.println("CheckWhite: " + checkWhite);
+				System.out.println("Checkblack: "+ checkBlack);
+				System.out.println("Checkwhite:" + checkWhite);
 			}else
 			{
 				checkWhite = 0;
-				System.out.println("CheckBlack: "+ checkBlack);
-				System.out.println("CheckWhite: " + checkWhite);
+				System.out.println("Checkblack: "+ checkBlack);
+				System.out.println("Checkwhite:" + checkWhite);
 			}
 		}
 	}
@@ -209,7 +444,7 @@ public class Board {
 			checkSign();
 			System.out.println("");
 			turn *= -1;
-		}		
+		}	
 	}
 	
 	public void print() {	
