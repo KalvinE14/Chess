@@ -253,7 +253,7 @@ public class Check {
 			if(x-1 >= 0 && y-1 >= 0) {
 				if(gridsArray[x-1][y-1] == 12) return true;
 			}
-			else if(x-1 >= 0 && y+1 <= 7) {
+			if(x-1 >= 0 && y+1 <= 7) {
 				if(gridsArray[x-1][y+1] == 12) return true;
 			}
 		}
@@ -261,7 +261,7 @@ public class Check {
 			if(x+1 <= 7 && y+1 <= 7) {
 				if(gridsArray[x+1][y+1] == 6) return true;
 			}
-			else if(x+1 <= 7 && y-1 >= 0) {
+			if(x+1 <= 7 && y-1 >= 0) {
 				if(gridsArray[x+1][y-1] == 6) return true;
 			}
 		}

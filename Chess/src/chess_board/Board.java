@@ -10,6 +10,7 @@ import chess_piece.Queen;
 import chess_piece.Rook;
 import chess_rule.Check;
 import chess_rule.InvalidMove;
+import chess_rule.PawnPromotion;
 
 
 public class Board {
@@ -418,11 +419,14 @@ public class Board {
 	}
 	
 	private void pawnMovement(String input, Pawn pawn) {
+		PawnPromotion promotion = new PawnPromotion();
 		if(turn == 1 && pawn.validateMovement(grids, (8 - (input.charAt(1) - 48)), (input.charAt(0) - 65), (8 - (input.charAt(4) - 48)), (input.charAt(3) - 65)) == true) {
 			validMovement(input);
+			promotion.pawnPromotion(grids, (turn * -1), (8 - (input.charAt(4) - 48)), (input.charAt(3) - 65));
 		}	
 		else if(turn == -1 && pawn.validateBlackMovement(grids, (8 - (input.charAt(1) - 48)), (input.charAt(0) - 65), (8 - (input.charAt(4) - 48)), (input.charAt(3) - 65)) == true){
 			validMovement(input);
+			promotion.pawnPromotion(grids, (turn * -1), (8 - (input.charAt(4) - 48)), (input.charAt(3) - 65));
 		}
 	}
 
