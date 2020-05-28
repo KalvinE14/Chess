@@ -9,6 +9,7 @@ import chess_piece.Pawn;
 import chess_piece.Queen;
 import chess_piece.Rook;
 import chess_rule.Check;
+import chess_rule.EnPassant;
 import chess_rule.InvalidMove;
 import chess_rule.PawnPromotion;
 
@@ -41,6 +42,18 @@ public class Board {
 	private int moveRookLeftWhite = 0;
 	
 	private int moveRookRightWhite = 0;
+	
+	private boolean whiteEnPassant = false;
+	
+	private boolean blackEnPassant = false;
+	
+	private int xWhitePositionAfterMoved = -1;
+	
+	private int yWhitePositionAfterMoved = -1;
+	
+	private int xBlackPositionAfterMoved = -1;
+	
+	private int yBlackPositionAfterMoved = -1;
 
 	public Board() {		
 		grids = new int[8][8];
@@ -75,6 +88,9 @@ public class Board {
 		print();
 		System.out.println();
 		if(turn == 1) {	
+			whiteEnPassant = false;
+			xWhitePositionAfterMoved = -1;
+			yWhitePositionAfterMoved = -1;
 			do{ 
 				System.out.println("==========================");
 				System.out.print("white move: ");
@@ -95,6 +111,9 @@ public class Board {
 					grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] >= 1));
 		}
 		else if(turn == -1) {
+			blackEnPassant = false;
+			xBlackPositionAfterMoved = -1;
+			yBlackPositionAfterMoved = -1;
 			do {
 				System.out.println("==========================");
 				System.out.print("black move: ");
@@ -377,15 +396,6 @@ public class Board {
 			moveRookRightBlack = 1;
 		}
 	}
-
-	
-//	private void castlingSign()
-//	{
-//		Castling castling = new Castling();
-//		if(turn == 1 && )
-//		
-//		
-//	}
 	
 	private void checkSign() {
 		Check check = new Check();
@@ -420,14 +430,125 @@ public class Board {
 	
 	private void pawnMovement(String input, Pawn pawn) {
 		PawnPromotion promotion = new PawnPromotion();
+		EnPassant ep = new EnPassant();
+		
 		if(turn == 1 && pawn.validateMovement(grids, (8 - (input.charAt(1) - 48)), (input.charAt(0) - 65), (8 - (input.charAt(4) - 48)), (input.charAt(3) - 65)) == true) {
-			validMovement(input);
-			promotion.pawnPromotion(grids, (turn * -1), (8 - (input.charAt(4) - 48)), (input.charAt(3) - 65));
+			whiteEnPassant = false;
+			
+			if((8 - (input.charAt(4) - 48)) - (8 - (input.charAt(1) - 48)) == -2 && (input.charAt(3) - 65) - (input.charAt(0) - 65) == 0)
+			{
+				whiteEnPassant = true;
+				xWhitePositionAfterMoved = 8 - (input.charAt(4) - 48);
+				yWhitePositionAfterMoved = input.charAt(3) - 65;
+				
+				validMovement(input);
+				promotion.pawnPromotion(grids, (turn * -1), (8 - (input.charAt(4) - 48)), (input.charAt(3) - 65));
+			}else if((8 - (input.charAt(4) - 48)) - (8 - (input.charAt(1) - 48)) == -1 && (((input.charAt(0) - 65) - (input.charAt(3) - 65) == -1) || ((input.charAt(0) - 65) - (input.charAt(3) - 65) == 1)) && grids[8 - (input.charAt(4) - 48)][input.charAt(3) - 65] == 0)
+			{
+				boolean isWhiteEnPassant = ep.enPassantWhite(blackEnPassant, grids, 8 - (input.charAt(1) - 48), input.charAt(0) - 65, 8 - (input.charAt(4) - 48), input.charAt(3) - 65, xBlackPositionAfterMoved, yBlackPositionAfterMoved);
+				
+				if(isWhiteEnPassant)
+				{
+					System.out.println("Masuk");
+					System.out.println("Black Flag : " + blackEnPassant);
+					System.out.println("x position after moved : " + xBlackPositionAfterMoved + " = " + (8 - (input.charAt(1) - 48)) + " : x1");
+					System.out.println("y position after moved: " + yBlackPositionAfterMoved + " = " + (input.charAt(0) - 65) + " : y1");
+					
+					enPassantMove(input);
+				}
+			}else
+			{
+				validMovement(input);
+				promotion.pawnPromotion(grids, (turn * -1), (8 - (input.charAt(4) - 48)), (input.charAt(3) - 65));
+			}
 		}	
+		
 		else if(turn == -1 && pawn.validateBlackMovement(grids, (8 - (input.charAt(1) - 48)), (input.charAt(0) - 65), (8 - (input.charAt(4) - 48)), (input.charAt(3) - 65)) == true){
-			validMovement(input);
-			promotion.pawnPromotion(grids, (turn * -1), (8 - (input.charAt(4) - 48)), (input.charAt(3) - 65));
+			blackEnPassant = false;
+			
+			if((8 - (input.charAt(4) - 48)) - (8 - (input.charAt(1) - 48)) == 2 && (input.charAt(3) - 65) - (input.charAt(0) - 65) == 0)
+			{
+				blackEnPassant = true;
+				xBlackPositionAfterMoved = 8 - (input.charAt(4) - 48);
+				yBlackPositionAfterMoved = input.charAt(3) - 65;
+				
+				validMovement(input);
+				promotion.pawnPromotion(grids, (turn * -1), (8 - (input.charAt(4) - 48)), (input.charAt(3) - 65));
+			}else if((8 - (input.charAt(4) - 48)) - (8 - (input.charAt(1) - 48)) == 1 && (((input.charAt(0) - 65) - (input.charAt(3) - 65) == -1) || ((input.charAt(0) - 65) - (input.charAt(3) - 65) == 1)) && grids[8 - (input.charAt(4) - 48)][input.charAt(3) - 65] == 0)
+			{
+				boolean isBlackEnPassant = ep.enPassantBlack(whiteEnPassant, grids, 8 - (input.charAt(1) - 48), input.charAt(0) - 65, 8 - (input.charAt(4) - 48), input.charAt(3) - 65, xWhitePositionAfterMoved, yWhitePositionAfterMoved);
+			
+				if(isBlackEnPassant)
+				{
+					enPassantMove(input);
+				}
+			}else
+			{
+				validMovement(input);
+				promotion.pawnPromotion(grids, (turn * -1), (8 - (input.charAt(4) - 48)), (input.charAt(3) - 65));
+			}
 		}
+	}
+	
+	private void enPassantMove(String input)
+	{
+		if(turn == 1)
+		{
+			int temp = 0;
+			
+			grids[8 - (input.charAt(4) - 48)][input.charAt(3) - 65] = grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65];
+			grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] = 0;
+			temp = grids[8 - (input.charAt(4) - 48) + 1][input.charAt(3) - 65];
+			grids[8 - (input.charAt(4) - 48) + 1][input.charAt(3) - 65] = 0;
+			
+			InvalidMove invalidMove = new InvalidMove();
+			
+			if(invalidMove.validateInvalidMove(grids, turn)) {
+				grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] = grids[8 - (input.charAt(4) - 48)][input.charAt(3) - 65];
+				grids[8 - (input.charAt(4) - 48)][input.charAt(3) - 65] = 0;
+				grids[8 - (input.charAt(4) - 48) + 1][input.charAt(3) - 65] = temp;
+				
+				System.out.println("");
+				checkSign();
+				System.out.println("");
+				System.out.println("!! please protect your king !!");
+				System.out.println("");
+			}
+			else {
+				System.out.println("");
+				checkSign();
+				System.out.println("");
+				turn *= -1;
+			}	
+		}else if(turn == -1)
+		{
+			int temp = 0;
+			
+			grids[8 - (input.charAt(4) - 48)][input.charAt(3) - 65] = grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65];
+			grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] = 0;
+			temp = grids[8 - (input.charAt(4) - 48) - 1][input.charAt(3) - 65];
+			grids[8 - (input.charAt(4) - 48) - 1][input.charAt(3) - 65] = 0;
+			
+			InvalidMove invalidMove = new InvalidMove();
+			if(invalidMove.validateInvalidMove(grids, turn)) {
+				grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] = grids[8 - (input.charAt(4) - 48)][input.charAt(3) - 65];
+				grids[8 - (input.charAt(4) - 48)][input.charAt(3) - 65] = 0;
+				grids[8 - (input.charAt(4) - 48) - 1][input.charAt(3) - 65] = temp;
+				
+				System.out.println("");
+				checkSign();
+				System.out.println("");
+				System.out.println("!! please protect your king !!");
+				System.out.println("");
+			}
+			else {
+				System.out.println("");
+				checkSign();
+				System.out.println("");
+				turn *= -1;
+			}	
+		}
+		
 	}
 
 	private void validMovement(String input) {

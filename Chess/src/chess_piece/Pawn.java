@@ -17,6 +17,7 @@ public class Pawn extends Pieces {
 		else {
 			if(x1 - x2 == 1 && gridsArray[x2][y2] == 0 && y1 == y2) return true;
 			else if(x1 - x2 == 1 && (y2 - y1 == 1 || y2 - y1 == -1) && gridsArray[x2][y2] != 0 && (gridsArray[x2][y2] >= 7 && gridsArray[x2][y2] <= 12)) return true;
+			else if(x1 - x2 == 1 && (y2 - y1 == 1 || y2 - y1 == -1) && gridsArray[x2][y2] == 0) return true;
 		}
 		System.out.println("invalid move!");
 		return false;
@@ -31,6 +32,7 @@ public class Pawn extends Pieces {
 		else {
 			if(x2 - x1 == 1 && gridsArray[x2][y2] == 0 && y1 == y2) return true;
 			else if(x2 - x1 == 1 && (y2 - y1 == 1 || y2 - y1 == -1) && gridsArray[x2][y2] != 0 && (gridsArray[x2][y2] >= 1 && gridsArray[x2][y2] <= 6)) return true;
+			else if(x2 - x1 == 1 && (y2 - y1 == 1 || y2 - y1 == -1) && gridsArray[x2][y2] == 0) return true;
 		}
 		System.out.println("invalid move!");
 		return false;
