@@ -13,6 +13,7 @@ import chess_rule.Checkmate;
 import chess_rule.EnPassant;
 import chess_rule.InvalidMove;
 import chess_rule.PawnPromotion;
+import chess_rule.Stalemate;
 
 
 public class Board {
@@ -55,7 +56,47 @@ public class Board {
 	private int xBlackPositionAfterMoved = -1;
 	
 	private int yBlackPositionAfterMoved = -1;
-
+	
+	//============================
+	public int wPawn() {
+		return 1;
+	}
+	public int wRook() {
+		return 2;
+	}
+	public int wKnight() {
+		return 3;
+	}
+	public int wBishop() {
+		return 4;
+	}
+	public int wQueen() {
+		return 5;
+	}
+	public int wKing() {
+		return 6;
+	}
+	//============================
+	public int bPawn() {
+		return 7;
+	}
+	public int bRook() {
+		return 8;
+	}
+	public int bKnight() {
+		return 9;
+	}
+	public int bBishop() {
+		return 10;
+	}
+	public int bQueen() {
+		return 11;
+	}
+	public int bKing() {
+		return 12;
+	}
+	//============================
+	
 	public Board() {		
 		grids = new int[8][8];
 		turn = 1;
@@ -81,6 +122,33 @@ public class Board {
 				increment -= 2;
 			}
 		}
+		
+//		grids[0][0] = bKing();
+//		grids[1][0] = wPawn();
+//		grids[2][0] = wKing();
+//		grids[2][1] = wQueen();
+//		grids[1][3] = wBishop();
+//		grids[2][3] = wKnight();
+//		grids[6][0] = bPawn();
+//		grids[5][1] = bPawn();
+//		grids[6][2] = bPawn();
+//		grids[5][3] = bPawn();
+//		grids[6][4] = bPawn();
+//		grids[5][5] = bPawn();
+//		grids[6][6] = bPawn();
+//		grids[5][7] = bPawn();
+//		grids[7][0] = wRook();
+//		grids[6][1] = wPawn();
+//		grids[7][2] = wBishop();
+//		grids[6][3] = wPawn();
+//		grids[7][4] = wKnight();
+//		grids[6][5] = wPawn();
+//		grids[7][6] = wRook();
+//		grids[6][7] = wPawn();
+		
+//		grids[0][0] = wKing();
+//		grids[7][6] = bBishop();
+//		grids[7][0] = bKing();
 	}
 	
 	Scanner scan = new Scanner(System.in);
@@ -88,6 +156,7 @@ public class Board {
 		String input = null;
 		print();
 		System.out.println();
+		
 		if(turn == 1) {	
 			whiteEnPassant = false;
 			xWhitePositionAfterMoved = -1;
@@ -584,8 +653,14 @@ public class Board {
 		}
 		else {
 			Checkmate cm = new Checkmate();
-					
+			Stalemate stalemate = new Stalemate();
+			
 			System.out.println("");
+			
+			if(stalemate.stalemate(grids, turn) == true) {
+				System.out.println("STALEMATE !!!!!");
+			}
+			
 			checkSign();
 			if(turn == 1 && checkBlack == 1)
 			{
@@ -603,9 +678,7 @@ public class Board {
 			{
 				System.out.println("");
 				turn *= -1;
-			}
-			
-			
+			}		
 		}	
 	}
 	
