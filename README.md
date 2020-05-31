@@ -10,7 +10,7 @@
 - [x] validate illegal move: king must always in safe position
 - [x] en passant
 - [x] pawn promotion
-- [ ] checkmate
+- [x] checkmate
 - [ ] draw on stalemate position
 - [ ] unit tests: test coverage min. 90%
 - [ ] reduce code smells
