@@ -9,6 +9,7 @@ import chess_piece.Pawn;
 import chess_piece.Queen;
 import chess_piece.Rook;
 import chess_rule.Check;
+import chess_rule.Checkmate;
 import chess_rule.EnPassant;
 import chess_rule.InvalidMove;
 import chess_rule.PawnPromotion;
@@ -492,6 +493,7 @@ public class Board {
 	
 	private void enPassantMove(String input)
 	{
+		Checkmate cm = new Checkmate();
 		if(turn == 1)
 		{
 			int temp = 0;
@@ -517,6 +519,14 @@ public class Board {
 			else {
 				System.out.println("");
 				checkSign();
+				if(checkBlack == 1)
+				{
+					if(cm.checkmate(grids, turn *= -1, 8 - (input.charAt(4) - 48), input.charAt(3) - 65)) System.out.println("Game Over, White Win!");
+					else {
+						System.out.println("Go!");
+					}
+				}
+				
 				System.out.println("");
 				turn *= -1;
 			}	
@@ -544,6 +554,14 @@ public class Board {
 			else {
 				System.out.println("");
 				checkSign();
+				if(checkWhite == 1)
+				{
+					if(cm.checkmate(grids, turn *= -1, 8 - (input.charAt(4) - 48), input.charAt(3) - 65)) System.out.println("Game Over, Black Win!");
+					else {
+						System.out.println("Go!");
+					}
+				}
+				
 				System.out.println("");
 				turn *= -1;
 			}	
@@ -565,10 +583,29 @@ public class Board {
 			System.out.println("");
 		}
 		else {
+			Checkmate cm = new Checkmate();
+					
 			System.out.println("");
 			checkSign();
-			System.out.println("");
-			turn *= -1;
+			if(turn == 1 && checkBlack == 1)
+			{
+				if(cm.checkmate(grids, turn *= -1, 8 - (input.charAt(4) - 48), input.charAt(3) - 65)) System.out.println("Game Over, White Win!");
+				else {
+					System.out.println("Go!");
+				}
+			}else if(turn == -1 && checkWhite == 1)
+			{
+				if(cm.checkmate(grids, turn *= -1, 8 - (input.charAt(4) - 48), input.charAt(3) - 65)) System.out.println("Game Over, Black Win!");
+				else {
+					System.out.println("Go!");
+				}
+			}else
+			{
+				System.out.println("");
+				turn *= -1;
+			}
+			
+			
 		}	
 	}
 	
