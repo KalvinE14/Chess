@@ -9,7 +9,7 @@ public class Main {
 		
 		do {
 			board.doTurn();
-		} while(true);
+		} while(board.isEnd() == false);
 		
 	}
 

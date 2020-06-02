@@ -197,25 +197,25 @@ public class Check {
 			if(x-1 >= 0) {
 				if(gridsArray[x-1][y] == 12) return true;
 			}
-			else if(x+1 <= 7) {
+			if(x+1 <= 7) {
 				if(gridsArray[x+1][y] == 12) return true;
 			}
-			else if(y-1 >= 0) {
+			if(y-1 >= 0) {
 				if(gridsArray[x][y-1] == 12) return true;
 			}
-			else if(y+1 <= 7) {
+			if(y+1 <= 7) {
 				if(gridsArray[x][y+1] == 12) return true;
 			}
-			else if(x-1 >= 0 && y+1 <= 7) {
+			if(x-1 >= 0 && y+1 <= 7) {
 				if(gridsArray[x-1][y+1] == 12) return true;
 			}
-			else if(x-1 >= 0 && y-1 >= 0) {
+			if(x-1 >= 0 && y-1 >= 0) {
 				if(gridsArray[x-1][y-1] == 12) return true;
 			}
-			else if(x+1 <= 7 && y-1 >= 0) {
+			if(x+1 <= 7 && y-1 >= 0) {
 				if(gridsArray[x+1][y-1] == 12) return true;
 			}
-			else if(x+1 <= 7 && y+1 <= 7) {
+			if(x+1 <= 7 && y+1 <= 7) {
 				if(gridsArray[x+1][y+1] == 12) return true;
 			}
 		}
@@ -223,25 +223,25 @@ public class Check {
 			if(x-1 >= 0) {
 				if(gridsArray[x-1][y] == 6) return true;
 			}
-			else if(x+1 <= 7) {
+			if(x+1 <= 7) {
 				if(gridsArray[x+1][y] == 6) return true;
 			}
-			else if(y-1 >= 0) {
+			if(y-1 >= 0) {
 				if(gridsArray[x][y-1] == 6) return true;
 			}
-			else if(y+1 <= 7) {
+			if(y+1 <= 7) {
 				if(gridsArray[x][y+1] == 6) return true;
 			}
-			else if(x-1 >= 0 && y+1 <= 7) {
+			if(x-1 >= 0 && y+1 <= 7) {
 				if(gridsArray[x-1][y+1] == 6) return true;
 			}
-			else if(x-1 >= 0 && y-1 >= 0) {
+			if(x-1 >= 0 && y-1 >= 0) {
 				if(gridsArray[x-1][y-1] == 6) return true;
 			}
-			else if(x+1 <= 7 && y-1 >= 0) {
+			if(x+1 <= 7 && y-1 >= 0) {
 				if(gridsArray[x+1][y-1] == 6) return true;
 			}
-			else if(x+1 <= 7 && y+1 <= 7) {
+			if(x+1 <= 7 && y+1 <= 7) {
 				if(gridsArray[x+1][y+1] == 6) return true;
 			}
 		}
@@ -474,7 +474,7 @@ public class Check {
 			for(int j = 0; j <= 7; j++) {
 				if(turn == 1) {
 					if(gridsArray[i][j] == 1) {
-						if(validatePawnPath(turn, gridsArray, i,j)) return true;
+						if(validatePawnPath(turn, gridsArray, i, j)) return true;
 					}
 					else if(gridsArray[i][j] == 2) {
 						if(validateRookPath(turn, gridsArray, i, j)) return true;

@@ -57,6 +57,8 @@ public class Board {
 	
 	private int yBlackPositionAfterMoved = -1;
 	
+	int endIndicator;
+	
 	//============================
 	public int wPawn() {
 		return 1;
@@ -100,6 +102,7 @@ public class Board {
 	public Board() {		
 		grids = new int[8][8];
 		turn = 1;
+		endIndicator = 0;
 		//ini buat pion
 		for (int i = 0; i < 8; i++) {
 			grids[6][i] = 1;
@@ -122,11 +125,18 @@ public class Board {
 				increment -= 2;
 			}
 		}
+//		grids[2][0] = bKing();
+//		grids[2][1] = wQueen();
+//		grids[2][3] = wKing();
+//		
+//		grids[2][0] = bKing();
+//		grids[7][1] = wQueen();
+//		grids[2][2] = wKing();
 		
 //		grids[0][0] = bKing();
 //		grids[1][0] = wPawn();
 //		grids[2][0] = wKing();
-//		grids[2][1] = wQueen();
+//		grids[3][0] = wQueen();
 //		grids[1][3] = wBishop();
 //		grids[2][3] = wKnight();
 //		grids[6][0] = bPawn();
@@ -146,16 +156,18 @@ public class Board {
 //		grids[7][6] = wRook();
 //		grids[6][7] = wPawn();
 		
-//		grids[0][0] = wKing();
-//		grids[7][6] = bBishop();
-//		grids[7][0] = bKing();
+//		grids[0][0] = bKing();
+//		grids[3][1] = wKing();
+//		grids[1][0] = wPawn();
 	}
 	
 	Scanner scan = new Scanner(System.in);
+
 	public void doTurn() {
 		String input = null;
 		print();
 		System.out.println();
+		
 		
 		if(turn == 1) {	
 			whiteEnPassant = false;
@@ -426,7 +438,7 @@ public class Board {
 		}else
 		{
 			if(king.validateMovement(grids, (8 - (input.charAt(1) - 48)), (input.charAt(0) - 65), (8 - (input.charAt(4) - 48)), (input.charAt(3) - 65))) {
-				System.out.println("test");
+				//System.out.println("test");
 				validMovement(input);
 				kingHasMoved(input);
 			}
@@ -590,7 +602,13 @@ public class Board {
 				checkSign();
 				if(checkBlack == 1)
 				{
-					if(cm.checkmate(grids, turn *= -1, 8 - (input.charAt(4) - 48), input.charAt(3) - 65)) System.out.println("Game Over, White Win!");
+					if(cm.checkmate(grids, turn *= -1, 8 - (input.charAt(4) - 48), input.charAt(3) - 65)) {
+						//System.out.println("");
+						print();
+						System.out.println("");
+						System.out.println("Game Over, White Win!");
+						endIndicator = 1;
+					}
 					else {
 						System.out.println("Go!");
 					}
@@ -625,7 +643,13 @@ public class Board {
 				checkSign();
 				if(checkWhite == 1)
 				{
-					if(cm.checkmate(grids, turn *= -1, 8 - (input.charAt(4) - 48), input.charAt(3) - 65)) System.out.println("Game Over, Black Win!");
+					if(cm.checkmate(grids, turn *= -1, 8 - (input.charAt(4) - 48), input.charAt(3) - 65)) {
+						//System.out.println("");
+						print();
+						System.out.println("");
+						System.out.println("Game Over, Black Win!");
+						endIndicator = 1;
+					}
 					else {
 						System.out.println("Go!");
 					}
@@ -637,14 +661,16 @@ public class Board {
 		}
 		
 	}
-
+	
 	private void validMovement(String input) {
+		int temp;
+		temp = grids[8 - (input.charAt(4) - 48)][input.charAt(3) - 65];
 		grids[8 - (input.charAt(4) - 48)][input.charAt(3) - 65] = grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65];
 		grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] = 0;
 		InvalidMove invalidMove = new InvalidMove();
 		if(invalidMove.validateInvalidMove(grids, turn)) {
 			grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] = grids[8 - (input.charAt(4) - 48)][input.charAt(3) - 65];
-			grids[8 - (input.charAt(4) - 48)][input.charAt(3) - 65] = 0;
+			grids[8 - (input.charAt(4) - 48)][input.charAt(3) - 65] = temp;
 			System.out.println("");
 			checkSign();
 			System.out.println("");
@@ -653,24 +679,40 @@ public class Board {
 		}
 		else {
 			Checkmate cm = new Checkmate();
+			
 			Stalemate stalemate = new Stalemate();
-			
-			System.out.println("");
-			
-			if(stalemate.stalemate(grids, turn) == true) {
-				System.out.println("STALEMATE !!!!!");
+			if(stalemate.stalemate(grids, turn*-1) == true) {
+				print();
+				System.out.println("");
+				System.out.println("Stalemate Draw!");
+				endIndicator = 1;
 			}
 			
+			System.out.println("");		
+			
 			checkSign();
+			
 			if(turn == 1 && checkBlack == 1)
 			{
-				if(cm.checkmate(grids, turn *= -1, 8 - (input.charAt(4) - 48), input.charAt(3) - 65)) System.out.println("Game Over, White Win!");
+				if(cm.checkmate(grids, turn *= -1, 8 - (input.charAt(4) - 48), input.charAt(3) - 65)) {
+					//System.out.println("");
+					print();
+					System.out.println("");
+					System.out.println("Game Over, White Win!");		
+					endIndicator = 1;
+				}
 				else {
 					System.out.println("Go!");
 				}
 			}else if(turn == -1 && checkWhite == 1)
 			{
-				if(cm.checkmate(grids, turn *= -1, 8 - (input.charAt(4) - 48), input.charAt(3) - 65)) System.out.println("Game Over, Black Win!");
+				if(cm.checkmate(grids, turn *= -1, 8 - (input.charAt(4) - 48), input.charAt(3) - 65)) { 
+					//System.out.println("");
+					print();
+					System.out.println("");
+					System.out.println("Game Over, Black Win!");
+					endIndicator = 1;
+				}
 				else {
 					System.out.println("Go!");
 				}
@@ -680,6 +722,11 @@ public class Board {
 				turn *= -1;
 			}		
 		}	
+	}
+	
+	public boolean isEnd() {
+		if(endIndicator == 1) return true;
+		return false;
 	}
 	
 	public void print() {	
