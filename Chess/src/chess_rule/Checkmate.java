@@ -263,43 +263,43 @@ public class Checkmate {
 				else return false;
 			}
 		}
-		else if(x+1 <= 7) {
+		if(x+1 <= 7) {
 			if(x+1 == xEnemyCheck && y == yEnemyCheck && gridsArray[x+1][y] == gridsArray[xEnemyCheck][yEnemyCheck]) {
 				if(kingStillChecked(gridsArray, turn, x, y, x+1, y) == false) return true;
 				else return false;
 			}
 		}
-		else if(y-1 >= 0) {
+		if(y-1 >= 0) {
 			if(x == xEnemyCheck && y-1 == yEnemyCheck && gridsArray[x][y-1] == gridsArray[xEnemyCheck][yEnemyCheck]) {
 				if(kingStillChecked(gridsArray, turn, x, y, x, y-1) == false) return true;
 				else return false;
 			}
 		}
-		else if(y+1 <= 7) {
+		if(y+1 <= 7) {
 			if(x == xEnemyCheck && y+1 == yEnemyCheck && gridsArray[x][y+1] == gridsArray[xEnemyCheck][yEnemyCheck]) {
 				if(kingStillChecked(gridsArray, turn, x, y, x, y+1) == false) return true;
 				else return false;
 			}
 		}
-		else if(x-1 >= 0 && y+1 <= 7) {
+		if(x-1 >= 0 && y+1 <= 7) {
 			if(x-1 == xEnemyCheck && y+1 == yEnemyCheck && gridsArray[x-1][y+1] == gridsArray[xEnemyCheck][yEnemyCheck]) {
 				if(kingStillChecked(gridsArray, turn, x, y, x-1, y+1) == false) return true;
 				else return false;
 			}
 		}
-		else if(x-1 >= 0 && y-1 >= 0) {
+		if(x-1 >= 0 && y-1 >= 0) {
 			if(x-1 == xEnemyCheck && y-1 == yEnemyCheck && gridsArray[x-1][y-1] == gridsArray[xEnemyCheck][yEnemyCheck]) {
 				if(kingStillChecked(gridsArray, turn, x, y, x-1, y-1) == false) return true;
 				else return false;
 			}
 		}
-		else if(x+1 <= 7 && y-1 >= 0) {
+		if(x+1 <= 7 && y-1 >= 0) {
 			if(x+1 == xEnemyCheck && y-1 == yEnemyCheck && gridsArray[x+1][y-1] == gridsArray[xEnemyCheck][yEnemyCheck]) {
 				if(kingStillChecked(gridsArray, turn, x, y, x+1, y-1) == false) return true;
 				else return false;
 			}
 		}
-		else if(x+1 <= 7 && y+1 <= 7) {
+		if(x+1 <= 7 && y+1 <= 7) {
 			if(x+1 == xEnemyCheck && y+1 == yEnemyCheck && gridsArray[x+1][y+1] == gridsArray[xEnemyCheck][yEnemyCheck]) {
 				if(kingStillChecked(gridsArray, turn, x, y, x+1, y+1) == false) return true;
 				else return false;
