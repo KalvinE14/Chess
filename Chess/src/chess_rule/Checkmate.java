@@ -1,6 +1,8 @@
 package chess_rule;
 
 public class Checkmate {
+	private int temp = 0;
+	
 	public void moveKing(int gridsArray[][], int x1, int y1, int x2, int y2)
 	{
 		gridsArray[x2][y2] = gridsArray[x1][y1];
@@ -182,14 +184,7 @@ public class Checkmate {
 	}
 	
 	public boolean checkmate(int gridsArray[][], int turn, int xEnemyCheck, int yEnemyCheck)
-	{
-		boolean rookSaveKing = false;
-		boolean pawnSaveKing = false;
-		boolean knightSaveKing = false;
-		boolean bishopSaveKing = false;
-		boolean queenSaveKing = false;
-		boolean kingSaveHimself = false;
-		
+	{	
 		if(isKingAvailableMoveChecked(gridsArray, turn) == 8)
 		{
 			
@@ -197,55 +192,68 @@ public class Checkmate {
 				for(int j = 0; j < 8; j++) {					
 					if(turn == 1) {
 						if(gridsArray[i][j] == 1) {
-							pawnSaveKing = canPawnSaveKing(turn, gridsArray, i,j, xEnemyCheck, yEnemyCheck);
+							if(canPawnSaveKing(turn, gridsArray, i, j, xEnemyCheck, yEnemyCheck) == true) return false;
 						}
 						else if(gridsArray[i][j] == 2) {
-							rookSaveKing = canRookSaveKing(turn, gridsArray, i, j, xEnemyCheck, yEnemyCheck);
+							if(canRookSaveKing(turn, gridsArray, i, j, xEnemyCheck, yEnemyCheck) == true) return false;
 						}
 						else if(gridsArray[i][j] == 3) {
-							knightSaveKing = canKnightSaveKing(turn, gridsArray, i, j, xEnemyCheck, yEnemyCheck);
+							if(canKnightSaveKing(turn, gridsArray, i, j, xEnemyCheck, yEnemyCheck) == true) return false;
 						}
 						else if(gridsArray[i][j] == 4) {
-							bishopSaveKing = canBishopSaveKing(turn, gridsArray, i, j, xEnemyCheck, yEnemyCheck);
+							if(canBishopSaveKing(turn, gridsArray, i, j, xEnemyCheck, yEnemyCheck) == true) return false;
 						}
 						else if(gridsArray[i][j] == 5) {
-							queenSaveKing = canQueenSaveKing(turn, gridsArray, i, j, xEnemyCheck, yEnemyCheck);
+							if(canQueenSaveKing(turn, gridsArray, i, j, xEnemyCheck, yEnemyCheck) == true) return false;
 						}
 						else if(gridsArray[i][j] == 6) {
-							kingSaveHimself = canKingSaveHimself(turn, gridsArray, i, j, xEnemyCheck, yEnemyCheck);
+							if(canKingSaveHimself(turn, gridsArray, i, j, xEnemyCheck, yEnemyCheck) == true) return false;
 						}
 						
 					}
 				}
 			}
+			System.out.println(isKingAvailableMoveChecked(gridsArray, turn));
 			
-			if(pawnSaveKing == true || rookSaveKing == true || knightSaveKing == true || bishopSaveKing == true || queenSaveKing == true || kingSaveHimself == true)
-			{
-				return true;
-			}else
-			{
-				return false;
-			}
 		}
 		
-		System.out.println(isKingAvailableMoveChecked(gridsArray, turn));
-		return false;
+		
+		return true;
 	}
 	
 	public boolean kingStillChecked(int gridsArray[][], int turn, int x1, int y1, int x2, int y2)
 	{
+		temp = gridsArray[x2][y2];
 		InvalidMove im = new InvalidMove();
+		if(turn == 1)
+		{
+			if(gridsArray[x2][y2] >= 1 && gridsArray[x2][y2] <= 6)
+			{
+				gridsArray[x2][y2] = gridsArray[x1][y1];
+				gridsArray[x1][y1] = 0;
+				
+				return true;
+			}
+		}else if(turn == -1)
+		{
+			if(gridsArray[x2][y2] >= 7 && gridsArray[x2][y2] <= 12)
+			{
+				gridsArray[x2][y2] = gridsArray[x1][y1];
+				gridsArray[x1][y1] = 0;
+				return true;
+			}
+		}
 		
 		gridsArray[x2][y2] = gridsArray[x1][y1];
 		gridsArray[x1][y1] = 0;
 		
-		return im.validateInvalidMove(gridsArray, turn * -1);
+		return im.validateInvalidMove(gridsArray, turn);
 	}
 	
 	public void returnGridsToNormal(int gridsArray[][], int x1, int y1, int x2, int y2)
-	{
+	{	
 		gridsArray[x1][y1] = gridsArray[x2][y2];
-		gridsArray[x2][y2] = 0;
+		gridsArray[x2][y2] = temp;
 	}
 	
 	public boolean canKingSaveHimself(int turn, int gridsArray[][], int x, int y, int xEnemyCheck, int yEnemyCheck) {
@@ -305,6 +313,8 @@ public class Checkmate {
 		// cek ke atas
 		for (int i = x - 1; i >= 0 ; i--) {
 			if(turn == 1) {
+				if(gridsArray[i][y] >= 1 && gridsArray[i][y] <= 6) break;
+				
 				//halangin jalan yg ngeskak
 				if(kingStillChecked(gridsArray, turn, x, y, i, y) == false) return true;
 				else
@@ -323,6 +333,8 @@ public class Checkmate {
 				}
 			}
 			else if(turn == -1) {
+				if(gridsArray[i][y] >= 7 && gridsArray[i][y] <= 12) break;
+				
 				if(kingStillChecked(gridsArray, turn, x, y, i, y) == false) return true;
 				else
 				{
@@ -343,6 +355,8 @@ public class Checkmate {
 		// cek ke bawah
 		for (int i = x + 1; i <= 7 ; i++) {
 			if(turn == 1) {
+				if(gridsArray[i][y] >= 1 && gridsArray[i][y] <= 6) break;
+				
 				if(kingStillChecked(gridsArray, turn, x, y, i, y) == false) return true;
 				else
 				{
@@ -359,6 +373,8 @@ public class Checkmate {
 				}
 			}
 			else if(turn == -1) {
+				if(gridsArray[i][y] >= 7 && gridsArray[i][y] <= 12) break;
+				
 				if(kingStillChecked(gridsArray, turn, x, y, i, y) == false) return true;
 				else
 				{
@@ -379,6 +395,8 @@ public class Checkmate {
 		// cek ke kanan
 		for (int i = y + 1; i <= 7 ; i++) {
 			if(turn == 1) {
+				if(gridsArray[x][i] >= 1 && gridsArray[x][i] <= 6) break;
+				
 				if(kingStillChecked(gridsArray, turn, x, y, x, i) == false) return true;
 				else
 				{
@@ -395,6 +413,8 @@ public class Checkmate {
 				}
 			}
 			else if(turn == -1) {
+				if(gridsArray[x][i] >= 7 && gridsArray[x][i] <= 12) break;
+				
 				if(kingStillChecked(gridsArray, turn, x, y, x, i) == false) return true;
 				else
 				{
@@ -415,6 +435,8 @@ public class Checkmate {
 		//cek ke kiri
 		for (int i = y - 1; i >= 0 ; i--) {
 			if(turn == 1) {
+				if(gridsArray[x][i] >= 1 && gridsArray[x][i] <= 6) break;
+				
 				if(kingStillChecked(gridsArray, turn, x, y, x, i) == false) return true;
 				else
 				{
@@ -431,6 +453,8 @@ public class Checkmate {
 				}
 			}
 			else if(turn == -1) {
+				if(gridsArray[x][i] >= 7 && gridsArray[x][i] <= 12) break;
+				
 				if(kingStillChecked(gridsArray, turn, x, y, x, i) == false) return true;
 				else
 				{
@@ -536,43 +560,82 @@ public class Checkmate {
 	public boolean canPawnSaveKing(int turn, int gridsArray[][], int x, int y, int xEnemyCheck, int yEnemyCheck) {
 		if(turn == 1) {
 			if(x-1 >= 0 && y-1 >= 0) {
-				if(kingStillChecked(gridsArray, turn, x, y, x-1, y-1) == false) return true;
-				else
+				if(gridsArray[x-1][y-1] >= 7 && gridsArray[x-1][y-1] <= 12)
 				{
-					returnGridsToNormal(gridsArray, x, y, x-1, y-1);
+					if(kingStillChecked(gridsArray, turn, x, y, x-1, y-1) == false) return true;
+					else
+					{
+						returnGridsToNormal(gridsArray, x, y, x-1, y-1);
+					}
+					
+					if(x-1 == xEnemyCheck && y-1 == yEnemyCheck && gridsArray[x-1][y-1] == gridsArray[xEnemyCheck][yEnemyCheck]) return true;
 				}
-				
-				if(x-1 == xEnemyCheck && y-1 == yEnemyCheck && gridsArray[x-1][y-1] == gridsArray[xEnemyCheck][yEnemyCheck]) return true;
 			}
 			if(x-1 >= 0 && y+1 <= 7) {
-				if(kingStillChecked(gridsArray, turn, x, y, x-1, y+1) == false) return true;
-				else
+				if(gridsArray[x-1][y+1] >= 7 && gridsArray[x-1][y+1] <= 12)
 				{
-					returnGridsToNormal(gridsArray, x, y, x-1, y+1);
+					if(kingStillChecked(gridsArray, turn, x, y, x-1, y+1) == false) return true;
+					else
+					{
+						returnGridsToNormal(gridsArray, x, y, x-1, y+1);
+					}
+					
+					if(x-1 == xEnemyCheck && y+1 == yEnemyCheck && gridsArray[x-1][y+1] == gridsArray[xEnemyCheck][yEnemyCheck]) return true;
 				}
-				
-				if(x-1 == xEnemyCheck && y+1 == yEnemyCheck && gridsArray[x-1][y+1] == gridsArray[xEnemyCheck][yEnemyCheck]) return true;
+			}
+			if(x-1 >= 0)
+			{
+				if(gridsArray[x-1][y] == 0)
+				{
+					if(kingStillChecked(gridsArray, turn, x, y, x-1, y) == false) return true;
+					else
+					{
+						returnGridsToNormal(gridsArray, x, y, x-1, y);
+					}
+					
+					if(x-1 == xEnemyCheck && y == yEnemyCheck && gridsArray[x-1][y] == gridsArray[xEnemyCheck][yEnemyCheck]) return true;
+				}
 			}
 		}
 		else if(turn == -1) {
 			if(x+1 <= 7 && y+1 <= 7) {
-				if(kingStillChecked(gridsArray, turn, x, y, x+1, y+1) == false) return true;
-				else
+				if(gridsArray[x+1][y+1] >= 1 && gridsArray[x+1][y+1] <= 6)
 				{
-					returnGridsToNormal(gridsArray, x, y, x+1, y+1);
+					if(kingStillChecked(gridsArray, turn, x, y, x+1, y+1) == false) return true;
+					else
+					{
+						returnGridsToNormal(gridsArray, x, y, x+1, y+1);
+					}
+					
+					if(x+1 == xEnemyCheck && y+1 == yEnemyCheck && gridsArray[x+1][y+1] == gridsArray[xEnemyCheck][yEnemyCheck]) return true;
 				}
-				
-				if(x+1 == xEnemyCheck && y+1 == yEnemyCheck && gridsArray[x+1][y+1] == gridsArray[xEnemyCheck][yEnemyCheck]) return true;
 			}
 			if(x+1 <= 7 && y-1 >= 0) {
-				if(kingStillChecked(gridsArray, turn, x, y, x+1, y-1) == false) return true;
-				else
+				if(gridsArray[x+1][y-1] >= 1 && gridsArray[x+1][y-1] <= 6)
 				{
-					returnGridsToNormal(gridsArray, x, y, x+1, y-1);
+					if(kingStillChecked(gridsArray, turn, x, y, x+1, y-1) == false) return true;
+					else
+					{
+						returnGridsToNormal(gridsArray, x, y, x+1, y-1);
+					}
+					
+					if(x+1 == xEnemyCheck && y-1 == yEnemyCheck && gridsArray[x+1][y-1] == gridsArray[xEnemyCheck][yEnemyCheck]) return true;
 				}
-				
-				if(x+1 == xEnemyCheck && y-1 == yEnemyCheck && gridsArray[x+1][y-1] == gridsArray[xEnemyCheck][yEnemyCheck]) return true;
 			}
+			if(x+1 <= 7)
+			{
+				if(gridsArray[x+1][y] == 0)
+				{
+					if(kingStillChecked(gridsArray, turn, x, y, x-1, y) == false) return true;
+					else
+					{
+						returnGridsToNormal(gridsArray, x, y, x-1, y);
+					}
+					
+					if(x-1 == xEnemyCheck && y == yEnemyCheck && gridsArray[x-1][y] == gridsArray[xEnemyCheck][yEnemyCheck]) return true;
+				}
+			}
+			
 		}
 		return false;
 	}

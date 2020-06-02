@@ -474,7 +474,7 @@ public class Check {
 			for(int j = 0; j <= 7; j++) {
 				if(turn == 1) {
 					if(gridsArray[i][j] == 1) {
-						if(validatePawnPath(turn, gridsArray, i, j)) return true;
+						if(validatePawnPath(turn, gridsArray, i,j)) return true;
 					}
 					else if(gridsArray[i][j] == 2) {
 						if(validateRookPath(turn, gridsArray, i, j)) return true;
