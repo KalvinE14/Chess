@@ -24,16 +24,16 @@ public class Pawn extends Pieces {
 			}
 			// untuk turn selanjutnya
 			else {
-				if(x1 - x2 == 1 && gridsArray[x2][y2] == 0 && y1 == y2) return true;
-				if(x1 - x2 == 1 && (y2 - y1 == 1 || y2 - y1 == -1) && gridsArray[x2][y2] != 0 && (gridsArray[x2][y2] >= 7 && gridsArray[x2][y2] <= 12)) return true;
-				if(x1 - x2 == 1 && (y2 - y1 == 1 || y2 - y1 == -1) && gridsArray[x2][y2] == 0) return true;
+				if(gridsArray[x2][y2] == 0 && x2 == x1 - 1 && y1 == y2) return true;
+				if(gridsArray[x2][y2] != 0 && x2 == x1 - 1 && y2 == y1 + 1 && gridsArray[x2][y2] >= 7 && gridsArray[x2][y2] <= 12) return true;
+				if(gridsArray[x2][y2] != 0 && x2 == x1 - 1 && y2 == y1 - 1 && gridsArray[x2][y2] >= 7 && gridsArray[x2][y2] <= 12) return true;
 			}
-			System.out.println("invalid move!");
+			//System.out.println("invalid move!"); 
 			return false;
 		}
 		
 		return false;
-	}
+	} 
 	
 	//untuk black pawn
 	public boolean validateBlackMovement(int gridsArray[][], int x1,int y1, int x2, int y2) {
@@ -51,11 +51,15 @@ public class Pawn extends Pieces {
 				if(x2 - x1 == 1 && (y2 - y1 == 1 || y2 - y1 == -1) && gridsArray[x2][y2] == 0) return true;
 			}
 			else {
-				if(x2 - x1 == 1 && gridsArray[x2][y2] == 0 && y1 == y2) return true;
-				if(x2 - x1 == 1 && (y2 - y1 == 1 || y2 - y1 == -1) && gridsArray[x2][y2] != 0 && (gridsArray[x2][y2] >= 1 && gridsArray[x2][y2] <= 6)) return true;
-				if(x2 - x1 == 1 && (y2 - y1 == 1 || y2 - y1 == -1) && gridsArray[x2][y2] == 0) return true;
+//				if(x2 - x1 == 1 && gridsArray[x2][y2] == 0 && y1 == y2) return true;
+//				if(x2 - x1 == 1 && (y2 - y1 == 1 || y2 - y1 == -1) && gridsArray[x2][y2] != 0 && (gridsArray[x2][y2] >= 1 && gridsArray[x2][y2] <= 6)) return true;
+//				if(x2 - x1 == 1 && (y2 - y1 == 1 || y2 - y1 == -1) && gridsArray[x2][y2] == 0) return true;
+				
+				if(gridsArray[x2][y2] == 0 && x2 == x1 + 1 && y1 == y2) return true;
+				if(gridsArray[x2][y2] != 0 && x2 == x1 + 1 && y2 == y1 + 1 && gridsArray[x2][y2] >= 1 && gridsArray[x2][y2] <= 6) return true;
+				if(gridsArray[x2][y2] != 0 && x2 == x1 + 1 && y2 == y1 - 1 && gridsArray[x2][y2] >= 1 && gridsArray[x2][y2] <= 6) return true;
 			}
-			System.out.println("invalid move!");
+			//System.out.println("invalid move!");
 			return false;
 		}
 		

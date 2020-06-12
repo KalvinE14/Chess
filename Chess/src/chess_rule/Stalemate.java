@@ -28,7 +28,7 @@ public class Stalemate {
 				}
 			}
 		}
-		return 0;
+		return -1;
 	}
 	
 	public int findYKing(int gridsArray[][], int turn) {
@@ -46,7 +46,7 @@ public class Stalemate {
 				}
 			}
 		}
-		return 0;
+		return -1;
 	}
 	
 	public boolean stalemate(int gridsArray[][], int turn) {
@@ -446,7 +446,7 @@ public class Stalemate {
 							if(queen.validateMovement(gridsArray, i, j, i-1, j+1) == true) return false;
 							if(queen.validateMovement(gridsArray, i, j, i+1, j-1) == true) return false;
 							if(queen.validateMovement(gridsArray, i, j, i+1, j+1) == true) return false;
-						}
+						} 
 						//==========================	
 						
 						//knight
@@ -525,17 +525,28 @@ public class Stalemate {
 						//pawn
 						else if(gridsArray[i][j] == 7) {
 							Pawn pawn = new Pawn();
-							if(pawn.validateMovement(gridsArray, i, j, i-1, j) == true) return true;
-							if(i+1 <= 7 && j-1 >= 0 && pawn.validateBlackMovement(gridsArray, i, j, i+1, j-1) == true) return false;
-							if(i+1 <= 0 && j+1 <= 7 && pawn.validateBlackMovement(gridsArray, i, j, i+1, j+1) == true) return false;
+							if(pawn.validateBlackMovement(gridsArray, i, j, i+1, j) == true) {
+								return false;
+							}
+							if(i+1 <= 7 && j-1 >= 0 && pawn.validateBlackMovement(gridsArray, i, j, i+1, j-1) == true) { 
+								return false;			
+							}
+							if(i+1 <= 7 && j+1 <= 7) {
+								if(pawn.validateBlackMovement(gridsArray, i, j, i+1, j+1) == true) {
+									return false;
+								}
+							}
 						}
 						//=========================
+						
 					}
 					if(j == 7 && i == 7) return true;
 				}
 			}
-			
-			
+				
+		}
+		else {
+			return false;
 		}
 		
 		int pawn = 0;
@@ -565,11 +576,11 @@ public class Stalemate {
 			}
 		}
 		
-//		System.out.println(pawn);
-//		System.out.println(rook);
-//		System.out.println(knight);
-//		System.out.println(bishop);
-//		System.out.println(queen);
+		System.out.println(pawn);
+		System.out.println(rook);
+		System.out.println(knight);
+		System.out.println(bishop);
+		System.out.println(queen);
 		
 		if(pawn >= 1 || queen == 1 || rook >= 1) return false;
 		

@@ -7,7 +7,99 @@ import org.junit.jupiter.api.Test;
 import chess_board.Board;
 
 class BoardUnitTest {
-
+	@Test
+	public void testCheckSign() {
+		int[][] grids = new int[8][8];
+		
+		Board board = new Board();
+		
+		grids[3][4] = 6;
+		grids[3][5] = 11;
+		
+		board.checkSign(grids, -1);
+		
+		int checkBlack = board.checkBlackCounter();
+		int checkWhite = board.checkWhiteCounter();
+		assert(checkWhite == 1); 
+		assert(checkBlack == 0);
+		 
+		board.resetCheckCounter();
+		 
+		grids[3][4] = 12; 
+		grids[3][5] = 5;
+		
+		board.checkSign(grids, 1); 
+		
+		checkBlack = board.checkBlackCounter();
+		checkWhite = board.checkWhiteCounter();
+		assert(checkWhite == 0); 
+		assert(checkBlack == 1);
+		
+		board.resetCheckCounter();
+		
+		grids[3][5] = 0;
+		grids[4][6] = 5;
+		
+		board.checkSign(grids, 1);
+		
+		checkBlack = board.checkBlackCounter();
+		checkWhite = board.checkWhiteCounter();
+		assert(checkWhite == 0); 
+		assert(checkBlack == 0);
+		
+		board.resetCheckCounter();
+		
+		grids[3][4] = 6;
+		grids[4][6] = 11;
+		
+		board.checkSign(grids, -1);
+		
+		checkBlack = board.checkBlackCounter();
+		checkWhite = board.checkWhiteCounter();
+		assert(checkWhite == 0); 
+		assert(checkBlack == 0);
+	}
+	
+	@Test
+	public void testValidMovement() {
+		Board board = new Board();
+		int[][] grids = new int[8][8];
+		String input = "B5-B6"; 
+		
+		grids[0][0] = 12;
+		grids[3][1] = 6;
+		grids[1][0] = 1;
+		
+		board.validMovement(grids, input, 1);
+		
+		assert(grids[2][1] == 6);
+		
+		grids[2][1] = 0;
+		grids[0][0] = 0;
+		grids[3][1] = 0;
+		grids[1][0] = 0;
+		
+		grids[2][0] = 12;
+		grids[7][1] = 5;
+		grids[2][2] = 6;
+		
+		input = "B1-B6";
+		
+		board.validMovement(grids, input, 1);
+		
+		assert(grids[2][1] == 5 && grids[7][1] == 0);
+		
+		grids[2][1] = 0;
+		grids[2][0] = 6; 
+		grids[7][1] = 11;
+		grids[2][2] = 12;
+	
+		
+		board.validMovement(grids, input, -1);
+		
+		assert(grids[2][1] == 11);
+	}
+	
 	@Test
 	void testIsEnd() {
 		Board board = new Board();
