@@ -6,10 +6,12 @@ public class Main {
 
 	public Main() {
 		Board board = new Board();
+		int endIndicator;
 		
 		do {
 			board.doTurn();
-		} while(board.isEnd() == false);
+			endIndicator = board.endIndicator();
+		} while(board.isEnd(endIndicator) == false);
 		
 	}
 

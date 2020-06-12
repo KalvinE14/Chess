@@ -225,7 +225,7 @@ public class Board {
 			Rook rook = new Rook();
 			if(rook.validateMovement(grids, (8 - (input.charAt(1) - 48)), (input.charAt(0) - 65), (8 - (input.charAt(4) - 48)), (input.charAt(3) - 65))) {
 				validMovement(input);
-				rookHasMoved(input);
+				rookHasMoved(input, turn, moveRookLeftWhite, moveRookRightWhite, moveRookLeftBlack, moveRookRightBlack);
 			}
 		}
 		
@@ -267,7 +267,7 @@ public class Board {
 		}
 	}
 
-	private void castlingSign(String input, King king) {
+	public void castlingSign(String input, King king) {
 		//kingside castling white
 		if(turn == 1 && (8 - (input.charAt(4) - 48)) - (8 - (input.charAt(1) - 48)) == 0 && (input.charAt(3) - 65) - (input.charAt(0) - 65) == 2 && checkWhite == 0 && moveRookRightWhite == 0 && moveKingWhite == 0 && grids[7][7] == 2)
 		{
@@ -440,12 +440,12 @@ public class Board {
 			if(king.validateMovement(grids, (8 - (input.charAt(1) - 48)), (input.charAt(0) - 65), (8 - (input.charAt(4) - 48)), (input.charAt(3) - 65))) {
 				//System.out.println("test");
 				validMovement(input);
-				kingHasMoved(input);
+				kingHasMoved(input, turn, moveKingWhite, moveKingBlack);
 			}
 		}
 	}
 
-	private void kingHasMoved(String input) {
+	public void kingHasMoved(String input, int turn, int moveKingWhite, int moveKingBlack) {
 		//karena turn udh keganti di validMovement, jadinya turnnya kebalik
 		if(turn == -1 && moveKingWhite == 0 && 8 - (input.charAt(1) - 48) == 7 && input.charAt(0) - 65 == 4)
 		{
@@ -458,7 +458,7 @@ public class Board {
 		}
 	}
 
-	private void rookHasMoved(String input) {
+	public void rookHasMoved(String input, int turn, int moveRookLeftWhite, int moveRookRightWhite, int moveRookLeftBlack, int moveRookRightBlack) {
 		//karena turn udh keganti di validMovement, jadinya turnnya kebalik
 		if(turn == -1 && 8 - (input.charAt(1) - 48) == 7 && input.charAt(0) - 65 == 0 && moveRookLeftWhite == 0)
 		{
@@ -479,7 +479,7 @@ public class Board {
 		}
 	}
 	
-	private void checkSign() {
+	public void checkSign() {
 		Check check = new Check();
 		if(check.validateCheck(grids, turn) ==  true) {
 			if(turn == 1)
@@ -510,7 +510,7 @@ public class Board {
 		}
 	}
 	
-	private void pawnMovement(String input, Pawn pawn) {
+	public void pawnMovement(String input, Pawn pawn) {
 		PawnPromotion promotion = new PawnPromotion();
 		EnPassant ep = new EnPassant();
 		
@@ -536,7 +536,7 @@ public class Board {
 					System.out.println("x position after moved : " + xBlackPositionAfterMoved + " = " + (8 - (input.charAt(1) - 48)) + " : x1");
 					System.out.println("y position after moved: " + yBlackPositionAfterMoved + " = " + (input.charAt(0) - 65) + " : y1");
 					
-					enPassantMove(input);
+					enPassantMove(input, turn, grids, checkBlack, checkWhite);
 				}
 			}else
 			{
@@ -562,7 +562,7 @@ public class Board {
 			
 				if(isBlackEnPassant)
 				{
-					enPassantMove(input);
+					enPassantMove(input, turn, grids, checkBlack, checkWhite);
 				}
 			}else
 			{
@@ -572,7 +572,7 @@ public class Board {
 		}
 	}
 	
-	private void enPassantMove(String input)
+	public void enPassantMove(String input, int turn, int grids[][], int checkBlack, int checkWhite)
 	{
 		Checkmate cm = new Checkmate();
 		if(turn == 1)
@@ -662,7 +662,7 @@ public class Board {
 		
 	}
 	
-	private void validMovement(String input) {
+	public void validMovement(String input) {
 		int temp;
 		temp = grids[8 - (input.charAt(4) - 48)][input.charAt(3) - 65];
 		grids[8 - (input.charAt(4) - 48)][input.charAt(3) - 65] = grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65];
@@ -724,7 +724,12 @@ public class Board {
 		}	
 	}
 	
-	public boolean isEnd() {
+	public int endIndicator()
+	{
+		return endIndicator;
+	}
+	
+	public boolean isEnd(int endIndicator) {
 		if(endIndicator == 1) return true;
 		return false;
 	}

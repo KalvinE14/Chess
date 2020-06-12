@@ -214,11 +214,10 @@ public class Checkmate {
 				}
 			}
 			System.out.println(isKingAvailableMoveChecked(gridsArray, turn));
-			
+			return true;
 		}
 		
-		
-		return true;
+		return false;
 	}
 	
 	public boolean kingStillChecked(int gridsArray[][], int turn, int x1, int y1, int x2, int y2)
