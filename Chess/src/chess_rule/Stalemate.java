@@ -84,7 +84,7 @@ public class Stalemate {
 				}
 				else if(turn == -1) {
 					if(gridsArray[xKing-1][yKing] == 1 || gridsArray[xKing-1][yKing] == 2 || gridsArray[xKing-1][yKing] == 3 || gridsArray[xKing-1][yKing] == 4 || gridsArray[xKing-1][yKing] == 5 || gridsArray[xKing-1][yKing] == 6) {
-						int temp = gridsArray[xKing-1][yKing];
+						int temp = gridsArray[xKing-1][yKing]; 
 						moveKing(gridsArray, xKing, yKing, xKing-1, yKing);
 						if(invalidMove.validateInvalidMove(gridsArray, turn) == true) {
 							checkCounter++;
@@ -107,7 +107,9 @@ public class Stalemate {
 		if(xKing+1 <= 7) {
 			if(gridsArray[xKing+1][yKing] == 0) {
 				moveKing(gridsArray, xKing, yKing, xKing+1, yKing);
-				if(invalidMove.validateInvalidMove(gridsArray, turn) == true) checkCounter++;
+				if(invalidMove.validateInvalidMove(gridsArray, turn) == true) {
+					checkCounter++;
+				}
 				moveKing(gridsArray, xKing+1, yKing, xKing, yKing);
 			}
 			else {
@@ -409,7 +411,8 @@ public class Stalemate {
 		else {
 			checkCounter++;
 		}
-
+		
+		System.out.println(checkCounter);
 		if(checkCounter == 8) {
 			for(int i = 0; i < 8; i++) {
 				for(int j = 0; j < 8; j++) {
@@ -417,58 +420,32 @@ public class Stalemate {
 					if(turn == 1) {
 						//rook
 						if(gridsArray[i][j] == 2) {
-							Rook rook = new Rook();
-							if(rook.validateMovement(gridsArray, i, j, i-1, j) == true) return false;
-							if(rook.validateMovement(gridsArray, i, j, i+1, j) == true) return false;
-							if(rook.validateMovement(gridsArray, i, j, i, j-1) == true) return false;
-							if(rook.validateMovement(gridsArray, i, j, i, j+1) == true) return false;
+							if(validateRookMovement(gridsArray, turn, i, j) == false) return false;
 						}
 						//==========================
 						
 						//bishop
 						else if(gridsArray[i][j] == 4) {
-							Bishop bishop = new Bishop();
-							if(bishop.validateMovement(gridsArray, i, j, i-1, j-1) == true) return false;
-							if(bishop.validateMovement(gridsArray, i, j, i-1, j+1) == true) return false;
-							if(bishop.validateMovement(gridsArray, i, j, i+1, j-1) == true) return false;
-							if(bishop.validateMovement(gridsArray, i, j, i+1, j+1) == true) return false;
+							if(validateBishopMovement(gridsArray, turn, i, j) == false) return false;
 						}
 						//==========================
 						
 						//queen
-						else if(gridsArray[i][j] == 5) {
-							Queen queen = new Queen();
-							if(queen.validateMovement(gridsArray, i, j, i-1, j) == true) return false;
-							if(queen.validateMovement(gridsArray, i, j, i+1, j) == true) return false;
-							if(queen.validateMovement(gridsArray, i, j, i, j-1) == true) return false;
-							if(queen.validateMovement(gridsArray, i, j, i, j+1) == true) return false;
-							if(queen.validateMovement(gridsArray, i, j, i-1, j-1) == true) return false;
-							if(queen.validateMovement(gridsArray, i, j, i-1, j+1) == true) return false;
-							if(queen.validateMovement(gridsArray, i, j, i+1, j-1) == true) return false;
-							if(queen.validateMovement(gridsArray, i, j, i+1, j+1) == true) return false;
+						else if(gridsArray[i][j] == 5) { 
+							if(validateRookMovement(gridsArray, turn, i, j) == false) return false;
+							if(validateBishopMovement(gridsArray, turn, i, j) == false) return false;
 						} 
 						//==========================	
 						
 						//knight
 						else if(gridsArray[i][j] == 3) {
-							Knight knight = new Knight();
-							if(knight.validateMovement(gridsArray, i, j, i-2, j+1) ==  true) return false;
-							if(knight.validateMovement(gridsArray, i, j, i-2, j-1) ==  true) return false;
-							if(knight.validateMovement(gridsArray, i, j, i-1, j+2) ==  true) return false;
-							if(knight.validateMovement(gridsArray, i, j, i-1, j-2) ==  true) return false;
-							if(knight.validateMovement(gridsArray, i, j, i+2, j+1) ==  true) return false;
-							if(knight.validateMovement(gridsArray, i, j, i+2, j-1) ==  true) return false;
-							if(knight.validateMovement(gridsArray, i, j, i+1, j+2) ==  true) return false;
-							if(knight.validateMovement(gridsArray, i, j, i+1, j-2) ==  true) return false;
+							if(validateKnightMovement(gridsArray, turn, i, j) == false) return false;
 						}
 						//==========================
 						
 						//pawn
 						else if(gridsArray[i][j] == 1) {
-							Pawn pawn = new Pawn();
-							if(pawn.validateMovement(gridsArray, i, j, i-1, j) == true) return false;
-							if(i-1 >= 0 && j-1 >= 0 && pawn.validateMovement(gridsArray, i, j, i-1, j-1) == true) return false;
-							if(i-1 >= 0 && j+1 <= 7 && pawn.validateMovement(gridsArray, i, j, i-1, j+1) == true) return false;
+							if(validateWhitePawnMovement(gridsArray, turn, i, j) == false) return false;
 						}
 						//=========================
 					}
@@ -476,66 +453,32 @@ public class Stalemate {
 					else if(turn == -1) {
 						//rook
 						if(gridsArray[i][j] == 8) {
-							Rook rook = new Rook();
-							if(rook.validateMovement(gridsArray, i, j, i-1, j) == true) return false;
-							if(rook.validateMovement(gridsArray, i, j, i+1, j) == true) return false;
-							if(rook.validateMovement(gridsArray, i, j, i, j-1) == true) return false;
-							if(rook.validateMovement(gridsArray, i, j, i, j+1) == true) return false;
+							if(validateRookMovement(gridsArray, turn, i, j) == false) return false;
 						}
 						//==========================
 						
 						//bishop
 						else if(gridsArray[i][j] == 10) {
-							Bishop bishop = new Bishop();
-							if(bishop.validateMovement(gridsArray, i, j, i-1, j-1) == true) return false;
-							if(bishop.validateMovement(gridsArray, i, j, i-1, j+1) == true) return false;
-							if(bishop.validateMovement(gridsArray, i, j, i+1, j-1) == true) return false;
-							if(bishop.validateMovement(gridsArray, i, j, i+1, j+1) == true) return false;
+							if(validateBishopMovement(gridsArray, turn, i, j) == false) return false;
 						}
 						//==========================
 						
 						//queen
 						else if(gridsArray[i][j] == 11) {
-							Queen queen = new Queen();
-							if(queen.validateMovement(gridsArray, i, j, i-1, j) == true) return false;
-							if(queen.validateMovement(gridsArray, i, j, i+1, j) == true) return false;
-							if(queen.validateMovement(gridsArray, i, j, i, j-1) == true) return false;
-							if(queen.validateMovement(gridsArray, i, j, i, j+1) == true) return false;
-							if(queen.validateMovement(gridsArray, i, j, i-1, j-1) == true) return false;
-							if(queen.validateMovement(gridsArray, i, j, i-1, j+1) == true) return false;
-							if(queen.validateMovement(gridsArray, i, j, i+1, j-1) == true) return false;
-							if(queen.validateMovement(gridsArray, i, j, i+1, j+1) == true) return false;
+							if(validateRookMovement(gridsArray, turn, i, j) == false) return false;
+							if(validateBishopMovement(gridsArray, turn, i, j) == false) return false;
 						}
 						//==========================	
 						
 						//knight
 						else if(gridsArray[i][j] == 9) {
-							Knight knight = new Knight();
-							if(knight.validateMovement(gridsArray, i, j, i-2, j+1) ==  true) return false;
-							if(knight.validateMovement(gridsArray, i, j, i-2, j-1) ==  true) return false;
-							if(knight.validateMovement(gridsArray, i, j, i-1, j+2) ==  true) return false;
-							if(knight.validateMovement(gridsArray, i, j, i-1, j-2) ==  true) return false;
-							if(knight.validateMovement(gridsArray, i, j, i+2, j+1) ==  true) return false;
-							if(knight.validateMovement(gridsArray, i, j, i+2, j-1) ==  true) return false;
-							if(knight.validateMovement(gridsArray, i, j, i+1, j+2) ==  true) return false;
-							if(knight.validateMovement(gridsArray, i, j, i+1, j-2) ==  true) return false;
+							if(validateKnightMovement(gridsArray, turn, i, j) == false) return false;
 						}
 						//==========================
 						
 						//pawn
 						else if(gridsArray[i][j] == 7) {
-							Pawn pawn = new Pawn();
-							if(pawn.validateBlackMovement(gridsArray, i, j, i+1, j) == true) {
-								return false;
-							}
-							if(i+1 <= 7 && j-1 >= 0 && pawn.validateBlackMovement(gridsArray, i, j, i+1, j-1) == true) { 
-								return false;			
-							}
-							if(i+1 <= 7 && j+1 <= 7) {
-								if(pawn.validateBlackMovement(gridsArray, i, j, i+1, j+1) == true) {
-									return false;
-								}
-							}
+							if(validateBlackPawnMovement(gridsArray, turn, i, j) == false) return false;		
 						}
 						//=========================
 						
@@ -545,54 +488,517 @@ public class Stalemate {
 			}
 				
 		}
-		else {
+		else if(checkCounter != 8){
 			return false;
 		}
 		
-		int pawn = 0;
-		int rook = 0;
-		int knight = 0;
-		int bishop = 0;
-		int queen = 0;
-		
-		for(int i = 0; i < 8; i++) {
-			for(int j = 0; j < 8; j++) {
-				if(turn == 1) {
-					if(gridsArray[i][j] == 1 || gridsArray[i][j] == 2 || gridsArray[i][j] == 3 || gridsArray[i][j] == 4 || gridsArray[i][j] == 5) return false;
-					if(gridsArray[i][j] == 7) pawn++;
-					else if(gridsArray[i][j] == 8) rook++;
-					else if(gridsArray[i][j] == 9) knight++;
-					else if(gridsArray[i][j] == 10) bishop++;
-					else if(gridsArray[i][j] == 11) queen++;
-				}
-				else if(turn == -1) {
-					if(gridsArray[i][j] == 7 || gridsArray[i][j] == 8 || gridsArray[i][j] == 9 || gridsArray[i][j] == 10 || gridsArray[i][j] == 11) return false;
-					if(gridsArray[i][j] == 1) pawn++;
-					else if(gridsArray[i][j] == 2) rook++;
-					else if(gridsArray[i][j] == 3) knight++;
-					else if(gridsArray[i][j] == 4) bishop++;
-					else if(gridsArray[i][j] == 5) queen++;
-				}
-			}
-		}
-		
-		System.out.println(pawn);
-		System.out.println(rook);
-		System.out.println(knight);
-		System.out.println(bishop);
-		System.out.println(queen);
-		
-		if(pawn >= 1 || queen == 1 || rook >= 1) return false;
-		
-		if(pawn == 0 && rook == 0 && queen == 0 && (bishop == 0 || knight == 0)) {
-			if(bishop == 0) {
-				if(knight == 0) return false;
-			}
-			else if(knight == 0) {
-				if(bishop == 2 || bishop == 0) return false;
-			}
-		}
+//		int pawn = 0;
+//		int rook = 0;
+//		int knight = 0;
+//		int bishop = 0;
+//		int queen = 0;
+//		
+//		for(int i = 0; i < 8; i++) {
+//			for(int j = 0; j < 8; j++) {
+//				if(turn == 1) {
+//					if(gridsArray[i][j] == 1 || gridsArray[i][j] == 2 || gridsArray[i][j] == 3 || gridsArray[i][j] == 4 || gridsArray[i][j] == 5) return false;
+//					if(gridsArray[i][j] == 7) pawn++;
+//					else if(gridsArray[i][j] == 8) rook++;
+//					else if(gridsArray[i][j] == 9) knight++;
+//					else if(gridsArray[i][j] == 10) bishop++;
+//					else if(gridsArray[i][j] == 11) queen++;
+//				}
+//				else if(turn == -1) {
+//					if(gridsArray[i][j] == 7 || gridsArray[i][j] == 8 || gridsArray[i][j] == 9 || gridsArray[i][j] == 10 || gridsArray[i][j] == 11) return false;
+//					if(gridsArray[i][j] == 1) pawn++;
+//					else if(gridsArray[i][j] == 2) rook++;
+//					else if(gridsArray[i][j] == 3) knight++;
+//					else if(gridsArray[i][j] == 4) bishop++;
+//					else if(gridsArray[i][j] == 5) queen++;
+//				}
+//			}
+//		}
+//		
+//		System.out.println(pawn);
+//		System.out.println(rook);
+//		System.out.println(knight);
+//		System.out.println(bishop);
+//		System.out.println(queen);
+//		
+//		if(pawn >= 1 || queen == 1 || rook >= 1) return false;
+//		
+//		if(pawn == 0 && rook == 0 && queen == 0 && (bishop == 0 || knight == 0)) {
+//			if(bishop == 0) {
+//				if(knight == 0) return false;
+//			}
+//			else if(knight == 0) {
+//				if(bishop == 2 || bishop == 0) return false;
+//			}
+//		}
 				
+		return true;
+	}
+
+	private boolean validateBlackPawnMovement(int[][] gridsArray, int turn, int i, int j) {
+		Pawn pawn = new Pawn();
+		if(pawn.validateBlackMovement(gridsArray, i, j, i+1, j) == true) {
+			int temp = gridsArray[i+1][j];
+			InvalidMove invalid = new InvalidMove();
+			moveKing(gridsArray, i, j, i+1, j);
+			if(invalid.validateInvalidMove(gridsArray, turn) == true) {
+				gridsArray[i][j] = gridsArray[i+1][j];
+				gridsArray[i+1][j] = temp;
+			}
+			else {
+				gridsArray[i][j] = gridsArray[i+1][j];
+				gridsArray[i+1][j] = temp;
+				return false;
+			}	
+		}
+		if(i+1 <= 7) { 
+			if(j-1 < 0) {
+				if(gridsArray[i+1][j+1] != 0) {
+					if(i+1 <= 7 && j+1 <= 7 && pawn.validateBlackMovement(gridsArray, i, j, i+1, j+1) == true) {
+						int temp = gridsArray[i+1][j+1];
+						InvalidMove invalid = new InvalidMove();
+						moveKing(gridsArray, i, j, i+1, j+1);
+						if(invalid.validateInvalidMove(gridsArray, turn) == false) {
+							gridsArray[i][j] = gridsArray[i+1][j+1];
+							gridsArray[i+1][j+1] = temp;
+							return false;
+						}
+					}
+				}
+			}
+			else if(j+1 > 7) {
+				if(gridsArray[i+1][j-1] != 0) {
+					if(i+1 <= 7 && j-1 >= 0 && pawn.validateBlackMovement(gridsArray, i, j, i+1, j-1) == true) {
+						int temp = gridsArray[i+1][j-1];
+						InvalidMove invalid = new InvalidMove();
+						moveKing(gridsArray, i, j, i+1, j-1);
+						if(invalid.validateInvalidMove(gridsArray, turn) == false) {
+							gridsArray[i][j] = gridsArray[i+1][j-1];
+							gridsArray[i+1][j-1] = temp;
+							return false;
+						}
+					}
+				}
+			}
+			else {
+				if(gridsArray[i+1][j-1] == 0 && gridsArray[i+1][j+1] == 0) return true;
+				else if(gridsArray[i+1][j-1] == 0 && gridsArray[i+1][j+1] != 0) {
+					if(i+1 <= 7 && j+1 <= 7 && pawn.validateBlackMovement(gridsArray, i, j, i+1, j+1) == true) {
+						int temp = gridsArray[i+1][j+1];
+						InvalidMove invalid = new InvalidMove();
+						moveKing(gridsArray, i, j, i+1, j+1);
+						if(invalid.validateInvalidMove(gridsArray, turn) == true) {
+							gridsArray[i][j] = gridsArray[i+1][j+1];
+							gridsArray[i+1][j+1] = temp;
+						}
+						else {
+							gridsArray[i][j] = gridsArray[i+1][j+1];
+							gridsArray[i+1][j+1] = temp;
+							return false;
+						}	
+					}
+				}
+				else if(gridsArray[i+1][j-1] != 0 && gridsArray[i+1][j+1] == 0) {
+					if(i+1 <= 7 && j-1 >= 0 && pawn.validateBlackMovement(gridsArray, i, j, i+1, j-1) == true) {
+						int temp = gridsArray[i+1][j-1];
+						InvalidMove invalid = new InvalidMove();
+						moveKing(gridsArray, i, j, i+1, j-1);
+						if(invalid.validateInvalidMove(gridsArray, turn) == true) {
+							gridsArray[i][j] = gridsArray[i+1][j-1];
+							gridsArray[i+1][j-1] = temp;
+						}
+						else {
+							gridsArray[i][j] = gridsArray[i+1][j-1];
+							gridsArray[i+1][j-1] = temp;
+							return false;
+						}
+					}
+				}
+				else {
+					if(i+1 <= 7 && j+1 <= 7 && pawn.validateBlackMovement(gridsArray, i, j, i+1, j+1) == true) {
+						int temp = gridsArray[i+1][j+1];
+						InvalidMove invalid = new InvalidMove();
+						moveKing(gridsArray, i, j, i+1, j+1);
+						if(invalid.validateInvalidMove(gridsArray, turn) == true) {
+							gridsArray[i][j] = gridsArray[i+1][j+1];
+							gridsArray[i+1][j+1] = temp;
+						}
+						else {
+							gridsArray[i][j] = gridsArray[i+1][j+1];
+							gridsArray[i+1][j+1] = temp;
+							return false;
+						}	
+					}
+					if(i+1 <= 7 && j-1 >= 0 && pawn.validateBlackMovement(gridsArray, i, j, i+1, j-1) == true) {
+						int temp = gridsArray[i+1][j-1];
+						InvalidMove invalid = new InvalidMove();
+						moveKing(gridsArray, i, j, i+1, j-1);
+						if(invalid.validateInvalidMove(gridsArray, turn) == true) {
+							gridsArray[i][j] = gridsArray[i+1][j-1];
+							gridsArray[i+1][j-1] = temp;
+						}
+						else {
+							gridsArray[i][j] = gridsArray[i+1][j-1];
+							gridsArray[i+1][j-1] = temp;
+							return false;
+						}
+					}
+				}
+			}
+		}
+		return true;
+	}
+
+	private boolean validateWhitePawnMovement(int[][] gridsArray, int turn, int i, int j) {
+		Pawn pawn = new Pawn();
+			if(pawn.validateMovement(gridsArray, i, j, i-1, j) == true) {
+				int temp = gridsArray[i-1][j];
+				InvalidMove invalid = new InvalidMove();
+				moveKing(gridsArray, i, j, i-1, j);
+				if(invalid.validateInvalidMove(gridsArray, turn) == true) {
+					gridsArray[i][j] = gridsArray[i-1][j];
+					gridsArray[i-1][j] = temp;
+				}
+				else {
+					gridsArray[i][j] = gridsArray[i-1][j];
+					gridsArray[i-1][j] = temp;
+					return false;
+				}	
+			}
+			
+			if(i-1 >= 0) {
+				if(j-1 < 0) {
+					if(gridsArray[i-1][j+1] != 0) {
+						if(i-1 >= 0 && j+1 <= 7 && pawn.validateMovement(gridsArray, i, j, i-1, j+1) == true) {
+							int temp = gridsArray[i-1][j+1];
+							InvalidMove invalid = new InvalidMove();
+							moveKing(gridsArray, i, j, i-1, j+1);
+							if(invalid.validateInvalidMove(gridsArray, turn) == false) {
+								gridsArray[i][j] = gridsArray[i-1][j+1];
+								gridsArray[i-1][j+1] = temp;
+								return false;
+							}
+						}
+					}
+				}
+				else if(j+1 > 7) {
+					if(gridsArray[i-1][j-1] != 0) {
+						if(i-1 >= 0 && j-1 >= 0 && pawn.validateMovement(gridsArray, i, j, i-1, j-1) == true) {
+							int temp = gridsArray[i-1][j-1];
+							InvalidMove invalid = new InvalidMove();
+							moveKing(gridsArray, i, j, i-1, j-1);
+							if(invalid.validateInvalidMove(gridsArray, turn) == false) {
+								gridsArray[i][j] = gridsArray[i-1][j-1];
+								gridsArray[i-1][j-1] = temp;
+								return false;
+							}
+						}
+					}
+				}
+				else {
+					if(gridsArray[i-1][j-1] == 0 && gridsArray[i-1][j+1] == 0) return true;
+					else if(gridsArray[i-1][j-1] == 0 && gridsArray[i-1][j+1] != 0) {
+						if(i-1 >= 0 && j+1 <= 7 && pawn.validateMovement(gridsArray, i, j, i-1, j+1) == true) {
+							int temp = gridsArray[i-1][j+1];
+							InvalidMove invalid = new InvalidMove();
+							moveKing(gridsArray, i, j, i-1, j+1);
+							if(invalid.validateInvalidMove(gridsArray, turn) == true) {
+								gridsArray[i][j] = gridsArray[i-1][j+1];
+								gridsArray[i-1][j+1] = temp;
+							}
+							else {
+								gridsArray[i][j] = gridsArray[i-1][j+1];
+								gridsArray[i-1][j+1] = temp;
+								return false;
+							}	
+						}
+					}
+					else if(gridsArray[i-1][j-1] != 0 && gridsArray[i-1][j+1] == 0) {
+						if(i-1 >= 0 && j-1 >= 0 && pawn.validateMovement(gridsArray, i, j, i-1, j-1) == true) {
+							int temp = gridsArray[i-1][j-1];
+							InvalidMove invalid = new InvalidMove();
+							moveKing(gridsArray, i, j, i-1, j-1);
+							if(invalid.validateInvalidMove(gridsArray, turn) == true) {
+								gridsArray[i][j] = gridsArray[i-1][j-1];
+								gridsArray[i-1][j-1] = temp;
+							}
+							else {
+								gridsArray[i][j] = gridsArray[i-1][j-1];
+								gridsArray[i-1][j-1] = temp;
+								return false;
+							}	
+						}
+					}
+					else {
+						if(i-1 >= 0 && j+1 <= 7 && pawn.validateMovement(gridsArray, i, j, i-1, j+1) == true) {
+							int temp = gridsArray[i-1][j+1];
+							InvalidMove invalid = new InvalidMove();
+							moveKing(gridsArray, i, j, i-1, j+1);
+							if(invalid.validateInvalidMove(gridsArray, turn) == true) {
+								gridsArray[i][j] = gridsArray[i-1][j+1];
+								gridsArray[i-1][j+1] = temp;
+							}
+							else {
+								gridsArray[i][j] = gridsArray[i-1][j+1];
+								gridsArray[i-1][j+1] = temp;
+								return false;
+							}	
+						}
+						if(i-1 >= 0 && j-1 >= 0 && pawn.validateMovement(gridsArray, i, j, i-1, j-1) == true) {
+							int temp = gridsArray[i-1][j-1];
+							InvalidMove invalid = new InvalidMove();
+							moveKing(gridsArray, i, j, i-1, j-1);
+							if(invalid.validateInvalidMove(gridsArray, turn) == true) {
+								gridsArray[i][j] = gridsArray[i-1][j-1];
+								gridsArray[i-1][j-1] = temp;
+							}
+							else {
+								gridsArray[i][j] = gridsArray[i-1][j-1];
+								gridsArray[i-1][j-1] = temp;
+								return false;
+							}	
+						}
+					}
+				}
+			}
+			return true;
+	}
+
+	private boolean validateKnightMovement(int[][] gridsArray, int turn, int i, int j) {
+		Knight knight = new Knight();
+		if(knight.validateMovement(gridsArray, i, j, i-2, j+1) ==  true) {
+			int temp = gridsArray[i-2][j+1];
+			InvalidMove invalid = new InvalidMove();
+			moveKing(gridsArray, i, j, i-2, j+1);
+			if(invalid.validateInvalidMove(gridsArray, turn) == true) {
+				gridsArray[i][j] = gridsArray[i-2][j+1];
+				gridsArray[i-2][j+1] = temp;
+			}
+			else {
+				gridsArray[i][j] = gridsArray[i-2][j+1];
+				gridsArray[i-2][j+1] = temp;
+				return false;
+			}
+		}
+		if(knight.validateMovement(gridsArray, i, j, i-2, j-1) ==  true) {
+			int temp = gridsArray[i-2][j-1];
+			InvalidMove invalid = new InvalidMove();
+			moveKing(gridsArray, i, j, i-2, j-1);
+			if(invalid.validateInvalidMove(gridsArray, turn) == true) {
+				gridsArray[i][j] = gridsArray[i-2][j-1];
+				gridsArray[i-2][j-1] = temp;
+			}
+			else {
+				gridsArray[i][j] = gridsArray[i-2][j-1];
+				gridsArray[i-2][j-1] = temp;
+				return false;
+			}
+		}
+		if(knight.validateMovement(gridsArray, i, j, i-1, j+2) ==  true) {
+			int temp = gridsArray[i-1][j+2];
+			InvalidMove invalid = new InvalidMove();
+			moveKing(gridsArray, i, j, i-1, j+2);
+			if(invalid.validateInvalidMove(gridsArray, turn) == true) {
+				gridsArray[i][j] = gridsArray[i-1][j+2];
+				gridsArray[i-1][j+2] = temp;
+			}
+			else {
+				gridsArray[i][j] = gridsArray[i-1][j+2];
+				gridsArray[i-1][j+2] = temp;
+				return false;
+			}
+		}
+		if(knight.validateMovement(gridsArray, i, j, i-1, j-2) ==  true) {
+			int temp = gridsArray[i-1][j-2];
+			InvalidMove invalid = new InvalidMove();
+			moveKing(gridsArray, i, j, i-1, j-2);
+			if(invalid.validateInvalidMove(gridsArray, turn) == true) {
+				gridsArray[i][j] = gridsArray[i-1][j-2];
+				gridsArray[i-1][j-2] = temp;
+			}
+			else {
+				gridsArray[i][j] = gridsArray[i-1][j-2];
+				gridsArray[i-1][j-2] = temp;
+				return false;
+			}
+		}
+		if(knight.validateMovement(gridsArray, i, j, i+2, j+1) ==  true) {
+			int temp = gridsArray[i+2][j+1];
+			InvalidMove invalid = new InvalidMove();
+			moveKing(gridsArray, i, j, i+2, j+1);
+			if(invalid.validateInvalidMove(gridsArray, turn) == true) {
+				gridsArray[i][j] = gridsArray[i+2][j+1];
+				gridsArray[i+2][j+1] = temp;
+			}
+			else {
+				gridsArray[i][j] = gridsArray[i+2][j+1];
+				gridsArray[i+2][j+1] = temp;
+				return false;
+			}
+		}
+		if(knight.validateMovement(gridsArray, i, j, i+2, j-1) ==  true) {
+			int temp = gridsArray[i+2][j-1];
+			InvalidMove invalid = new InvalidMove();
+			moveKing(gridsArray, i, j, i+2, j-1);
+			if(invalid.validateInvalidMove(gridsArray, turn) == true) {
+				gridsArray[i][j] = gridsArray[i+2][j-1];
+				gridsArray[i+2][j-1] = temp;
+			}
+			else {
+				gridsArray[i][j] = gridsArray[i+2][j-1];
+				gridsArray[i+2][j-1] = temp;
+				return false;
+			}
+		}
+		if(knight.validateMovement(gridsArray, i, j, i+1, j+2) ==  true) {
+			int temp = gridsArray[i+1][j+2];
+			InvalidMove invalid = new InvalidMove();
+			moveKing(gridsArray, i, j, i+1, j+2);
+			if(invalid.validateInvalidMove(gridsArray, turn) == true) {
+				gridsArray[i][j] = gridsArray[i+1][j+2];
+				gridsArray[i+1][j+2] = temp;
+			}
+			else {
+				gridsArray[i][j] = gridsArray[i+1][j+2];
+				gridsArray[i+1][j+2] = temp;
+				return false;
+			}
+		}
+		if(knight.validateMovement(gridsArray, i, j, i+1, j-2) ==  true) {
+			int temp = gridsArray[i+1][j-2];
+			InvalidMove invalid = new InvalidMove();
+			moveKing(gridsArray, i, j, i+1, j-2);
+			if(invalid.validateInvalidMove(gridsArray, turn) == true) {
+				gridsArray[i][j] = gridsArray[i+1][j-2];
+				gridsArray[i+1][j-2] = temp;
+			}
+			else {
+				gridsArray[i][j] = gridsArray[i+1][j-2];
+				gridsArray[i+1][j-2] = temp;
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private boolean validateBishopMovement(int[][] gridsArray, int turn, int i, int j) {
+		Bishop bishop = new Bishop();
+		InvalidMove invalid = new InvalidMove();
+		if(bishop.validateMovement(gridsArray, i, j, i-1, j-1) == true) {
+			int temp = gridsArray[i-1][j-1];
+			moveKing(gridsArray, i, j, i-1, j-1);
+			if(invalid.validateInvalidMove(gridsArray, turn) == true) {
+				gridsArray[i][j] = gridsArray[i-1][j-1];
+				gridsArray[i-1][j-1] = temp;
+			}
+			else {
+				gridsArray[i][j] = gridsArray[i-1][j-1];
+				gridsArray[i-1][j-1] = temp;
+				return false;
+			}	
+		}
+		if(bishop.validateMovement(gridsArray, i, j, i-1, j+1) == true) {
+			int temp = gridsArray[i-1][j+1];
+			moveKing(gridsArray, i, j, i-1, j+1);
+			if(invalid.validateInvalidMove(gridsArray, turn) == true) {
+				gridsArray[i][j] = gridsArray[i-1][j+1];
+				gridsArray[i-1][j+1] = temp;
+			}
+			else {
+				gridsArray[i][j] = gridsArray[i-1][j+1];
+				gridsArray[i-1][j+1] = temp;
+				return false;
+			}	
+		}
+		if(bishop.validateMovement(gridsArray, i, j, i+1, j-1) == true) {
+			int temp = gridsArray[i+1][j-1];
+			moveKing(gridsArray, i, j, i+1, j-1);
+			if(invalid.validateInvalidMove(gridsArray, turn) == true) {
+				gridsArray[i][j] = gridsArray[i+1][j-1];
+				gridsArray[i+1][j-1] = temp;
+			}
+			else {
+				gridsArray[i][j] = gridsArray[i+1][j-1];
+				gridsArray[i+1][j-1] = temp;
+				return false;
+			}	
+		}
+		if(bishop.validateMovement(gridsArray, i, j, i+1, j+1) == true) {
+			int temp = gridsArray[i+1][j+1];
+			moveKing(gridsArray, i, j, i+1, j+1);
+			if(invalid.validateInvalidMove(gridsArray, turn) == true) {
+				gridsArray[i][j] = gridsArray[i+1][j+1];
+				gridsArray[i+1][j+1] = temp;
+			}
+			else {
+				gridsArray[i][j] = gridsArray[i+1][j+1];
+				gridsArray[i+1][j+1] = temp;
+				return false;
+			} 
+		}
+		return true;
+	}
+
+	private boolean validateRookMovement(int[][] gridsArray, int turn, int i, int j) {
+		int temp;
+		Rook rook = new Rook();
+		InvalidMove invalid = new InvalidMove();
+		if(rook.validateMovement(gridsArray, i, j, i-1, j) == true) {
+			temp = gridsArray[i-1][j];
+			moveKing(gridsArray, i, j, i-1, j);
+			if(invalid.validateInvalidMove(gridsArray, turn) == true) {
+				gridsArray[i][j] = gridsArray[i-1][j];
+				gridsArray[i-1][j] = temp;
+			}
+			else {
+				gridsArray[i][j] = gridsArray[i-1][j];
+				gridsArray[i-1][j] = temp;
+				return false;
+			}	
+		}
+		if(rook.validateMovement(gridsArray, i, j, i+1, j) == true) {
+			temp = gridsArray[i+1][j];
+			moveKing(gridsArray, i, j, i+1, j);
+			if(invalid.validateInvalidMove(gridsArray, turn) == true) {
+				gridsArray[i][j] = gridsArray[i+1][j];
+				gridsArray[i+1][j] = temp;
+			}
+			else {
+				gridsArray[i][j] = gridsArray[i+1][j];
+				gridsArray[i+1][j] = temp;
+				return false;
+			}	
+		}
+		if(rook.validateMovement(gridsArray, i, j, i, j-1) == true) {
+			temp = gridsArray[i][j-1];
+			moveKing(gridsArray, i, j, i, j-1);
+			if(invalid.validateInvalidMove(gridsArray, turn) == true) {
+				gridsArray[i][j] = gridsArray[i][j-1];
+				gridsArray[i][j-1] = temp;
+			}
+			else {
+				gridsArray[i][j] = gridsArray[i][j-1];
+				gridsArray[i][j-1] = temp;
+				return false;
+			}	
+		}
+		if(rook.validateMovement(gridsArray, i, j, i, j+1) == true) {
+			temp = gridsArray[i][j+1];
+			moveKing(gridsArray, i, j, i, j+1);
+			if(invalid.validateInvalidMove(gridsArray, turn) == true) {
+				gridsArray[i][j] = gridsArray[i][j+1];
+				gridsArray[i][j+1] = temp;
+			}
+			else {
+				gridsArray[i][j] = gridsArray[i][j+1];
+				gridsArray[i][j+1] = temp;
+				return false;
+			}	
+		}
 		return true;
 	}
 

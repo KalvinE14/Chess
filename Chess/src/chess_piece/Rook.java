@@ -15,32 +15,37 @@ public class Rook extends Pieces {
 				return false;
 			}
 			
-			//buat atas
-			for (int i = x1 - 1; i >= x2 ; i--) {
-				if(i == x2 && gridsArray[i][y1] != 0) return true;
-				if(gridsArray[i][y1] != 0) return false;
-				if(i == x2) return true;
+			
+			if(y1 == y2 && x1 != x2) {
+				//buat atas
+				for (int i = x1 - 1; i >= x2 ; i--) {
+					if(i == x2 && gridsArray[i][y1] != 0) return true;
+					if(gridsArray[i][y1] != 0) return false;
+					if(i == x2) return true;
+				}
+				//buat bawah
+				for (int i = x1 + 1; i <= x2 ; i++) {
+					if(i == x2 && gridsArray[i][y1] != 0) return true;
+					if(gridsArray[i][y1] != 0) return false;
+					if(i == x2) return true;
+				}
 			}
 			
-			//buat bawah
-			for (int i = x1 + 1; i <= x2 ; i++) {
-				if(i == x2 && gridsArray[i][y1] != 0) return true;
-				if(gridsArray[i][y1] != 0) return false;
-				if(i == x2) return true;
-			}
-			
-			//buat kanan
-			for (int i = y1 + 1; i <= y2 ; i++) {
-				if(i == y2 && gridsArray[x1][i] != 0) return true;
-				if(gridsArray[x1][i] != 0) return false;
-				if(i == y2) return true;
-			}
-			
-			//buat kiri
-			for (int i = y1 - 1; i >= y2 ; i--) {
-				if(i == y2 && gridsArray[x1][i] != 0) return true;
-				if(gridsArray[x1][i] != 0) return false;
-				if(i == y2) return true;
+			else if(x1 == x2 && y1 != y2)
+			{
+				//buat kanan
+				for (int i = y1 + 1; i <= y2 ; i++) {
+					if(i == y2 && gridsArray[x1][i] != 0) return true;
+					if(gridsArray[x1][i] != 0) return false;
+					if(i == y2) return true;
+				}
+				
+				//buat kiri
+				for (int i = y1 - 1; i >= y2 ; i--) {
+					if(i == y2 && gridsArray[x1][i] != 0) return true;
+					if(gridsArray[x1][i] != 0) return false;
+					if(i == y2) return true;
+				}
 			}
 		}
 		return false;

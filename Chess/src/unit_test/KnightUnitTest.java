@@ -59,6 +59,20 @@ class KnightUnitTest {
 	}
 	
 	@Test
+	void testKnightInvalidMovement() {
+		int grids[][] = new int[8][8]; 
+		grids[6][5] = 3;	
+		
+		grids[1][2] = 9;
+		
+		Knight knight= new Knight();
+				
+		assert(knight.validateMovement(grids, 6, 5, 0, 0) == false);
+		
+		assert(knight.validateMovement(grids, 1, 2, 7, 7) == false);
+	}
+	
+	@Test
 	void testKnightEatEnemyPiece() {
 		int grids[][] = new int[8][8]; 
 		grids[6][5] = 3;	

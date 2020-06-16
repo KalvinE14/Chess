@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 import chess_board.Board;
+import chess_piece.Pawn;
 
 class BoardUnitTest {
 	@Test
@@ -98,6 +99,102 @@ class BoardUnitTest {
 		board.validMovement(grids, input, -1);
 		
 		assert(grids[2][1] == 11);
+		
+		grids[2][4] = 7;
+		
+		input = "E6-E5";
+		
+		board.pawnMovement(grids, input, -1);
+		
+		assert(grids[3][4] == 7);
+		
+		grids = new int[8][8];
+		
+		grids[2][0] = 6;
+		grids[1][0] = 2;
+		grids[0][0] = 8;
+		
+		input = "A7-B7";
+		
+		board.validMovement(grids, input, 1);
+		
+		assert(grids[1][0] == 2); 
+		
+		
+	}
+	
+	@Test
+	void testInvalidMove() {
+		Board board = new Board();
+		int[][] grids = new int[8][8];
+		
+		grids[3][4] = 6;
+		
+		grids[6][4] = 8;
+		
+		grids[5][7] = 2;
+		board.validMovement(grids, "H3-H4", 1);
+		
+		assert(grids[5][7] == 2);
+		assert(grids[4][7] == 0);
+	}
+	
+	@Test
+	void testBlackInvalidEnPassantMove() {
+		Board board = new Board();
+		int[][] grids = new int[8][8];
+		
+		grids[1][3] = 12;
+		
+		grids[7][3] = 2;
+		grids[4][5] = 1;
+		
+		grids[4][6] = 7;
+		board.print(grids);
+		board.enPassantMove("G4-F3", -1, grids, 0, 0);
+		
+		
+		board.print(grids);
+		assert(grids[4][6] == 7);
+		assert(grids[4][5] == 1);
+	}
+	
+	@Test
+	void testBlackEnPassantMoveCheck() {
+		Board board = new Board();
+		int[][] grids = new int[8][8];
+		
+		grids[6][5] = 6;
+		
+		grids[4][6] = 1;
+		
+		grids[4][5] = 7;
+		board.print(grids);
+		board.enPassantMove("F4-G3", -1, grids, 0, 1);
+		
+		
+		board.print(grids);
+		assert(grids[5][6] == 7);
+		assert(grids[4][6] == 0);
+	}
+	
+	@Test
+	void testWhiteEnPassantMoveCheck() {
+		Board board = new Board();
+		int[][] grids = new int[8][8];
+		
+		grids[1][6] = 12;
+		
+		grids[3][5] = 7;
+		
+		grids[3][6] = 1;
+		board.print(grids);
+		board.enPassantMove("G5-F6", 1, grids, 1, 0);
+		
+		
+		board.print(grids);
+		assert(grids[2][5] == 1);
+		assert(grids[3][5] == 0);
 	}
 	
 	@Test
@@ -138,18 +235,21 @@ class BoardUnitTest {
 	void testCastlingKingSide() {
 		Board board = new Board();
 		
-		for (int i = 0; i < 8; i++) {
+		for (int i = 0; i < 11; i++) {
 			System.out.println("Test Castling King Side");
-			System.out.println("There will be 8 inputs");
+			System.out.println("There will be 11 inputs");
 			System.out.println("Please input");
 			System.out.println("E2-E4");
 			System.out.println("E7-E5");
-			System.out.println("F1-A6");
-			System.out.println("F8-A3");
+			System.out.println("F1-B5");
+			System.out.println("F8-B4");
 			System.out.println("G1-H3");
 			System.out.println("G8-H6");
 			System.out.println("E1-G1");
 			System.out.println("E8-G8");
+			System.out.println("A2-A4");
+			System.out.println("A7-A5");
+			System.out.println("A1-A3");
 			board.doTurn();
 		}
 	}
@@ -217,5 +317,81 @@ class BoardUnitTest {
 		assert(grids[3][4] == 1 && grids[3][5] == 7);
 		assert(grids[4][1] == 1 && grids[4][0] == 7);
 	}
+	
+	@Test
+	void testValidMovementCheck() {
+		Board board = new Board();
+		int[][] grids = new int[8][8];
 
+		grids[1][3] = 12;
+		grids[7][7] = 2;
+		
+		board.validMovement(grids, "H1-D1", 1);
+		
+		assert(grids[7][3] == 2);
+		assert(grids[7][7] == 0);
+		
+		grids[1][3] = 6;
+		grids[7][7] = 8;
+		
+		board.validMovement(grids, "H1-D1", -1);
+		
+		assert(grids[7][3] == 8);
+		assert(grids[7][7] == 0);
+	}
+	
+	@Test
+	void testPawnPromotion() {
+		Board board = new Board();
+		int[][] grids = new int[8][8];
+
+		grids[1][2] = 1;
+		grids[7][7] = 12;
+		
+		board.print(grids);
+		board.pawnMovement(grids, "C7-C8", 1);
+		board.print(grids);
+		assert(grids[1][2] == 0);
+	}
+	
+	@Test
+	void testWhiteEnPassantCheckmate() {
+		Board board = new Board();
+		int[][] grids = new int[8][8];
+		
+		grids[1][2] = 12;
+		grids[3][3] = 7;
+		
+		grids[3][4] = 1;
+		grids[0][0] = 4;
+		grids[5][7] = 4;
+		grids[6][7] = 4;
+		grids[0][7] = 2;
+		grids[7][1] = 2;
+		
+		board.enPassantMove("E5-D6", 1, grids, 1, 0);
+		
+		assert(grids[2][3] == 1 && grids[3][3] == 0);
+	}
+	
+	@Test
+	void testBlackEnPassantCheckmate() {
+		Board board = new Board();
+		int[][] grids = new int[8][8];
+		
+		grids[6][2] = 6;
+		grids[4][3] = 1;
+		
+		grids[4][4] = 7;
+		grids[7][0] = 10;
+		grids[1][7] = 10;
+		grids[2][7] = 10;
+		grids[7][7] = 8;
+		grids[0][1] = 8;
+		
+		board.print(grids);
+		board.enPassantMove("E4-D3", -1, grids, 0, 1);
+		
+		assert(grids[5][3] == 7 && grids[4][3] == 0);
+	}
 }

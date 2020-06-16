@@ -38,17 +38,25 @@ class PawnUnitTest {
 	@Test
 	void testPawnFirstMovement() {
 		int grids[][] = new int[8][8]; 
-		grids[6][0] = 1;
+		grids[6][1] = 1;
+		grids[5][2] = 8;
+		grids[5][0] = 7;
 		
-		grids[1][0] = 7;
+		grids[1][1] = 7;
+		grids[2][0] = 1;
+		grids[2][2] = 2;
 		
 		Pawn pawn = new Pawn();	
 				
-		assert(pawn.validateMovement(grids, 6, 0, 5, 0) == true);
-		assert(pawn.validateMovement(grids, 6, 0, 4, 0) == true);
+		assert(pawn.validateMovement(grids, 6, 1, 5, 1) == true);
+		assert(pawn.validateMovement(grids, 6, 1, 4, 1) == true);
+		assert(pawn.validateMovement(grids, 6, 1, 5, 2) == true);
+		assert(pawn.validateMovement(grids, 6, 1, 5, 0) == true);
 		
-		assert(pawn.validateBlackMovement(grids, 1, 0, 2, 0) == true);
-		assert(pawn.validateBlackMovement(grids, 1, 0, 3, 0) == true);
+		assert(pawn.validateBlackMovement(grids, 1, 1, 2, 1) == true);
+		assert(pawn.validateBlackMovement(grids, 1, 1, 3, 1) == true);
+		assert(pawn.validateBlackMovement(grids, 1, 1, 2, 0) == true);
+		assert(pawn.validateBlackMovement(grids, 1, 1, 2, 2) == true);
 	}
 	
 	@Test
@@ -65,6 +73,20 @@ class PawnUnitTest {
 		
 		assert(pawn.validateBlackMovement(grids, 2, 1, 4, 1) == false);
 		assert(pawn.validateBlackMovement(grids, 2, 1, 3, 1) == true);
+	}
+	
+	@Test
+	void testPawnInvalidMove() {
+		int grids[][] = new int[8][8];
+		grids[5][7] = 1;
+		
+		grids[2][1] = 7;
+		
+		Pawn pawn = new Pawn();	
+		
+		assert(pawn.validateMovement(grids, 5, 7, 0, 0) == false);
+		
+		assert(pawn.validateBlackMovement(grids, 2, 1, 0, 0) == false);
 	}
 	
 	@Test

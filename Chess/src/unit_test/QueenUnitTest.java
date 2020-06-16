@@ -106,5 +106,40 @@ class QueenUnitTest {
 		assert(queen.validateMovement(grids, 1, 1, 2, 0) == false);
 		assert(queen.validateMovement(grids, 1, 1, 2, 2) == false);
 	}
+	
+	@Test
+	void testQueenBlockByFriendlyPiece() {
+		int grids[][] = new int[8][8]; 
+		grids[3][4] = 5;
+		grids[3][2] = 1;
+		grids[3][6] = 2;
+		grids[1][4] = 3;
+		grids[5][4] = 4;
+		grids[5][6] = 6;
+		grids[5][2] = 1;
+		grids[1][6] = 2;
+		grids[1][2] = 3;
+		
+		Queen queen = new Queen();
+		
+		assert(queen.validateMovement(grids, 3, 4, 3, 7) == false);
+		assert(queen.validateMovement(grids, 3, 4, 6, 7) == false);
+		assert(queen.validateMovement(grids, 3, 4, 0, 7) == false);
+		assert(queen.validateMovement(grids, 3, 4, 0, 1) == false);
+		assert(queen.validateMovement(grids, 3, 4, 3, 0) == false);
+		assert(queen.validateMovement(grids, 3, 4, 7, 0) == false);
+		assert(queen.validateMovement(grids, 3, 4, 0, 4) == false);
+		assert(queen.validateMovement(grids, 3, 4, 7, 4) == false);
+	}
+	
+	@Test
+	void testQueenFalseMove() {
+		int grids[][] = new int[8][8]; 
+		grids[3][4] = 5;
+		
+		Queen queen = new Queen();
+		
+		assert(queen.validateMovement(grids, 3, 4, 5, 0) == false);
+	}
 
 }

@@ -188,6 +188,7 @@ public class Checkmate {
 		if(isKingAvailableMoveChecked(gridsArray, turn) == 8)
 		{
 			
+			
 			for(int i = 0; i < 8; i++) {
 				for(int j = 0; j < 8; j++) {					
 					if(turn == 1) {
@@ -210,6 +211,26 @@ public class Checkmate {
 							if(canKingSaveHimself(turn, gridsArray, i, j, xEnemyCheck, yEnemyCheck) == true) return false;
 						}
 						
+					}else if(turn == -1)
+					{
+						if(gridsArray[i][j] == 7) {
+							if(canPawnSaveKing(turn, gridsArray, i, j, xEnemyCheck, yEnemyCheck) == true) return false;
+						}
+						else if(gridsArray[i][j] == 8) {
+							if(canRookSaveKing(turn, gridsArray, i, j, xEnemyCheck, yEnemyCheck) == true) return false;
+						}
+						else if(gridsArray[i][j] == 9) {
+							if(canKnightSaveKing(turn, gridsArray, i, j, xEnemyCheck, yEnemyCheck) == true) return false;
+						}
+						else if(gridsArray[i][j] == 10) {
+							if(canBishopSaveKing(turn, gridsArray, i, j, xEnemyCheck, yEnemyCheck) == true) return false;
+						}
+						else if(gridsArray[i][j] == 11) {
+							if(canQueenSaveKing(turn, gridsArray, i, j, xEnemyCheck, yEnemyCheck) == true) return false;
+						}
+						else if(gridsArray[i][j] == 12) {
+							if(canKingSaveHimself(turn, gridsArray, i, j, xEnemyCheck, yEnemyCheck) == true) return false;
+						}
 					}
 				}
 			}
@@ -225,24 +246,6 @@ public class Checkmate {
 	{
 		temp = gridsArray[x2][y2];
 		InvalidMove im = new InvalidMove();
-		if(turn == 1)
-		{
-			if(gridsArray[x2][y2] >= 1 && gridsArray[x2][y2] <= 6)
-			{
-				gridsArray[x2][y2] = gridsArray[x1][y1];
-				gridsArray[x1][y1] = 0;
-				
-				return true;
-			}
-		}else if(turn == -1)
-		{
-			if(gridsArray[x2][y2] >= 7 && gridsArray[x2][y2] <= 12)
-			{
-				gridsArray[x2][y2] = gridsArray[x1][y1];
-				gridsArray[x1][y1] = 0;
-				return true;
-			}
-		}
 		
 		gridsArray[x2][y2] = gridsArray[x1][y1];
 		gridsArray[x1][y1] = 0;
@@ -259,7 +262,11 @@ public class Checkmate {
 	public boolean canKingSaveHimself(int turn, int gridsArray[][], int x, int y, int xEnemyCheck, int yEnemyCheck) {
 		if(x-1 >= 0) {
 			if(x-1 == xEnemyCheck && y == yEnemyCheck && gridsArray[x-1][y] == gridsArray[xEnemyCheck][yEnemyCheck]) {
-				if(kingStillChecked(gridsArray, turn, x, y, x-1, y) == false) return true;
+				if(kingStillChecked(gridsArray, turn, x, y, x-1, y) == false) 
+				{
+					returnGridsToNormal(gridsArray, x, y, x-1, y);
+					return true;
+				}
 				else {
 					returnGridsToNormal(gridsArray, x, y, x-1, y);
 					return false;
@@ -268,7 +275,11 @@ public class Checkmate {
 		}
 		if(x+1 <= 7) {
 			if(x+1 == xEnemyCheck && y == yEnemyCheck && gridsArray[x+1][y] == gridsArray[xEnemyCheck][yEnemyCheck]) {
-				if(kingStillChecked(gridsArray, turn, x, y, x+1, y) == false) return true;
+				if(kingStillChecked(gridsArray, turn, x, y, x+1, y) == false)
+				{
+					returnGridsToNormal(gridsArray, x, y, x+1, y);
+					return true;
+				}
 				else {
 					returnGridsToNormal(gridsArray, x, y, x+1, y);
 					return false;
@@ -277,7 +288,11 @@ public class Checkmate {
 		}
 		if(y-1 >= 0) {
 			if(x == xEnemyCheck && y-1 == yEnemyCheck && gridsArray[x][y-1] == gridsArray[xEnemyCheck][yEnemyCheck]) {
-				if(kingStillChecked(gridsArray, turn, x, y, x, y-1) == false) return true;
+				if(kingStillChecked(gridsArray, turn, x, y, x, y-1) == false)
+				{
+					returnGridsToNormal(gridsArray, x, y, x, y-1);
+					return true;
+				}
 				else {
 					returnGridsToNormal(gridsArray, x, y, x, y-1);
 					return false;
@@ -286,7 +301,11 @@ public class Checkmate {
 		}
 		if(y+1 <= 7) {
 			if(x == xEnemyCheck && y+1 == yEnemyCheck && gridsArray[x][y+1] == gridsArray[xEnemyCheck][yEnemyCheck]) {
-				if(kingStillChecked(gridsArray, turn, x, y, x, y+1) == false) return true;
+				if(kingStillChecked(gridsArray, turn, x, y, x, y+1) == false) 
+				{
+					returnGridsToNormal(gridsArray, x, y, x, y+1);
+					return true;
+				}
 				else {
 					returnGridsToNormal(gridsArray, x, y, x, y+1);
 					return false;
@@ -295,7 +314,11 @@ public class Checkmate {
 		}
 		if(x-1 >= 0 && y+1 <= 7) {
 			if(x-1 == xEnemyCheck && y+1 == yEnemyCheck && gridsArray[x-1][y+1] == gridsArray[xEnemyCheck][yEnemyCheck]) {
-				if(kingStillChecked(gridsArray, turn, x, y, x-1, y+1) == false) return true;
+				if(kingStillChecked(gridsArray, turn, x, y, x-1, y+1) == false)
+				{
+					returnGridsToNormal(gridsArray, x, y, x-1, y+1);
+					return true;
+				}
 				else {
 					returnGridsToNormal(gridsArray, x, y, x-1, y+1);
 					return false;
@@ -304,7 +327,11 @@ public class Checkmate {
 		}
 		if(x-1 >= 0 && y-1 >= 0) {
 			if(x-1 == xEnemyCheck && y-1 == yEnemyCheck && gridsArray[x-1][y-1] == gridsArray[xEnemyCheck][yEnemyCheck]) {
-				if(kingStillChecked(gridsArray, turn, x, y, x-1, y-1) == false) return true;
+				if(kingStillChecked(gridsArray, turn, x, y, x-1, y-1) == false)
+				{
+					returnGridsToNormal(gridsArray, x, y, x-1, y-1);
+					return true;
+				}
 				else {
 					returnGridsToNormal(gridsArray, x, y, x-1, y-1);
 					return false;
@@ -313,7 +340,11 @@ public class Checkmate {
 		}
 		if(x+1 <= 7 && y-1 >= 0) {
 			if(x+1 == xEnemyCheck && y-1 == yEnemyCheck && gridsArray[x+1][y-1] == gridsArray[xEnemyCheck][yEnemyCheck]) {
-				if(kingStillChecked(gridsArray, turn, x, y, x+1, y-1) == false) return true;
+				if(kingStillChecked(gridsArray, turn, x, y, x+1, y-1) == false) 
+				{
+					returnGridsToNormal(gridsArray, x, y, x+1, y-1);
+					return true;
+				}
 				else {
 					returnGridsToNormal(gridsArray, x, y, x+1, y-1);
 					return false;
@@ -322,7 +353,11 @@ public class Checkmate {
 		}
 		if(x+1 <= 7 && y+1 <= 7) {
 			if(x+1 == xEnemyCheck && y+1 == yEnemyCheck && gridsArray[x+1][y+1] == gridsArray[xEnemyCheck][yEnemyCheck]) {
-				if(kingStillChecked(gridsArray, turn, x, y, x+1, y+1) == false) return true;
+				if(kingStillChecked(gridsArray, turn, x, y, x+1, y+1) == false) 
+				{
+					returnGridsToNormal(gridsArray, x, y, x+1, y+1);
+					return true;
+				}
 				else {
 					returnGridsToNormal(gridsArray, x, y, x+1, y+1);
 					return false;
@@ -334,44 +369,34 @@ public class Checkmate {
 	}
 	
 	public boolean canRookSaveKing(int turn, int gridsArray[][], int x, int y, int xEnemyCheck, int yEnemyCheck) {		
+		
 		// cek ke atas
 		for (int i = x - 1; i >= 0 ; i--) {
 			if(turn == 1) {
 				if(gridsArray[i][y] >= 1 && gridsArray[i][y] <= 6) break;
 				
-				//halangin jalan yg ngeskak
-				if(kingStillChecked(gridsArray, turn, x, y, i, y) == false) return true;
+				//halangin jalan yg ngeskak & makan yg skak
+				if(kingStillChecked(gridsArray, turn, x, y, i, y) == false) 
+				{
+					returnGridsToNormal(gridsArray, x, y, i, y);
+					return true;
+				}
 				else
 				{
 					returnGridsToNormal(gridsArray, x, y, i, y);
-				}
-			 	
-				//makan yg ngeskak
-				if(gridsArray[i][y] >= 7 && gridsArray[i][y] <= 12) {
-					if(gridsArray[i][y] != 0 && i == xEnemyCheck && y == yEnemyCheck && gridsArray[i][y] == gridsArray[xEnemyCheck][yEnemyCheck]) {
-						return true;
-					}else
-					{
-						break;
-					}
 				}
 			}
 			else if(turn == -1) {
 				if(gridsArray[i][y] >= 7 && gridsArray[i][y] <= 12) break;
 				
-				if(kingStillChecked(gridsArray, turn, x, y, i, y) == false) return true;
+				if(kingStillChecked(gridsArray, turn, x, y, i, y) == false) 
+				{
+					returnGridsToNormal(gridsArray, x, y, i, y);
+					return true;
+				}
 				else
 				{
 					returnGridsToNormal(gridsArray, x, y, i, y);
-				}
-				
-				if(gridsArray[i][y] >= 1 && gridsArray[i][y] <= 6) {
-					if(gridsArray[i][y] != 0 && i == xEnemyCheck && y == yEnemyCheck && gridsArray[i][y] == gridsArray[xEnemyCheck][yEnemyCheck]) {
-						return true;
-					}else
-					{
-						break;
-					}
 				}
 			}
 		}
@@ -381,37 +406,27 @@ public class Checkmate {
 			if(turn == 1) {
 				if(gridsArray[i][y] >= 1 && gridsArray[i][y] <= 6) break;
 				
-				if(kingStillChecked(gridsArray, turn, x, y, i, y) == false) return true;
+				if(kingStillChecked(gridsArray, turn, x, y, i, y) == false) 
+				{
+					returnGridsToNormal(gridsArray, x, y, i, y);
+					return true;
+				}
 				else
 				{
 					returnGridsToNormal(gridsArray, x, y, i, y);
-				}
-				
-				if(gridsArray[i][y] >= 7 && gridsArray[i][y] <= 12) {
-					if(gridsArray[i][y] != 0 && i == xEnemyCheck && y == yEnemyCheck && gridsArray[i][y] == gridsArray[xEnemyCheck][yEnemyCheck]) {
-						return true;
-					}else
-					{
-						break;
-					}
 				}
 			}
 			else if(turn == -1) {
 				if(gridsArray[i][y] >= 7 && gridsArray[i][y] <= 12) break;
 				
-				if(kingStillChecked(gridsArray, turn, x, y, i, y) == false) return true;
+				if(kingStillChecked(gridsArray, turn, x, y, i, y) == false) 
+				{
+					returnGridsToNormal(gridsArray, x, y, i, y);
+					return true;
+				}
 				else
 				{
 					returnGridsToNormal(gridsArray, x, y, i, y);
-				}
-				
-				if(gridsArray[i][y] >= 1 && gridsArray[i][y] <= 6) {
-					if(gridsArray[i][y] != 0 && i == xEnemyCheck && y == yEnemyCheck && gridsArray[i][y] == gridsArray[xEnemyCheck][yEnemyCheck]) {
-						return true;
-					}else
-					{
-						break;
-					}
 				}
 			}
 		}
@@ -421,37 +436,27 @@ public class Checkmate {
 			if(turn == 1) {
 				if(gridsArray[x][i] >= 1 && gridsArray[x][i] <= 6) break;
 				
-				if(kingStillChecked(gridsArray, turn, x, y, x, i) == false) return true;
+				if(kingStillChecked(gridsArray, turn, x, y, x, i) == false)
+				{
+					returnGridsToNormal(gridsArray, x, y, x, i);
+					return true;
+				}
 				else
 				{
 					returnGridsToNormal(gridsArray, x, y, x, i);
-				}
-				
-				if(gridsArray[x][i] >= 7 && gridsArray[x][i] <= 12) {
-					if(gridsArray[x][i] != 0 && x == xEnemyCheck && i == yEnemyCheck && gridsArray[x][i] == gridsArray[xEnemyCheck][yEnemyCheck]) {
-						return true;
-					}else
-					{
-						break;
-					}
 				}
 			}
 			else if(turn == -1) {
 				if(gridsArray[x][i] >= 7 && gridsArray[x][i] <= 12) break;
 				
-				if(kingStillChecked(gridsArray, turn, x, y, x, i) == false) return true;
+				if(kingStillChecked(gridsArray, turn, x, y, x, i) == false) 
+				{
+					returnGridsToNormal(gridsArray, x, y, x, i);
+					return true;
+				}
 				else
 				{
 					returnGridsToNormal(gridsArray, x, y, x, i);
-				}
-				
-				if(gridsArray[x][i] >= 1 && gridsArray[x][i] <= 6) {
-					if(gridsArray[x][i] != 0 && x == xEnemyCheck && i == yEnemyCheck && gridsArray[x][i] == gridsArray[xEnemyCheck][yEnemyCheck]) {
-						return true;
-					}else
-					{
-						break;
-					}
 				}
 			}
 		}
@@ -461,37 +466,27 @@ public class Checkmate {
 			if(turn == 1) {
 				if(gridsArray[x][i] >= 1 && gridsArray[x][i] <= 6) break;
 				
-				if(kingStillChecked(gridsArray, turn, x, y, x, i) == false) return true;
+				if(kingStillChecked(gridsArray, turn, x, y, x, i) == false) 
+				{
+					returnGridsToNormal(gridsArray, x, y, x, i);
+					return true;
+				}
 				else
 				{
 					returnGridsToNormal(gridsArray, x, y, x, i);
-				}
-				
-				if(gridsArray[x][i] >= 7 && gridsArray[x][i] <= 12) {
-					if(gridsArray[x][i] != 0 && x == xEnemyCheck && i == yEnemyCheck && gridsArray[x][i] == gridsArray[xEnemyCheck][yEnemyCheck]) {
-						return true;
-					}else
-					{
-						break;
-					}
 				}
 			}
 			else if(turn == -1) {
 				if(gridsArray[x][i] >= 7 && gridsArray[x][i] <= 12) break;
 				
-				if(kingStillChecked(gridsArray, turn, x, y, x, i) == false) return true;
+				if(kingStillChecked(gridsArray, turn, x, y, x, i) == false) 
+				{
+					returnGridsToNormal(gridsArray, x, y, x, i);
+					return true;
+				}
 				else
 				{
 					returnGridsToNormal(gridsArray, x, y, x, i);
-				}
-				
-				if(gridsArray[x][i] >= 1 && gridsArray[x][i] <= 6) {
-					if(gridsArray[x][i] != 0 && x == xEnemyCheck && i == yEnemyCheck && gridsArray[x][i] == gridsArray[xEnemyCheck][yEnemyCheck]) {
-						return true;
-					}else
-					{
-						break;
-					}
 				}
 			}
 		}
@@ -502,68 +497,152 @@ public class Checkmate {
 		// cek kanan atas
 		for(int i = x-1, j = y+1; i >= 0; i--, j++) {
 			if(j <= 7 && i >= 0) {
-				if(kingStillChecked(gridsArray, turn, x, y, i, j) == false) return true;
-				else
+				if(turn == 1)
 				{
-					returnGridsToNormal(gridsArray, x, y, i, j);
-				}
+					if(gridsArray[i][j] >= 1 && gridsArray[i][j] <= 6) break;
 					
-				if(i == xEnemyCheck && j == yEnemyCheck && gridsArray[i][j] == gridsArray[xEnemyCheck][yEnemyCheck]) {
-					return true;				
-				}else if(gridsArray[i][j] != 0 && gridsArray[i][j] != gridsArray[xEnemyCheck][yEnemyCheck]) break;
+					if(kingStillChecked(gridsArray, turn, x, y, i, j) == false) 
+					{
+						returnGridsToNormal(gridsArray, x, y, i, j);
+						return true;
+					}
+					else
+					{
+						returnGridsToNormal(gridsArray, x, y, i, j);
+					}
+					
+					if(i == 0 || j == 7) break;
+				}else if(turn == -1)
+				{
+					if(gridsArray[i][j] >= 7 && gridsArray[i][j] <= 12) break;
+					
+					if(kingStillChecked(gridsArray, turn, x, y, i, j) == false) 
+					{
+						returnGridsToNormal(gridsArray, x, y, i, j);
+						return true;
+					}
+					else
+					{
+						returnGridsToNormal(gridsArray, x, y, i, j);
+					}
+					
+					if(i == 0 || j == 7) break;
+				}
 				
-				if(i == 0 || j == 7) break;
 			}		
 		}
 		
 		// cek kiri atas
 		for(int i = x-1, j = y-1; i >= 0; i--, j--) {
 			if(j >= 0 && i >= 0) {
-				if(kingStillChecked(gridsArray, turn, x, y, i, j) == false) return true;
-				else
+				if(turn == 1)
 				{
-					returnGridsToNormal(gridsArray, x, y, i, j);
+					if(gridsArray[i][j] >= 1 && gridsArray[i][j] <= 6) break;
+					
+					if(kingStillChecked(gridsArray, turn, x, y, i, j) == false) 
+					{
+						returnGridsToNormal(gridsArray, x, y, i, j);
+						return true;
+					}
+					else
+					{
+						returnGridsToNormal(gridsArray, x, y, i, j);
+					}
+					
+					if(i == 0 || j == 0) break;
+				}else if(turn == -1)
+				{
+					if(gridsArray[i][j] >= 7 && gridsArray[i][j] <= 12) break;
+					
+					if(kingStillChecked(gridsArray, turn, x, y, i, j) == false) 
+					{
+						returnGridsToNormal(gridsArray, x, y, i, j);
+						return true;
+					}
+					else
+					{
+						returnGridsToNormal(gridsArray, x, y, i, j);
+					}
+					
+					if(i == 0 || j == 0) break;
 				}
 				
-				if(i == xEnemyCheck && j == yEnemyCheck && gridsArray[i][j] == gridsArray[xEnemyCheck][yEnemyCheck]) {
-					return true;				
-				}else if(gridsArray[i][j] != 0 && gridsArray[i][j] != gridsArray[xEnemyCheck][yEnemyCheck]) break;
-				
-				if(i == 0 || j == 0) break;
 			}		
 		}
 		
 		// cek kiri bawah
 		for(int i = x+1, j = y-1; i <= 7; i++, j--) {
 			if(j >= 0 && i <= 7) {
-				if(kingStillChecked(gridsArray, turn, x, y, i, j) == false) return true;
-				else
+				if(turn == 1)
 				{
-					returnGridsToNormal(gridsArray, x, y, i, j);
+					if(gridsArray[i][j] >= 1 && gridsArray[i][j] <= 6) break;
+					
+					if(kingStillChecked(gridsArray, turn, x, y, i, j) == false) 
+					{
+						returnGridsToNormal(gridsArray, x, y, i, j);
+						return true;
+					}
+					else
+					{
+						returnGridsToNormal(gridsArray, x, y, i, j);
+					}
+					
+					if(i == 7 || j == 0) break;
+				}else if(turn == -1)
+				{
+					if(gridsArray[i][j] >= 7 && gridsArray[i][j] <= 12) break;
+					
+					if(kingStillChecked(gridsArray, turn, x, y, i, j) == false) 
+					{
+						returnGridsToNormal(gridsArray, x, y, i, j);
+						return true;
+					}
+					else
+					{
+						returnGridsToNormal(gridsArray, x, y, i, j);
+					}
+					
+					if(i == 7 || j == 0) break;
 				}
 				
-				if(i == xEnemyCheck && j == yEnemyCheck && gridsArray[i][j] == gridsArray[xEnemyCheck][yEnemyCheck]) {
-					return true;				
-				}else if(gridsArray[i][j] != 0 && gridsArray[i][j] != gridsArray[xEnemyCheck][yEnemyCheck]) break;
-				
-				if(i == 7 || j == 0) break;
 			}			
 		}
 		
 		// cek kanan bawah
 		for(int i = x+1, j = y+1; i <= 7; i++, j++) {
 			if(i <= 7 && j <= 7) {
-				if(kingStillChecked(gridsArray, turn, x, y, i, j) == false) return true;
-				else
+				if(turn == 1)
 				{
-					returnGridsToNormal(gridsArray, x, y, i, j);
+					if(gridsArray[i][j] >= 1 && gridsArray[i][j] <= 6) break;
+					
+					if(kingStillChecked(gridsArray, turn, x, y, i, j) == false) 
+					{
+						returnGridsToNormal(gridsArray, x, y, i, j);
+						return true;
+					}
+					else
+					{
+						returnGridsToNormal(gridsArray, x, y, i, j);
+					}
+					
+					if(i == 7 || j == 7) break;
+				}else if(turn == -1)
+				{
+					if(gridsArray[i][j] >= 7 && gridsArray[i][j] <= 12) break;
+					
+					if(kingStillChecked(gridsArray, turn, x, y, i, j) == false) 
+					{
+						returnGridsToNormal(gridsArray, x, y, i, j);
+						return true;
+					}
+					else
+					{
+						returnGridsToNormal(gridsArray, x, y, i, j);
+					}
+					
+					if(i == 7 || j == 7) break;
 				}
 				
-				if(i == xEnemyCheck && j == yEnemyCheck && gridsArray[i][j] == gridsArray[xEnemyCheck][yEnemyCheck]) {
-					return true;				
-				}else if(gridsArray[i][j] != 0 && gridsArray[i][j] != gridsArray[xEnemyCheck][yEnemyCheck]) break;
-				
-				if(i == 7 || j == 7) break;
 			}	
 		}
 		return false;
@@ -586,38 +665,42 @@ public class Checkmate {
 			if(x-1 >= 0 && y-1 >= 0) {
 				if(gridsArray[x-1][y-1] >= 7 && gridsArray[x-1][y-1] <= 12)
 				{
-					if(kingStillChecked(gridsArray, turn, x, y, x-1, y-1) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x-1, y-1);
-					}
-					
 					if(x-1 == xEnemyCheck && y-1 == yEnemyCheck && gridsArray[x-1][y-1] == gridsArray[xEnemyCheck][yEnemyCheck]) return true;
 				}
 			}
 			if(x-1 >= 0 && y+1 <= 7) {
 				if(gridsArray[x-1][y+1] >= 7 && gridsArray[x-1][y+1] <= 12)
 				{
-					if(kingStillChecked(gridsArray, turn, x, y, x-1, y+1) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x-1, y+1);
-					}
-					
 					if(x-1 == xEnemyCheck && y+1 == yEnemyCheck && gridsArray[x-1][y+1] == gridsArray[xEnemyCheck][yEnemyCheck]) return true;
 				}
 			}
-			if(x-1 >= 0)
+			if(x-1 >= 0 )
 			{
 				if(gridsArray[x-1][y] == 0)
 				{
-					if(kingStillChecked(gridsArray, turn, x, y, x-1, y) == false) return true;
+					if(kingStillChecked(gridsArray, turn, x, y, x-1, y) == false) 
+					{
+						returnGridsToNormal(gridsArray, x, y, x-1, y);
+						return true;
+					}
 					else
 					{
 						returnGridsToNormal(gridsArray, x, y, x-1, y);
 					}
-					
-					if(x-1 == xEnemyCheck && y == yEnemyCheck && gridsArray[x-1][y] == gridsArray[xEnemyCheck][yEnemyCheck]) return true;
+				}
+				if(x == 6) {
+					if(gridsArray[x-2][y] == 0)
+					{
+						if(kingStillChecked(gridsArray, turn, x, y, x-2, y) == false) 
+						{
+							returnGridsToNormal(gridsArray, x, y, x-2, y);
+							return true;
+						}
+						else
+						{
+							returnGridsToNormal(gridsArray, x, y, x-2, y);
+						}
+					}
 				}
 			}
 		}
@@ -625,24 +708,12 @@ public class Checkmate {
 			if(x+1 <= 7 && y+1 <= 7) {
 				if(gridsArray[x+1][y+1] >= 1 && gridsArray[x+1][y+1] <= 6)
 				{
-					if(kingStillChecked(gridsArray, turn, x, y, x+1, y+1) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x+1, y+1);
-					}
-					
 					if(x+1 == xEnemyCheck && y+1 == yEnemyCheck && gridsArray[x+1][y+1] == gridsArray[xEnemyCheck][yEnemyCheck]) return true;
 				}
 			}
 			if(x+1 <= 7 && y-1 >= 0) {
 				if(gridsArray[x+1][y-1] >= 1 && gridsArray[x+1][y-1] <= 6)
 				{
-					if(kingStillChecked(gridsArray, turn, x, y, x+1, y-1) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x+1, y-1);
-					}
-					
 					if(x+1 == xEnemyCheck && y-1 == yEnemyCheck && gridsArray[x+1][y-1] == gridsArray[xEnemyCheck][yEnemyCheck]) return true;
 				}
 			}
@@ -650,13 +721,28 @@ public class Checkmate {
 			{
 				if(gridsArray[x+1][y] == 0)
 				{
-					if(kingStillChecked(gridsArray, turn, x, y, x-1, y) == false) return true;
+					if(kingStillChecked(gridsArray, turn, x, y, x+1, y) == false) 
+					{
+						returnGridsToNormal(gridsArray, x, y, x+1, y);
+						return true;
+					}
 					else
 					{
-						returnGridsToNormal(gridsArray, x, y, x-1, y);
+						returnGridsToNormal(gridsArray, x, y, x+1, y);
 					}
-					
-					if(x-1 == xEnemyCheck && y == yEnemyCheck && gridsArray[x-1][y] == gridsArray[xEnemyCheck][yEnemyCheck]) return true;
+				}
+				if(x == 1) {
+					if(gridsArray[x+2][y] == 0) {
+						if(kingStillChecked(gridsArray, turn, x, y, x+2, y) == false) 
+						{
+							returnGridsToNormal(gridsArray, x, y, x+2, y);
+							return true;
+						}
+						else
+						{
+							returnGridsToNormal(gridsArray, x, y, x+2, y);
+						}
+					}
 				}
 			}
 			
@@ -665,716 +751,305 @@ public class Checkmate {
 	}
 	
 	public boolean canKnightSaveKing(int turn, int gridsArray[][], int x, int y, int xEnemyCheck, int yEnemyCheck) {
-			if(x == 0 && y == 0)
-			{
-				if(kingStillChecked(gridsArray, turn, x, y, x+1, y+2) == false) return true;
-				else
+		if(turn == 1) {
+			int spin = 0;
+			do
+			{	
+				spin++;
+				int tempX = 0;
+				int tempY = 0;
+				
+				if(spin == 1)
 				{
-					returnGridsToNormal(gridsArray, x, y, x+1, y+2);
+					tempX = x-1;
+					tempY = y-2;
+					if(tempX < 0 || tempY < 0) continue;
+					
+					if(gridsArray[tempX][tempY] >= 1 && gridsArray[tempX][tempY] <= 6) continue;
+					
+					if(kingStillChecked(gridsArray, turn, x, y, tempX, tempY) == false) 
+					{
+						returnGridsToNormal(gridsArray, x, y, tempX, tempY);
+						return true;
+					}
+					else
+					{
+						returnGridsToNormal(gridsArray, x, y, tempX, tempY);
+					}
+				}else if(spin == 2)
+				{
+					tempX = x-2;
+					tempY = y-1;
+					if(tempX < 0 || tempY < 0) continue;
+					
+					if(gridsArray[tempX][tempY] >= 1 && gridsArray[tempX][tempY] <= 6) continue;
+					
+					if(kingStillChecked(gridsArray, turn, x, y, tempX, tempY) == false) 
+					{
+						returnGridsToNormal(gridsArray, x, y, tempX, tempY);
+						return true;
+					}
+					else
+					{
+						returnGridsToNormal(gridsArray, x, y, tempX, tempY);
+					}
+				}else if(spin == 3)
+				{
+					tempX = x-1;
+					tempY = y+2;
+					if(tempX < 0 || tempY > 7) continue;
+					
+					if(gridsArray[tempX][tempY] >= 1 && gridsArray[tempX][tempY] <= 6) continue;
+					
+					if(kingStillChecked(gridsArray, turn, x, y, tempX, tempY) == false) 
+					{
+						returnGridsToNormal(gridsArray, x, y, tempX, tempY);
+						return true;
+					}
+					else
+					{
+						returnGridsToNormal(gridsArray, x, y, tempX, tempY);
+					}
+				}else if(spin == 4)
+				{
+					tempX = x-2;
+					tempY = y+1;
+					if(tempX < 0 || tempY > 7) continue;
+					
+					if(gridsArray[tempX][tempY] >= 1 && gridsArray[tempX][tempY] <= 6) continue;
+					
+					if(kingStillChecked(gridsArray, turn, x, y, tempX, tempY) == false) 
+					{
+						returnGridsToNormal(gridsArray, x, y, tempX, tempY);
+						return true;
+					}
+					else
+					{
+						returnGridsToNormal(gridsArray, x, y, tempX, tempY);
+					}
+				}else if(spin == 5)
+				{
+					tempX = x+1;
+					tempY = y+2;
+					if(tempX > 7 || tempY > 7) continue;
+					
+					if(gridsArray[tempX][tempY] >= 1 && gridsArray[tempX][tempY] <= 6) continue;
+					
+					if(kingStillChecked(gridsArray, turn, x, y, tempX, tempY) == false) 
+					{
+						returnGridsToNormal(gridsArray, x, y, tempX, tempY);
+						return true;
+					}
+					else
+					{
+						returnGridsToNormal(gridsArray, x, y, tempX, tempY);
+					}
+				}else if(spin == 6)
+				{
+					tempX = x+2;
+					tempY = y+1;
+					if(tempX > 7 || tempY > 7) continue;
+					
+					if(gridsArray[tempX][tempY] >= 1 && gridsArray[tempX][tempY] <= 6) continue;
+					
+					if(kingStillChecked(gridsArray, turn, x, y, tempX, tempY) == false) 
+					{
+						returnGridsToNormal(gridsArray, x, y, tempX, tempY);
+						return true;
+					}
+					else
+					{
+						returnGridsToNormal(gridsArray, x, y, tempX, tempY);
+					}
+				}else if(spin == 7)
+				{
+					tempX = x+1;
+					tempY = y-2;
+					if(tempX > 7 || tempY < 0) continue;
+					
+					if(gridsArray[tempX][tempY] >= 1 && gridsArray[tempX][tempY] <= 6) continue;
+					
+					if(kingStillChecked(gridsArray, turn, x, y, tempX, tempY) == false) 
+					{
+						returnGridsToNormal(gridsArray, x, y, tempX, tempY);
+						return true;
+					}
+					else
+					{
+						returnGridsToNormal(gridsArray, x, y, tempX, tempY);
+					}
+				}else if(spin == 8)
+				{
+					tempX = x+2;
+					tempY = y-1;
+					if(tempX > 7 || tempY < 0) continue;
+					
+					if(gridsArray[tempX][tempY] >= 1 && gridsArray[tempX][tempY] <= 6) continue;
+					
+					if(kingStillChecked(gridsArray, turn, x, y, tempX, tempY) == false) 
+					{
+						returnGridsToNormal(gridsArray, x, y, tempX, tempY);
+						return true;
+					}
+					else
+					{
+						returnGridsToNormal(gridsArray, x, y, tempX, tempY);
+					}
 				}
 				
-				if(kingStillChecked(gridsArray, turn, x, y, x+2, y+1) == false) return true;
-				else
+			}while(spin <= 8);
+			return false;
+		}else if(turn == -1) {
+			int spin = 0;
+			do
+			{	
+				spin++;
+				int tempX = 0;
+				int tempY = 0;
+				
+				if(spin == 1)
 				{
-					returnGridsToNormal(gridsArray, x, y, x+2, y+1);
+					tempX = x-1;
+					tempY = y-2;
+					if(tempX < 0 || tempY < 0) continue;
+					
+					if(gridsArray[tempX][tempY] >= 7 && gridsArray[tempX][tempY] <= 12) continue;
+					
+					if(kingStillChecked(gridsArray, turn, x, y, tempX, tempY) == false) 
+					{
+						returnGridsToNormal(gridsArray, x, y, tempX, tempY);
+						return true;
+					}
+					else
+					{
+						returnGridsToNormal(gridsArray, x, y, tempX, tempY);
+					}
+				}else if(spin == 2)
+				{
+					tempX = x-2;
+					tempY = y-1;
+					if(tempX < 0 || tempY < 0) continue;
+					
+					if(gridsArray[tempX][tempY] >= 7 && gridsArray[tempX][tempY] <= 12) continue;
+					
+					if(kingStillChecked(gridsArray, turn, x, y, tempX, tempY) == false) 
+					{
+						returnGridsToNormal(gridsArray, x, y, tempX, tempY);
+						return true;
+					}
+					else
+					{
+						returnGridsToNormal(gridsArray, x, y, tempX, tempY);
+					}
+				}else if(spin == 3)
+				{
+					tempX = x-1;
+					tempY = y+2;
+					if(tempX < 0 || tempY > 7) continue;
+					
+					if(gridsArray[tempX][tempY] >= 7 && gridsArray[tempX][tempY] <= 12) continue;
+					
+					if(kingStillChecked(gridsArray, turn, x, y, tempX, tempY) == false) 
+					{
+						returnGridsToNormal(gridsArray, x, y, tempX, tempY);
+						return true;
+					}
+					else
+					{
+						returnGridsToNormal(gridsArray, x, y, tempX, tempY);
+					}
+				}else if(spin == 4)
+				{
+					tempX = x-2;
+					tempY = y+1;
+					if(tempX < 0 || tempY > 7) continue;
+					
+					if(gridsArray[tempX][tempY] >= 7 && gridsArray[tempX][tempY] <= 12) continue;
+					
+					if(kingStillChecked(gridsArray, turn, x, y, tempX, tempY) == false) 
+					{
+						returnGridsToNormal(gridsArray, x, y, tempX, tempY);
+						return true;
+					}
+					else
+					{
+						returnGridsToNormal(gridsArray, x, y, tempX, tempY);
+					}
+				}else if(spin == 5)
+				{
+					tempX = x+1;
+					tempY = y+2;
+					if(tempX > 7 || tempY > 7) continue;
+					
+					if(gridsArray[tempX][tempY] >= 7 && gridsArray[tempX][tempY] <= 12) continue;
+					
+					if(kingStillChecked(gridsArray, turn, x, y, tempX, tempY) == false) 
+					{
+						returnGridsToNormal(gridsArray, x, y, tempX, tempY);
+						return true;
+					}
+					else
+					{
+						returnGridsToNormal(gridsArray, x, y, tempX, tempY);
+					}
+				}else if(spin == 6)
+				{
+					tempX = x+2;
+					tempY = y+1;
+					if(tempX > 7 || tempY > 7) continue;
+					
+					if(gridsArray[tempX][tempY] >= 7 && gridsArray[tempX][tempY] <= 12) continue;
+					
+					if(kingStillChecked(gridsArray, turn, x, y, tempX, tempY) == false) 
+					{
+						returnGridsToNormal(gridsArray, x, y, tempX, tempY);
+						return true;
+					}
+					else
+					{
+						returnGridsToNormal(gridsArray, x, y, tempX, tempY);
+					}
+				}else if(spin == 7)
+				{
+					tempX = x+1;
+					tempY = y-2;
+					if(tempX > 7 || tempY < 0) continue;
+					
+					if(gridsArray[tempX][tempY] >= 7 && gridsArray[tempX][tempY] <= 12) continue;
+					
+					if(kingStillChecked(gridsArray, turn, x, y, tempX, tempY) == false) 
+					{
+						returnGridsToNormal(gridsArray, x, y, tempX, tempY);
+						return true;
+					}
+					else
+					{
+						returnGridsToNormal(gridsArray, x, y, tempX, tempY);
+					}
+				}else if(spin == 8)
+				{
+					tempX = x+2;
+					tempY = y-1;
+					if(tempX > 7 || tempY < 0) continue;
+					
+					if(gridsArray[tempX][tempY] >= 7 && gridsArray[tempX][tempY] <= 12) continue;
+					
+					if(kingStillChecked(gridsArray, turn, x, y, tempX, tempY) == false) 
+					{
+						returnGridsToNormal(gridsArray, x, y, tempX, tempY);
+						return true;
+					}
+					else
+					{
+						returnGridsToNormal(gridsArray, x, y, tempX, tempY);
+					}
 				}
 				
-				if((x+1 == xEnemyCheck && y+2 == yEnemyCheck && gridsArray[x+1][y+2] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-						(x+2 == xEnemyCheck && y+1 == yEnemyCheck && gridsArray[x+2][y+1] == gridsArray[xEnemyCheck][yEnemyCheck])) return true;
-			}else if(x == 0 && y == 7)
-			{
-				if(kingStillChecked(gridsArray, turn, x, y, x+1, y-2) == false) return true;
-				else
-				{
-					returnGridsToNormal(gridsArray, x, y, x+1, y-2);
-				}
-				
-				if(kingStillChecked(gridsArray, turn, x, y, x+2, y-1) == false) return true;
-				else
-				{
-					returnGridsToNormal(gridsArray, x, y, x+2, y-1);
-				}
-				
-				if((x+1 == xEnemyCheck && y-2 == yEnemyCheck && gridsArray[x+1][y-2] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-						(x+2 == xEnemyCheck && y-1 == yEnemyCheck && gridsArray[x+2][y-1] == gridsArray[xEnemyCheck][yEnemyCheck])) return true;
-			}else if(x == 7 && y == 7)
-			{
-				if(kingStillChecked(gridsArray, turn, x, y, x-1, y-2) == false) return true;
-				else
-				{
-					returnGridsToNormal(gridsArray, x, y, x-1, y-2);
-				}
-				
-				if(kingStillChecked(gridsArray, turn, x, y, x-2, y-1) == false) return true;
-				else
-				{
-					returnGridsToNormal(gridsArray, x, y, x-2, y-1);
-				}
-				
-				if((x-1 == xEnemyCheck && y-2 == yEnemyCheck && gridsArray[x-1][y-2] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-						(x-2 == xEnemyCheck && y-1 == yEnemyCheck && gridsArray[x-2][y-1] == gridsArray[xEnemyCheck][yEnemyCheck])) return true;
-			}else if(x == 7 && y == 0)
-			{
-				if(kingStillChecked(gridsArray, turn, x, y, x-1, y+2) == false) return true;
-				else
-				{
-					returnGridsToNormal(gridsArray, x, y, x-1, y+2);
-				}
-				
-				if(kingStillChecked(gridsArray, turn, x, y, x-2, y+1) == false) return true;
-				else
-				{
-					returnGridsToNormal(gridsArray, x, y, x-2, y+1);
-				}
-				
-				if((x-1 == xEnemyCheck && y+2 == yEnemyCheck && gridsArray[x-1][y+2] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-						(x-2 == xEnemyCheck && y+1 == yEnemyCheck && gridsArray[x-2][y+1] == gridsArray[xEnemyCheck][yEnemyCheck])) return true;
-			}else if(x == 0)
-			{
-				if(y == 1)
-				{
-					if(kingStillChecked(gridsArray, turn, x, y, x+2, y-1) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x+2, y-1);
-					}
-					
-					if(kingStillChecked(gridsArray, turn, x, y, x+2, y+1) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x+2, y+1);
-					}
-					if(kingStillChecked(gridsArray, turn, x, y, x+1, y+2) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x+1, y+2);
-					}
-					
-					
-					if((x+2 == xEnemyCheck && y-1 == yEnemyCheck && gridsArray[x+2][y-1] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-							(x+2 == xEnemyCheck && y+1 == yEnemyCheck && gridsArray[x+2][y+1] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-							(x+1 == xEnemyCheck && y+2 == yEnemyCheck && gridsArray[x+1][y+2] == gridsArray[xEnemyCheck][yEnemyCheck])) return true;
-				}else if(y == 6)
-				{
-					if(kingStillChecked(gridsArray, turn, x, y, x+2, y+1) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x+2, y+1);
-					}
-					
-					if(kingStillChecked(gridsArray, turn, x, y, x+2, y-1) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x+2, y-1);
-					}
-					if(kingStillChecked(gridsArray, turn, x, y, x+1, y-2) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x+1, y-2);
-					}
-					
-					
-					if((x+2 == xEnemyCheck && y+1 == yEnemyCheck && gridsArray[x+2][y+1] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-							(x+2 == xEnemyCheck && y-1 == yEnemyCheck && gridsArray[x+2][y-1] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-							(x+1 == xEnemyCheck && y-2 == yEnemyCheck && gridsArray[x+1][y-2] == gridsArray[xEnemyCheck][yEnemyCheck])) return true;
-				}else
-				{
-					if(kingStillChecked(gridsArray, turn, x, y, x+1, y-2) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x+1, y-2);
-					}
-					
-					if(kingStillChecked(gridsArray, turn, x, y, x+2, y-1) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x+2, y-1);
-					}
-					if(kingStillChecked(gridsArray, turn, x, y, x+2, y+1) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x+2, y+1);
-					}
-					if(kingStillChecked(gridsArray, turn, x, y, x+1, y+2) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x+1, y+2);
-					}
-					
-					
-					if((x+1 == xEnemyCheck && y-2 == yEnemyCheck && gridsArray[x+1][y-2] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-							(x+2 == xEnemyCheck && y-1 == yEnemyCheck && gridsArray[x+2][y-1] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-							(x+2 == xEnemyCheck && y+1 == yEnemyCheck && gridsArray[x+2][y+1] == gridsArray[xEnemyCheck][yEnemyCheck]) || 
-							(x+1 == xEnemyCheck && y+2 == yEnemyCheck && gridsArray[x+1][y+2] == gridsArray[xEnemyCheck][yEnemyCheck])) return true;
-				}
-			}else if(x == 7)
-			{
-				if(y == 1)
-				{
-					if(kingStillChecked(gridsArray, turn, x, y, x-2, y-1) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x-2, y-1);
-					}
-					
-					if(kingStillChecked(gridsArray, turn, x, y, x-2, y+1) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x-2, y+1);
-					}
-					if(kingStillChecked(gridsArray, turn, x, y, x-1, y+2) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x-1, y+2);
-					}
-					
-					
-					if((x-2 == xEnemyCheck && y-1 == yEnemyCheck && gridsArray[x-2][y-1] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-							(x-2 == xEnemyCheck && y+1 == yEnemyCheck && gridsArray[x-2][y+1] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-							(x-1 == xEnemyCheck && y+2 == yEnemyCheck && gridsArray[x-1][y+2] == gridsArray[xEnemyCheck][yEnemyCheck])) return true;
-				}else if(y == 6)
-				{
-					if(kingStillChecked(gridsArray, turn, x, y, x-2, y+1) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x-2, y-1);
-					}
-					
-					if(kingStillChecked(gridsArray, turn, x, y, x-2, y-1) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x-2, y+1);
-					}
-					if(kingStillChecked(gridsArray, turn, x, y, x-1, y-2) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x-1, y-2);
-					}
-					
-					
-					if((x-2 == xEnemyCheck && y+1 == yEnemyCheck && gridsArray[x-2][y+1] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-							(x-2 == xEnemyCheck && y-1 == yEnemyCheck && gridsArray[x-2][y-1] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-							(x-1 == xEnemyCheck && y-2 == yEnemyCheck && gridsArray[x-1][y-2] == gridsArray[xEnemyCheck][yEnemyCheck])) return true;
-				}else
-				{
-					if(kingStillChecked(gridsArray, turn, x, y, x-2, y-1) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x-2, y-1);
-					}
-					
-					if(kingStillChecked(gridsArray, turn, x, y, x-2, y+1) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x-2, y+1);
-					}
-					if(kingStillChecked(gridsArray, turn, x, y, x-1, y+2) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x-1, y+2);
-					}
-					if(kingStillChecked(gridsArray, turn, x, y, x-1, y-2) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x-1, y-2);
-					}
-					
-					
-					if((x-2 == xEnemyCheck && y-1 == yEnemyCheck && gridsArray[x-2][y-1] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-							(x-2 == xEnemyCheck && y+1 == yEnemyCheck && gridsArray[x-2][y+1] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-							(x-1 == xEnemyCheck && y+2 == yEnemyCheck && gridsArray[x-1][y+2] == gridsArray[xEnemyCheck][yEnemyCheck]) || 
-							(x-1 == xEnemyCheck && y-2 == yEnemyCheck && gridsArray[x-1][y-2] == gridsArray[xEnemyCheck][yEnemyCheck])) return true;
-				}
-			}else if(y == 0)
-			{
-				if(x == 1)
-				{
-					if(kingStillChecked(gridsArray, turn, x, y, x-1, y+2) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x-1, y+2);
-					}
-					
-					if(kingStillChecked(gridsArray, turn, x, y, x+1, y+2) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x+1, y+2);
-					}
-					if(kingStillChecked(gridsArray, turn, x, y, x+2, y+1) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x+2, y+1);
-					}
-					
-					
-					if((x-1 == xEnemyCheck && y+2 == yEnemyCheck && gridsArray[x-1][y+2] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-							(x+1 == xEnemyCheck && y+2 == yEnemyCheck && gridsArray[x+1][y+2] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-							(x+2 == xEnemyCheck && y+1 == yEnemyCheck && gridsArray[x+2][y+1] == gridsArray[xEnemyCheck][yEnemyCheck])) return true;
-				}else if(x == 6)
-				{
-					if(kingStillChecked(gridsArray, turn, x, y, x-2, y+1) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x-2, y+1);
-					}
-					
-					if(kingStillChecked(gridsArray, turn, x, y, x-1, y+2) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x-1, y+2);
-					}
-					if(kingStillChecked(gridsArray, turn, x, y, x+1, y+2) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x+1, y+2);
-					}
-					
-					
-					if((x-2 == xEnemyCheck && y+1 == yEnemyCheck && gridsArray[x-2][y+1] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-							(x-1 == xEnemyCheck && y+2 == yEnemyCheck && gridsArray[x-1][y+2] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-							(x+1 == xEnemyCheck && y+2 == yEnemyCheck && gridsArray[x+1][y+2] == gridsArray[xEnemyCheck][yEnemyCheck])) return true;
-				}else
-				{
-					if(kingStillChecked(gridsArray, turn, x, y, x-1, y+2) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x-1, y+2);
-					}
-					
-					if(kingStillChecked(gridsArray, turn, x, y, x+1, y+2) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x+1, y+2);
-					}
-					if(kingStillChecked(gridsArray, turn, x, y, x+2, y+1) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x+2, y+1);
-					}
-					if(kingStillChecked(gridsArray, turn, x, y, x-2, y+1) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x-2, y+1);
-					}
-					
-					if((x-1 == xEnemyCheck && y+2 == yEnemyCheck && gridsArray[x-1][y+2] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-							(x+1 == xEnemyCheck && y+2 == yEnemyCheck && gridsArray[x+1][y+2] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-							(x+2 == xEnemyCheck && y+1 == yEnemyCheck && gridsArray[x+2][y+1] == gridsArray[xEnemyCheck][yEnemyCheck]) || 
-							(x-2 == xEnemyCheck && y+1 == yEnemyCheck && gridsArray[x-2][y+1] == gridsArray[xEnemyCheck][yEnemyCheck])) return true;
-				}
-			}else if(y == 7)
-			{
-				if(x == 1)
-				{
-					if(kingStillChecked(gridsArray, turn, x, y, x-1, y-2) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x-1, y-2);
-					}
-					
-					if(kingStillChecked(gridsArray, turn, x, y, x+1, y-2) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x+1, y-2);
-					}
-					if(kingStillChecked(gridsArray, turn, x, y, x+2, y-1) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x+2, y-1);
-					}
-					
-					
-					if((x-1 == xEnemyCheck && y-2 == yEnemyCheck && gridsArray[x-1][y-2] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-							(x+1 == xEnemyCheck && y-2 == yEnemyCheck && gridsArray[x+1][y-2] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-							(x+2 == xEnemyCheck && y-1 == yEnemyCheck && gridsArray[x+2][y-1] == gridsArray[xEnemyCheck][yEnemyCheck])) return true;
-				}else if(x == 6)
-				{
-					if(kingStillChecked(gridsArray, turn, x, y, x-1, y-2) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x-1, y-2);
-					}
-					
-					if(kingStillChecked(gridsArray, turn, x, y, x+1, y-2) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x+1, y-2);
-					}
-					if(kingStillChecked(gridsArray, turn, x, y, x-2, y-1) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x-2, y-1);
-					}
-					
-					
-					if((x-1 == xEnemyCheck && y-2 == yEnemyCheck && gridsArray[x-1][y-2] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-							(x+1 == xEnemyCheck && y-2 == yEnemyCheck && gridsArray[x+1][y-2] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-							(x-2 == xEnemyCheck && y-1 == yEnemyCheck && gridsArray[x-2][y-1] == gridsArray[xEnemyCheck][yEnemyCheck])) return true;
-				}else
-				{
-					if(kingStillChecked(gridsArray, turn, x, y, x-1, y-2) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x-1, y-2);
-					}
-					
-					if(kingStillChecked(gridsArray, turn, x, y, x+1, y-2) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x+1, y-2);
-					}
-					if(kingStillChecked(gridsArray, turn, x, y, x+2, y-1) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x+2, y-1);
-					}
-					if(kingStillChecked(gridsArray, turn, x, y, x-2, y-1) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x-2, y-1);
-					}
-					
-					
-					if((x-1 == xEnemyCheck && y-2 == yEnemyCheck && gridsArray[x-1][y-2] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-							(x+1 == xEnemyCheck && y-2 == yEnemyCheck && gridsArray[x+1][y-2] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-							(x+2 == xEnemyCheck && y-1 == yEnemyCheck && gridsArray[x+2][y-1] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-							(x-2 == xEnemyCheck && y-1 == yEnemyCheck && gridsArray[x-2][y-1] == gridsArray[xEnemyCheck][yEnemyCheck])) return true;
-				}
-			}else if(x == 1)
-			{
-				if(y == 1)
-				{
-					if(kingStillChecked(gridsArray, turn, x, y, x+2, y-1) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x+2, y-1);
-					}
-					
-					if(kingStillChecked(gridsArray, turn, x, y, x+2, y+1) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x+2, y+1);
-					}
-					if(kingStillChecked(gridsArray, turn, x, y, x+1, y+2) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x+1, y+2);
-					}
-					if(kingStillChecked(gridsArray, turn, x, y, x-1, y+2) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x-1, y+2);
-					}
-					
-					if((x+2 == xEnemyCheck && y-1 == yEnemyCheck && gridsArray[x+2][y-1] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-							(x+2 == xEnemyCheck && y+1 == yEnemyCheck && gridsArray[x+2][y+1] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-							(x+1 == xEnemyCheck && y+2 == yEnemyCheck && gridsArray[x+1][y+2] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-							(x-1 == xEnemyCheck && y+2 == yEnemyCheck && gridsArray[x-1][y+2] == gridsArray[xEnemyCheck][yEnemyCheck])) return true;
-				}else if(y == 6)
-				{
-					if(kingStillChecked(gridsArray, turn, x, y, x+2, y-1) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x+2, y-1);
-					}
-					
-					if(kingStillChecked(gridsArray, turn, x, y, x+2, y+1) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x+2, y+1);
-					}
-					if(kingStillChecked(gridsArray, turn, x, y, x+1, y-2) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x+1, y-2);
-					}
-					if(kingStillChecked(gridsArray, turn, x, y, x-1, y-2) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x-1, y-2);
-					}
-					
-					if((x+2 == xEnemyCheck && y-1 == yEnemyCheck && gridsArray[x+2][y-1] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-							(x+2 == xEnemyCheck && y+1 == yEnemyCheck && gridsArray[x+2][y+1] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-							(x+1 == xEnemyCheck && y-2 == yEnemyCheck && gridsArray[x+1][y-2] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-							(x-1 == xEnemyCheck && y-2 == yEnemyCheck && gridsArray[x-1][y-2] == gridsArray[xEnemyCheck][yEnemyCheck])) return true;
-				}else
-				{
-					if(kingStillChecked(gridsArray, turn, x, y, x+2, y-1) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x+2, y-1);
-					}
-					
-					if(kingStillChecked(gridsArray, turn, x, y, x+2, y+1) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x+2, y+1);
-					}
-					if(kingStillChecked(gridsArray, turn, x, y, x+1, y+2) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x+1, y+2);
-					}
-					if(kingStillChecked(gridsArray, turn, x, y, x-1, y+2) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x-1, y+2);
-					}
-					if(kingStillChecked(gridsArray, turn, x, y, x+1, y-2) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x+1, y-2);
-					}
-					if(kingStillChecked(gridsArray, turn, x, y, x-1, y-2) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x-1, y-2);
-					}
-					
-					if((x+2 == xEnemyCheck && y-1 == yEnemyCheck && gridsArray[x+2][y-1] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-							(x+2 == xEnemyCheck && y+1 == yEnemyCheck && gridsArray[x+2][y+1] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-							(x+1 == xEnemyCheck && y+2 == yEnemyCheck && gridsArray[x+1][y+2] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-							(x-1 == xEnemyCheck && y+2 == yEnemyCheck && gridsArray[x-1][y+2] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-							(x+1 == xEnemyCheck && y-2 == yEnemyCheck && gridsArray[x+1][y-2] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-							(x-1 == xEnemyCheck && y-2 == yEnemyCheck && gridsArray[x-1][y-2] == gridsArray[xEnemyCheck][yEnemyCheck])) return true;
-				}
-			}else if(x == 6)
-			{
-				if(y == 1)
-				{
-					if(kingStillChecked(gridsArray, turn, x, y, x+1, y+2) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x+1, y+2);
-					}
-					
-					if(kingStillChecked(gridsArray, turn, x, y, x-1, y+2) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x-1, y+2);
-					}
-					if(kingStillChecked(gridsArray, turn, x, y, x-2, y+1) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x-2, y+1);
-					}
-					if(kingStillChecked(gridsArray, turn, x, y, x-2, y-1) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x-2, y-1);
-					}
-					
-					if((x+1 == xEnemyCheck && y+2 == yEnemyCheck && gridsArray[x+1][y+2] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-							(x-1 == xEnemyCheck && y+2 == yEnemyCheck && gridsArray[x-1][y+2] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-							(x-2 == xEnemyCheck && y+1 == yEnemyCheck && gridsArray[x-2][y+1] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-							(x-2 == xEnemyCheck && y-1 == yEnemyCheck && gridsArray[x-2][y-1] == gridsArray[xEnemyCheck][yEnemyCheck])) return true;
-				}else if(y == 6)
-				{
-					if(kingStillChecked(gridsArray, turn, x, y, x+1, y-2) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x+1, y-2);
-					}
-					
-					if(kingStillChecked(gridsArray, turn, x, y, x-1, y-2) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x-1, y-2);
-					}
-					if(kingStillChecked(gridsArray, turn, x, y, x-2, y+1) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x-2, y+1);
-					}
-					if(kingStillChecked(gridsArray, turn, x, y, x-2, y-1) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x-2, y-1);
-					}
-					
-					if((x+1 == xEnemyCheck && y-2 == yEnemyCheck && gridsArray[x+1][y-2] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-							(x-1 == xEnemyCheck && y-2 == yEnemyCheck && gridsArray[x-1][y-2] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-							(x-2 == xEnemyCheck && y+1 == yEnemyCheck && gridsArray[x-2][y+1] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-							(x-2 == xEnemyCheck && y-1 == yEnemyCheck && gridsArray[x-2][y-1] == gridsArray[xEnemyCheck][yEnemyCheck])) return true;
-				}else
-				{
-					if(kingStillChecked(gridsArray, turn, x, y, x+1, y+2) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x+1, y+2);
-					}
-					
-					if(kingStillChecked(gridsArray, turn, x, y, x-1, y+2) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x-1, y+2);
-					}
-					if(kingStillChecked(gridsArray, turn, x, y, x-2, y+1) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x-2, y+1);
-					}
-					if(kingStillChecked(gridsArray, turn, x, y, x-2, y-1) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x-2, y-1);
-					}
-					if(kingStillChecked(gridsArray, turn, x, y, x+1, y-2) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x+1, y-2);
-					}
-					
-					if(kingStillChecked(gridsArray, turn, x, y, x-1, y-2) == false) return true;
-					else
-					{
-						returnGridsToNormal(gridsArray, x, y, x-1, y-2);
-					}
-					
-					if((x+1 == xEnemyCheck && y+2 == yEnemyCheck && gridsArray[x+1][y+2] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-							(x-1 == xEnemyCheck && y+2 == yEnemyCheck && gridsArray[x-1][y+2] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-							(x-2 == xEnemyCheck && y+1 == yEnemyCheck && gridsArray[x-2][y+1] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-							(x-2 == xEnemyCheck && y-1 == yEnemyCheck && gridsArray[x-2][y-1] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-							(x+1 == xEnemyCheck && y-2 == yEnemyCheck && gridsArray[x+1][y-2] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-							(x-1 == xEnemyCheck && y-2 == yEnemyCheck && gridsArray[x-1][y-2] == gridsArray[xEnemyCheck][yEnemyCheck])) return true;
-				}
-			}else if(y == 1)
-			{
-				if(kingStillChecked(gridsArray, turn, x, y, x-2, y+1) == false) return true;
-				else
-				{
-					returnGridsToNormal(gridsArray, x, y, x-2, y+1);
-				}
-				
-				if(kingStillChecked(gridsArray, turn, x, y, x-1, y+2) == false) return true;
-				else
-				{
-					returnGridsToNormal(gridsArray, x, y, x-1, y+2);
-				}
-				if(kingStillChecked(gridsArray, turn, x, y, x-2, y-1) == false) return true;
-				else
-				{
-					returnGridsToNormal(gridsArray, x, y, x-2, y-1);
-				}
-				if(kingStillChecked(gridsArray, turn, x, y, x+2, y-1) == false) return true;
-				else
-				{
-					returnGridsToNormal(gridsArray, x, y, x+2, y-1);
-				}
-				if(kingStillChecked(gridsArray, turn, x, y, x+2, y+1) == false) return true;
-				else
-				{
-					returnGridsToNormal(gridsArray, x, y, x+2, y+1);
-				}
-				
-				if(kingStillChecked(gridsArray, turn, x, y, x+1, y+2) == false) return true;
-				else
-				{
-					returnGridsToNormal(gridsArray, x, y, x+1, y+2);
-				}
-				
-				if((x-2 == xEnemyCheck && y+1 == yEnemyCheck && gridsArray[x-2][y+1] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-						(x-1 == xEnemyCheck && y+2 == yEnemyCheck && gridsArray[x-1][y+2] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-						(x-2 == xEnemyCheck && y-1 == yEnemyCheck && gridsArray[x-2][y-1] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-						(x+2 == xEnemyCheck && y-1 == yEnemyCheck && gridsArray[x+2][y-1] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-						(x+2 == xEnemyCheck && y+1 == yEnemyCheck && gridsArray[x+2][y+1] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-						(x+1 == xEnemyCheck && y+2 == yEnemyCheck && gridsArray[x+1][y+2] == gridsArray[xEnemyCheck][yEnemyCheck])) return true;
-			}else if(y == 6)
-			{
-				if(kingStillChecked(gridsArray, turn, x, y, x-2, y+1) == false) return true;
-				else
-				{
-					returnGridsToNormal(gridsArray, x, y, x-2, y+1);
-				}
-				
-				if(kingStillChecked(gridsArray, turn, x, y, x-2, y-1) == false) return true;
-				else
-				{
-					returnGridsToNormal(gridsArray, x, y, x-2, y-1);
-				}
-				if(kingStillChecked(gridsArray, turn, x, y, x-1, y-2) == false) return true;
-				else
-				{
-					returnGridsToNormal(gridsArray, x, y, x-1, y-2);
-				}
-				if(kingStillChecked(gridsArray, turn, x, y, x+2, y-1) == false) return true;
-				else
-				{
-					returnGridsToNormal(gridsArray, x, y, x+2, y-1);
-				}
-				if(kingStillChecked(gridsArray, turn, x, y, x+1, y-2) == false) return true;
-				else
-				{
-					returnGridsToNormal(gridsArray, x, y, x+1, y-2);
-				}
-				
-				if(kingStillChecked(gridsArray, turn, x, y, x+2, y+1) == false) return true;
-				else
-				{
-					returnGridsToNormal(gridsArray, x, y, x+2, y+1);
-				}
-				
-				if((x-2 == xEnemyCheck && y+1 == yEnemyCheck && gridsArray[x-2][y+1] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-						(x-2 == xEnemyCheck && y-1 == yEnemyCheck && gridsArray[x-2][y-1] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-						(x-1 == xEnemyCheck && y-2 == yEnemyCheck && gridsArray[x-1][y-2] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-						(x+2 == xEnemyCheck && y-1 == yEnemyCheck && gridsArray[x+2][y-1] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-						(x+1 == xEnemyCheck && y-2 == yEnemyCheck && gridsArray[x+1][y-2] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-						(x+2 == xEnemyCheck && y+1 == yEnemyCheck && gridsArray[x+2][y+1] == gridsArray[xEnemyCheck][yEnemyCheck])) return true;
-			}else
-			{
-				if(kingStillChecked(gridsArray, turn, x, y, x-2, y+1) == false) return true;
-				else
-				{
-					returnGridsToNormal(gridsArray, x, y, x-2, y+1);
-				}
-				
-				if(kingStillChecked(gridsArray, turn, x, y, x-1, y+2) == false) return true;
-				else
-				{
-					returnGridsToNormal(gridsArray, x, y, x-1, y+2);
-				}
-				if(kingStillChecked(gridsArray, turn, x, y, x-2, y-1) == false) return true;
-				else
-				{
-					returnGridsToNormal(gridsArray, x, y, x-2, y-1);
-				}
-				if(kingStillChecked(gridsArray, turn, x, y, x-1, y-2) == false) return true;
-				else
-				{
-					returnGridsToNormal(gridsArray, x, y, x-1, y-2);
-				}
-				if(kingStillChecked(gridsArray, turn, x, y, x+2, y-1) == false) return true;
-				else
-				{
-					returnGridsToNormal(gridsArray, x, y, x+2, y-1);
-				}
-				if(kingStillChecked(gridsArray, turn, x, y, x+1, y-2) == false) return true;
-				else
-				{
-					returnGridsToNormal(gridsArray, x, y, x+1, y-2);
-				}
-				if(kingStillChecked(gridsArray, turn, x, y, x+2, y+1) == false) return true;
-				else
-				{
-					returnGridsToNormal(gridsArray, x, y, x+2, y+1);
-				}
-				if(kingStillChecked(gridsArray, turn, x, y, x+1, y+2) == false) return true;
-				else
-				{
-					returnGridsToNormal(gridsArray, x, y, x+1, y+2);
-				}
-				
-				if((x-2 == xEnemyCheck && y+1 == yEnemyCheck && gridsArray[x-2][y+1] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-						(x-1 == xEnemyCheck && y+2 == yEnemyCheck && gridsArray[x-1][y+2] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-						(x-2 == xEnemyCheck && y-1 == yEnemyCheck && gridsArray[x-2][y-1] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-						(x-1 == xEnemyCheck && y-2 == yEnemyCheck && gridsArray[x-1][y-2] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-						(x+2 == xEnemyCheck && y-1 == yEnemyCheck && gridsArray[x+2][y-1] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-						(x+1 == xEnemyCheck && y-2 == yEnemyCheck && gridsArray[x+1][y-2] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-						(x+2 == xEnemyCheck && y+1 == yEnemyCheck && gridsArray[x+2][y+1] == gridsArray[xEnemyCheck][yEnemyCheck]) ||
-						(x+1 == xEnemyCheck && y+2 == yEnemyCheck && gridsArray[x+1][y+2] == gridsArray[xEnemyCheck][yEnemyCheck])) return true;
-			}
-			
+			}while(spin <= 8);
 			return false;
 		}
+		
+		return false;
+		
+	}
 }

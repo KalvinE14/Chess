@@ -19,14 +19,6 @@ import chess_rule.Stalemate;
 public class Board {
 	private int[][] grids;
 	
-	public int[][] getGrids() {
-		return grids;
-	}
-
-	public void setGrids(int[][] grids) {
-		this.grids = grids;
-	}
-
 	private int turn;
 	
 	private int checkBlack = 0;
@@ -60,43 +52,43 @@ public class Board {
 	int endIndicator;
 	
 	//============================
-	public int wPawn() {
-		return 1;
-	}
-	public int wRook() {
-		return 2;
-	}
-	public int wKnight() {
-		return 3;
-	}
-	public int wBishop() {
-		return 4;
-	}
-	public int wQueen() {
-		return 5;
-	}
-	public int wKing() {
-		return 6;
-	}
-	//============================
-	public int bPawn() {
-		return 7;
-	}
-	public int bRook() {
-		return 8;
-	}
-	public int bKnight() {
-		return 9;
-	}
-	public int bBishop() {
-		return 10;
-	}
-	public int bQueen() {
-		return 11;
-	}
-	public int bKing() {
-		return 12;
-	}
+//	public int wPawn() {
+//		return 1;
+//	}
+//	public int wRook() {
+//		return 2;
+//	}
+//	public int wKnight() {
+//		return 3;
+//	}
+//	public int wBishop() {
+//		return 4;
+//	}
+//	public int wQueen() {
+//		return 5;
+//	}
+//	public int wKing() {
+//		return 6;
+//	}
+//	//============================
+//	public int bPawn() {
+//		return 7;
+//	}
+//	public int bRook() {
+//		return 8;
+//	}
+//	public int bKnight() {
+//		return 9;
+//	}
+//	public int bBishop() {
+//		return 10;
+//	}
+//	public int bQueen() {
+//		return 11;
+//	}
+//	public int bKing() {
+//		return 12;
+//	}
 	//============================
 	
 	public Board() {		
@@ -216,8 +208,7 @@ public class Board {
 		}
 		// klo inputan pawn
 		if(grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] == 7 || grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] == 1) {
-			Pawn pawn = new Pawn();	
-			pawnMovement(input, pawn);
+			pawnMovement(grids, input, turn);
 		}
 		
 		//klo inputan rook
@@ -523,7 +514,8 @@ public class Board {
 		}
 	}
 	
-	public void pawnMovement(String input, Pawn pawn) {
+	public void pawnMovement(int grids[][], String input, int turn) {
+		Pawn pawn = new Pawn();
 		PawnPromotion promotion = new PawnPromotion();
 		EnPassant ep = new EnPassant();
 		
@@ -544,11 +536,6 @@ public class Board {
 				
 				if(isWhiteEnPassant)
 				{
-					System.out.println("Masuk");
-					System.out.println("Black Flag : " + blackEnPassant);
-					System.out.println("x position after moved : " + xBlackPositionAfterMoved + " = " + (8 - (input.charAt(1) - 48)) + " : x1");
-					System.out.println("y position after moved: " + yBlackPositionAfterMoved + " = " + (input.charAt(0) - 65) + " : y1");
-					
 					enPassantMove(input, turn, grids, checkBlack, checkWhite);
 				}
 			}else
@@ -585,10 +572,10 @@ public class Board {
 		}
 	}
 	
-	public void enPassantMove(String input, int turn, int grids[][], int checkBlack, int checkWhite)
+	public void enPassantMove(String input, int turns, int grids[][], int checkBlack, int checkWhite)
 	{
 		Checkmate cm = new Checkmate();
-		if(turn == 1)
+		if(turns == 1)
 		{
 			int temp = 0;
 			
@@ -599,23 +586,23 @@ public class Board {
 			
 			InvalidMove invalidMove = new InvalidMove();
 			
-			if(invalidMove.validateInvalidMove(grids, turn)) {
+			if(invalidMove.validateInvalidMove(grids, turns)) {
 				grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] = grids[8 - (input.charAt(4) - 48)][input.charAt(3) - 65];
 				grids[8 - (input.charAt(4) - 48)][input.charAt(3) - 65] = 0;
 				grids[8 - (input.charAt(4) - 48) + 1][input.charAt(3) - 65] = temp;
 				
 				System.out.println("");
-				checkSign(grids, turn);
+				checkSign(grids, turns);
 				System.out.println("");
 				System.out.println("!! please protect your king !!");
 				System.out.println("");
 			}
 			else {
 				System.out.println("");
-				checkSign(grids, turn);
+				checkSign(grids, turns);
 				if(checkBlack == 1)
 				{
-					if(cm.checkmate(grids, turn *= -1, 8 - (input.charAt(4) - 48), input.charAt(3) - 65)) {
+					if(cm.checkmate(grids, turns *= -1, 8 - (input.charAt(4) - 48), input.charAt(3) - 65)) {
 						//System.out.println("");
 						print(grids);
 						System.out.println("");
@@ -623,6 +610,7 @@ public class Board {
 						endIndicator = 1;
 					}
 					else {
+						turn *= -1;
 						System.out.println("Go!");
 					}
 				}
@@ -630,7 +618,7 @@ public class Board {
 				System.out.println("");
 				turn *= -1;
 			}	
-		}else if(turn == -1)
+		}else if(turns == -1)
 		{
 			int temp = 0;
 			
@@ -640,23 +628,23 @@ public class Board {
 			grids[8 - (input.charAt(4) - 48) - 1][input.charAt(3) - 65] = 0;
 			
 			InvalidMove invalidMove = new InvalidMove();
-			if(invalidMove.validateInvalidMove(grids, turn)) {
+			if(invalidMove.validateInvalidMove(grids, turns)) {
 				grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] = grids[8 - (input.charAt(4) - 48)][input.charAt(3) - 65];
 				grids[8 - (input.charAt(4) - 48)][input.charAt(3) - 65] = 0;
 				grids[8 - (input.charAt(4) - 48) - 1][input.charAt(3) - 65] = temp;
 				
 				System.out.println("");
-				checkSign(grids, turn);
+				checkSign(grids, turns);
 				System.out.println("");
 				System.out.println("!! please protect your king !!");
 				System.out.println("");
 			}
 			else {
 				System.out.println("");
-				checkSign(grids, turn);
+				checkSign(grids, turns);
 				if(checkWhite == 1)
 				{
-					if(cm.checkmate(grids, turn *= -1, 8 - (input.charAt(4) - 48), input.charAt(3) - 65)) {
+					if(cm.checkmate(grids, turns *= -1, 8 - (input.charAt(4) - 48), input.charAt(3) - 65)) {
 						//System.out.println("");
 						print(grids);
 						System.out.println("");
@@ -664,6 +652,7 @@ public class Board {
 						endIndicator = 1;
 					}
 					else {
+						turn *= -1;
 						System.out.println("Go!");
 					}
 				}
@@ -719,6 +708,7 @@ public class Board {
 					endIndicator = 1;
 				}
 				else {
+					turn *= -1;
 					System.out.println("Go!");
 				}
 			}else if(turns == -1 && checkWhite == 1)
@@ -731,12 +721,13 @@ public class Board {
 					endIndicator = 1;
 				}
 				else {
+					turn *= -1;
 					System.out.println("Go!");
 				}
 			}else
 			{
 				System.out.println("");
-				turn *= -1;
+				turn = turns * -1;
 			}		
 		}	
 	}
