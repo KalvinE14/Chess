@@ -12,5 +12,5 @@
 - [x] pawn promotion
 - [x] checkmate
 - [x] draw on stalemate position
-- [x] unit tests: test coverage min. 90%
-- [ ] reduce code smells
+- [x] unit tests: test coverage min. 90% (pada class PawnPromotionUnitTest dan class BoardUnitTest diperlukan input pada saat testing, input yang harus dimasukkan sudah dicantumkan pada console pada saat menjalankan unit test tersebut)
+- [x] reduce code smells
