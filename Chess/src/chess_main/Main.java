@@ -4,7 +4,7 @@ import chess_board.Board;
 
 public class Main {
 
-	public Main() {
+	public Main() throws Exception {
 		Board board = new Board();
 		int endIndicator;
 		
@@ -15,7 +15,7 @@ public class Main {
 		
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		new Main();
 	}
 

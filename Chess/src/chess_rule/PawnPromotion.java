@@ -5,12 +5,12 @@ import java.util.Scanner;
 public class PawnPromotion {
 	Scanner scan = new Scanner(System.in);
 	public void pawnPromotion(int[][] gridsArray,int turn, int x, int y) {
-		if(turn == 1) {
+		if(turnWhite(turn)) {
 			if(x == 0) {
 				gridsArray[x][y] = choosePiece(turn);
 			}
 		}
-		else if(turn == -1) {
+		else if(turnBlack(turn)) {
 			if(x == 7) {
 				gridsArray[x][y] = choosePiece(turn);
 			}
@@ -29,7 +29,7 @@ public class PawnPromotion {
 			System.out.println();
 		} while(piece < 1 || piece > 4);
 		
-		if(turn == 1) {
+		if(turnWhite(turn)) {
 			switch (piece) {
 			case 1:
 				return 4;
@@ -41,7 +41,7 @@ public class PawnPromotion {
 				return 5;
 			}	
 		}	
-		else if(turn == -1) {
+		else if(turnBlack(turn)) {
 			switch (piece) {
 			case 1:
 				return 10;
@@ -54,5 +54,13 @@ public class PawnPromotion {
 			}
 		}
 		return 0;
+	}
+
+	private boolean turnBlack(int turn) {
+		return turn == -1;
+	}
+
+	private boolean turnWhite(int turn) {
+		return turn == 1;
 	}
 }

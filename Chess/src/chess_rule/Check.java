@@ -3,9 +3,8 @@ package chess_rule;
 public class Check {
 
 	public boolean validateRookPath(int turn, int gridsArray[][], int x, int y) {
-		// cek ke atas
 		for (int i = x - 1; i >= 0 ; i--) {
-			if(turn == 1) {
+			if(turnWhite(turn)) {
 				if(gridsArray[i][y] >= 7 && gridsArray[i][y] <= 12) {
 					if(gridsArray[i][y] != 0 && gridsArray[i][y] == 12) {
 						return true;
@@ -16,7 +15,7 @@ public class Check {
 				}	
 				else if(gridsArray[i][y] >= 1 && gridsArray[i][y] <= 6) break;
 			}
-			else if(turn == -1) {
+			else if(turnBlack(turn)) {
 				if(gridsArray[i][y] >= 1 && gridsArray[i][y] <= 6) {
 					if(gridsArray[i][y] != 0 && gridsArray[i][y] == 6) {
 						return true;
@@ -29,9 +28,8 @@ public class Check {
 			} 
 		}
 		
-		// cek ke bawah
 		for (int i = x + 1; i <= 7 ; i++) {
-			if(turn == 1) {
+			if(turnWhite(turn)) {
 				if(gridsArray[i][y] >= 7 && gridsArray[i][y] <= 12) {
 					if(gridsArray[i][y] != 0 && gridsArray[i][y] == 12) {
 						return true;
@@ -42,7 +40,7 @@ public class Check {
 				}
 				else if(gridsArray[i][y] >= 1 && gridsArray[i][y] <= 6) break;
 			}
-			else if(turn == -1) {
+			else if(turnBlack(turn)) {
 				if(gridsArray[i][y] >= 1 && gridsArray[i][y] <= 6) {
 					if(gridsArray[i][y] != 0 && gridsArray[i][y] == 6) { 
 						return true;
@@ -55,9 +53,8 @@ public class Check {
 			}
 		}
 		
-		// cek ke kanan
 		for (int i = y + 1; i <= 7 ; i++) {
-			if(turn == 1) {
+			if(turnWhite(turn)) {
 				if(gridsArray[x][i] >= 7 && gridsArray[x][i] <= 12) {
 					if(gridsArray[x][i] != 0 && gridsArray[x][i] == 12) {
 						return true;
@@ -68,7 +65,7 @@ public class Check {
 				}
 				else if(gridsArray[x][i] >= 1 && gridsArray[x][i] <= 6) break;
 			}
-			else if(turn == -1) {
+			else if(turnBlack(turn)) {
 				if(gridsArray[x][i] >= 1 && gridsArray[x][i] <= 6) {
 					if(gridsArray[x][i] != 0 && gridsArray[x][i] == 6) {
 						return true;
@@ -81,9 +78,8 @@ public class Check {
 			}
 		}
 		
-		//cek ke kiri
 		for (int i = y - 1; i >= 0 ; i--) {
-			if(turn == 1) {
+			if(turnWhite(turn)) {
 				if(gridsArray[x][i] >= 7 && gridsArray[x][i] <= 12) {
 					if(gridsArray[x][i] != 0 && gridsArray[x][i] == 12) {
 						return true;
@@ -94,7 +90,7 @@ public class Check {
 				}
 				else if(gridsArray[x][i] >= 1 && gridsArray[x][i] <= 6) break;
 			}
-			else if(turn == -1) {
+			else if(turnBlack(turn)) {
 				if(gridsArray[x][i] >= 1 && gridsArray[x][i] <= 6) {
 					if(gridsArray[x][i] != 0 && gridsArray[x][i] == 6) {
 						return true;
@@ -110,16 +106,15 @@ public class Check {
 	}
 
 	public boolean validateBishopPath(int turn, int gridsArray[][], int x, int y) {
-		// cek kanan atas
 		for(int i = x-1, j = y+1; i >= 0; i--, j++) {
 			if(j <= 7 && i >= 0) {
-				if(turn == 1) {
+				if(turnWhite(turn)) {
 					if(gridsArray[i][j] == 12) {
 						return true;				
 					}
 					else if(gridsArray[i][j] != 0 && gridsArray[i][j] != 12) break;
 				}
-				else if(turn == -1) {
+				else if(turnBlack(turn)) {
 					if(gridsArray[i][j] == 6) {
 						return true;				
 					}
@@ -129,16 +124,15 @@ public class Check {
 			}		
 		}
 		
-		// cek kiri atas
 		for(int i = x-1, j = y-1; i >= 0; i--, j--) {
 			if(j >= 0 && i >= 0) {
-				if(turn == 1) {
+				if(turnWhite(turn)) {
 					if(gridsArray[i][j] == 12) {
 						return true;				
 					}
 					else if(gridsArray[i][j] != 0 && gridsArray[i][j] != 12) break;
 				}
-				else if(turn == -1) {
+				else if(turnBlack(turn)) {
 					if(gridsArray[i][j] == 6) {
 						return true;				
 					}
@@ -148,16 +142,15 @@ public class Check {
 			}		
 		}
 		
-		// cek kiri bawah
 		for(int i = x+1, j = y-1; i <= 7; i++, j--) {
 			if(j >= 0 && i <= 7) {
-				if(turn == 1) {
+				if(turnWhite(turn)) {
 					if(gridsArray[i][j] == 12) {
 						return true;				
 					}
 					else if(gridsArray[i][j] != 0 && gridsArray[i][j] != 12) break;
 				}
-				else if(turn == -1) {
+				else if(turnBlack(turn)) {
 					if(gridsArray[i][j] == 6) {
 						return true;				
 					}
@@ -167,16 +160,15 @@ public class Check {
 			}			
 		}
 		
-		// cek kanan bawah
 		for(int i = x+1, j = y+1; i <= 7; i++, j++) {
 			if(i <= 7 && j <= 7) {
-				if(turn == 1) {
+				if(turnWhite(turn)) {
 					if(gridsArray[i][j] == 12) {
 						return true;				
 					}
 					else if(gridsArray[i][j] != 0 && gridsArray[i][j] != 12) break;
 				}
-				else if(turn == -1) {
+				else if(turnBlack(turn)) {
 					if(gridsArray[i][j] == 6) {
 						return true;				
 					}
@@ -189,11 +181,11 @@ public class Check {
 	}
 	
 	public boolean validateQueenPath(int turn, int gridsArray[][], int x, int y) {
-		if(turn == 1) {
+		if(turnWhite(turn)) {
 			if(validateRookPath(turn, gridsArray, x, y) == true) return true;
 			if(validateBishopPath(turn, gridsArray, x, y) == true) return true;
 		}
-		else if(turn == -1) {
+		else if(turnBlack(turn)) {
 			if(validateRookPath(turn, gridsArray, x, y) == true) return true;
 			if(validateBishopPath(turn, gridsArray, x, y) == true) return true;
 		}
@@ -201,7 +193,7 @@ public class Check {
 	}
 	
 	public boolean validateKingPath(int turn, int gridsArray[][], int x, int y) {
-		if(turn == 1) {
+		if(turnWhite(turn)) {
 			if(x-1 >= 0) {
 				if(gridsArray[x-1][y] == 12) return true;
 			}
@@ -227,7 +219,7 @@ public class Check {
 				if(gridsArray[x+1][y+1] == 12) return true;
 			}
 		}
-		else if(turn == -1) {
+		else if(turnBlack(turn)) {
 			if(x-1 >= 0) {
 				if(gridsArray[x-1][y] == 6) return true;
 			}
@@ -257,7 +249,7 @@ public class Check {
 	}
 	
 	public boolean validatePawnPath(int turn, int gridsArray[][], int x, int y) {
-		if(turn == 1) {
+		if(turnWhite(turn)) {
 			if(x-1 >= 0 && y-1 >= 0) {
 				if(gridsArray[x-1][y-1] == 12) return true;
 			}
@@ -265,7 +257,7 @@ public class Check {
 				if(gridsArray[x-1][y+1] == 12) return true;
 			}
 		}
-		else if(turn == -1) {
+		else if(turnBlack(turn)) {
 			if(x+1 <= 7 && y+1 <= 7) {
 				if(gridsArray[x+1][y+1] == 6) return true;
 			}
@@ -275,9 +267,13 @@ public class Check {
 		}
 		return false;
 	}
+
+	private boolean turnBlack(int turn) {
+		return turn == -1;
+	}
 	
 	public boolean validateKnightPath(int turn, int gridsArray[][], int x, int y) {
-		if(turn == 1) {
+		if(turnWhite(turn)) {
 			int spin = 0;
 			do
 			{	
@@ -285,7 +281,7 @@ public class Check {
 				int tempX = 0;
 				int tempY = 0;
 				
-				if(spin == 1)
+				if(turnWhite(spin))
 				{
 					tempX = x-1;
 					tempY = y-2;
@@ -345,7 +341,7 @@ public class Check {
 				
 			}while(spin <= 8);
 			return false;
-		}else if(turn == -1) {
+		}else if(turnBlack(turn)) {
 			int spin = 0;
 			do
 			{	
@@ -353,7 +349,7 @@ public class Check {
 				int tempX = 0;
 				int tempY = 0;
 				
-				if(spin == 1)
+				if(turnWhite(spin))
 				{
 					tempX = x-1;
 					tempY = y-2;
@@ -417,11 +413,15 @@ public class Check {
 		
 		return false;
 	}
+
+	private boolean turnWhite(int turn) {
+		return turn == 1;
+	}
 	
 	public boolean validateCheck(int gridsArray[][], int turn) {
 		for(int i = 0; i <= 7; i++) {
 			for(int j = 0; j <= 7; j++) {
-				if(turn == 1) {
+				if(turnWhite(turn)) {
 					if(gridsArray[i][j] == 1) {
 						if(validatePawnPath(turn, gridsArray, i, j)) return true;
 					}
@@ -441,7 +441,7 @@ public class Check {
 						if(validateKingPath(turn, gridsArray, i,j)) return true;
 					}					
 				}
-				else if(turn == -1) {
+				else if(turnBlack(turn)) {
 					if(gridsArray[i][j] == 7) {
 						if(validatePawnPath(turn, gridsArray, i,j)) return true;
 					}

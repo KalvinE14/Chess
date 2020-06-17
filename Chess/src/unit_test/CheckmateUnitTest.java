@@ -535,7 +535,6 @@ class CheckmateUnitTest {
 		assert(!cm.canKingSaveHimself(1, grids, 0, 7, 1, 6));
 	}
 	
-	//yang 2 langkah(blom pernah jalan)
 	@Test
 	void testWhitePawnSaveKing() {
 		int[][] grids = new int[8][8];

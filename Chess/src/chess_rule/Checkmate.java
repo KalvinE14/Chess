@@ -13,13 +13,13 @@ public class Checkmate {
 	{
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
-				if(turn == 1)
+				if(turnWhite(turn))
 				{
 					if(gridsArray[i][j] == 6)
 					{
 						return i;
 					}
-				}else if(turn == -1)
+				}else if(turnBlack(turn))
 				{
 					if(gridsArray[i][j] == 12)
 					{
@@ -35,13 +35,13 @@ public class Checkmate {
 	{
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
-				if(turn == 1)
+				if(turnWhite(turn))
 				{
 					if(gridsArray[i][j] == 6)
 					{
 						return j;
 					}
-				}else if(turn == -1)
+				}else if(turnBlack(turn))
 				{
 					if(gridsArray[i][j] == 12)
 					{
@@ -60,7 +60,6 @@ public class Checkmate {
 		int checkCounter = 0;
 		InvalidMove im = new InvalidMove();
 		
-		//atas
 		if(xKing-1 >= 0) {
 			if(gridsArray[xKing-1][yKing] == 0) {
 				moveKing(gridsArray, xKing, yKing, xKing-1, yKing);
@@ -75,7 +74,6 @@ public class Checkmate {
 			checkCounter++;
 		}
 		
-		//bawah
 		if(xKing+1 <= 7) {
 			if(gridsArray[xKing+1][yKing] == 0) {
 				moveKing(gridsArray, xKing, yKing, xKing+1, yKing);
@@ -89,8 +87,7 @@ public class Checkmate {
 		else {
 			checkCounter++;
 		}
-			
-		//kiri
+		
 		if(yKing-1 >= 0) {
 			if(gridsArray[xKing][yKing-1] == 0) {
 				moveKing(gridsArray, xKing, yKing, xKing, yKing-1);
@@ -104,8 +101,7 @@ public class Checkmate {
 		else {
 			checkCounter++;
 		}
-			
-		//kanan
+		
 		if(yKing+1 <= 7) {
 			if(gridsArray[xKing][yKing+1] == 0) {
 				moveKing(gridsArray, xKing, yKing, xKing, yKing+1);
@@ -119,8 +115,7 @@ public class Checkmate {
 		else {
 			checkCounter++;
 		}
-			
-		//kanan atas
+		
 		if(xKing-1 >= 0 && yKing+1 <= 7) {
 			if(gridsArray[xKing-1][yKing+1] == 0) {
 				moveKing(gridsArray, xKing, yKing, xKing-1, yKing+1);
@@ -135,7 +130,6 @@ public class Checkmate {
 			checkCounter++;
 		}
 		
-		//kiri atas
 		if(xKing-1 >= 0 && yKing-1 >= 0) {
 			if(gridsArray[xKing-1][yKing-1] == 0) {
 				moveKing(gridsArray, xKing, yKing, xKing-1, yKing-1);
@@ -150,7 +144,6 @@ public class Checkmate {
 			checkCounter++;
 		}
 		
-		//kiri bawah
 		if(xKing+1 <= 7 && yKing-1 >= 0) {
 			if(gridsArray[xKing+1][yKing-1] == 0) {
 				moveKing(gridsArray, xKing, yKing, xKing+1, yKing-1);
@@ -165,7 +158,6 @@ public class Checkmate {
 			checkCounter++;
 		}
 		
-		//kanan bawah
 		if(xKing+1 <= 7 && yKing+1 <= 7) {
 			if(gridsArray[xKing+1][yKing+1] == 0) {
 				moveKing(gridsArray, xKing, yKing, xKing+1, yKing+1);
@@ -191,7 +183,7 @@ public class Checkmate {
 			
 			for(int i = 0; i < 8; i++) {
 				for(int j = 0; j < 8; j++) {					
-					if(turn == 1) {
+					if(turnWhite(turn)) {
 						if(gridsArray[i][j] == 1) {
 							if(canPawnSaveKing(turn, gridsArray, i, j, xEnemyCheck, yEnemyCheck) == true) return false;
 						}
@@ -211,7 +203,7 @@ public class Checkmate {
 							if(canKingSaveHimself(turn, gridsArray, i, j, xEnemyCheck, yEnemyCheck) == true) return false;
 						}
 						
-					}else if(turn == -1)
+					}else if(turnBlack(turn))
 					{
 						if(gridsArray[i][j] == 7) {
 							if(canPawnSaveKing(turn, gridsArray, i, j, xEnemyCheck, yEnemyCheck) == true) return false;
@@ -369,13 +361,10 @@ public class Checkmate {
 	}
 	
 	public boolean canRookSaveKing(int turn, int gridsArray[][], int x, int y, int xEnemyCheck, int yEnemyCheck) {		
-		
-		// cek ke atas
 		for (int i = x - 1; i >= 0 ; i--) {
-			if(turn == 1) {
+			if(turnWhite(turn)) {
 				if(gridsArray[i][y] >= 1 && gridsArray[i][y] <= 6) break;
 				
-				//halangin jalan yg ngeskak & makan yg skak
 				if(kingStillChecked(gridsArray, turn, x, y, i, y) == false) 
 				{
 					returnGridsToNormal(gridsArray, x, y, i, y);
@@ -386,7 +375,7 @@ public class Checkmate {
 					returnGridsToNormal(gridsArray, x, y, i, y);
 				}
 			}
-			else if(turn == -1) {
+			else if(turnBlack(turn)) {
 				if(gridsArray[i][y] >= 7 && gridsArray[i][y] <= 12) break;
 				
 				if(kingStillChecked(gridsArray, turn, x, y, i, y) == false) 
@@ -401,9 +390,8 @@ public class Checkmate {
 			}
 		}
 		
-		// cek ke bawah
 		for (int i = x + 1; i <= 7 ; i++) {
-			if(turn == 1) {
+			if(turnWhite(turn)) {
 				if(gridsArray[i][y] >= 1 && gridsArray[i][y] <= 6) break;
 				
 				if(kingStillChecked(gridsArray, turn, x, y, i, y) == false) 
@@ -416,7 +404,7 @@ public class Checkmate {
 					returnGridsToNormal(gridsArray, x, y, i, y);
 				}
 			}
-			else if(turn == -1) {
+			else if(turnBlack(turn)) {
 				if(gridsArray[i][y] >= 7 && gridsArray[i][y] <= 12) break;
 				
 				if(kingStillChecked(gridsArray, turn, x, y, i, y) == false) 
@@ -431,9 +419,8 @@ public class Checkmate {
 			}
 		}
 		
-		// cek ke kanan
 		for (int i = y + 1; i <= 7 ; i++) {
-			if(turn == 1) {
+			if(turnWhite(turn)) {
 				if(gridsArray[x][i] >= 1 && gridsArray[x][i] <= 6) break;
 				
 				if(kingStillChecked(gridsArray, turn, x, y, x, i) == false)
@@ -446,7 +433,7 @@ public class Checkmate {
 					returnGridsToNormal(gridsArray, x, y, x, i);
 				}
 			}
-			else if(turn == -1) {
+			else if(turnBlack(turn)) {
 				if(gridsArray[x][i] >= 7 && gridsArray[x][i] <= 12) break;
 				
 				if(kingStillChecked(gridsArray, turn, x, y, x, i) == false) 
@@ -461,9 +448,8 @@ public class Checkmate {
 			}
 		}
 		
-		//cek ke kiri
 		for (int i = y - 1; i >= 0 ; i--) {
-			if(turn == 1) {
+			if(turnWhite(turn)) {
 				if(gridsArray[x][i] >= 1 && gridsArray[x][i] <= 6) break;
 				
 				if(kingStillChecked(gridsArray, turn, x, y, x, i) == false) 
@@ -476,7 +462,7 @@ public class Checkmate {
 					returnGridsToNormal(gridsArray, x, y, x, i);
 				}
 			}
-			else if(turn == -1) {
+			else if(turnBlack(turn)) {
 				if(gridsArray[x][i] >= 7 && gridsArray[x][i] <= 12) break;
 				
 				if(kingStillChecked(gridsArray, turn, x, y, x, i) == false) 
@@ -494,10 +480,9 @@ public class Checkmate {
 	}
 
 	public boolean canBishopSaveKing(int turn, int gridsArray[][], int x, int y, int xEnemyCheck, int yEnemyCheck) {
-		// cek kanan atas
 		for(int i = x-1, j = y+1; i >= 0; i--, j++) {
 			if(j <= 7 && i >= 0) {
-				if(turn == 1)
+				if(turnWhite(turn))
 				{
 					if(gridsArray[i][j] >= 1 && gridsArray[i][j] <= 6) break;
 					
@@ -512,7 +497,7 @@ public class Checkmate {
 					}
 					
 					if(i == 0 || j == 7) break;
-				}else if(turn == -1)
+				}else if(turnBlack(turn))
 				{
 					if(gridsArray[i][j] >= 7 && gridsArray[i][j] <= 12) break;
 					
@@ -532,10 +517,9 @@ public class Checkmate {
 			}		
 		}
 		
-		// cek kiri atas
 		for(int i = x-1, j = y-1; i >= 0; i--, j--) {
 			if(j >= 0 && i >= 0) {
-				if(turn == 1)
+				if(turnWhite(turn))
 				{
 					if(gridsArray[i][j] >= 1 && gridsArray[i][j] <= 6) break;
 					
@@ -550,7 +534,7 @@ public class Checkmate {
 					}
 					
 					if(i == 0 || j == 0) break;
-				}else if(turn == -1)
+				}else if(turnBlack(turn))
 				{
 					if(gridsArray[i][j] >= 7 && gridsArray[i][j] <= 12) break;
 					
@@ -570,10 +554,9 @@ public class Checkmate {
 			}		
 		}
 		
-		// cek kiri bawah
 		for(int i = x+1, j = y-1; i <= 7; i++, j--) {
 			if(j >= 0 && i <= 7) {
-				if(turn == 1)
+				if(turnWhite(turn))
 				{
 					if(gridsArray[i][j] >= 1 && gridsArray[i][j] <= 6) break;
 					
@@ -588,7 +571,7 @@ public class Checkmate {
 					}
 					
 					if(i == 7 || j == 0) break;
-				}else if(turn == -1)
+				}else if(turnBlack(turn))
 				{
 					if(gridsArray[i][j] >= 7 && gridsArray[i][j] <= 12) break;
 					
@@ -608,10 +591,9 @@ public class Checkmate {
 			}			
 		}
 		
-		// cek kanan bawah
 		for(int i = x+1, j = y+1; i <= 7; i++, j++) {
 			if(i <= 7 && j <= 7) {
-				if(turn == 1)
+				if(turnWhite(turn))
 				{
 					if(gridsArray[i][j] >= 1 && gridsArray[i][j] <= 6) break;
 					
@@ -626,7 +608,7 @@ public class Checkmate {
 					}
 					
 					if(i == 7 || j == 7) break;
-				}else if(turn == -1)
+				}else if(turnBlack(turn))
 				{
 					if(gridsArray[i][j] >= 7 && gridsArray[i][j] <= 12) break;
 					
@@ -647,13 +629,21 @@ public class Checkmate {
 		}
 		return false;
 	}
+
+	private boolean turnBlack(int turn) {
+		return turn == -1;
+	}
+
+	private boolean turnWhite(int turn) {
+		return turn == 1;
+	}
 	
 	public boolean canQueenSaveKing(int turn, int gridsArray[][], int x, int y, int xEnemyCheck, int yEnemyCheck) {
-		if(turn == 1) {
+		if(turnWhite(turn)) {
 			if(canRookSaveKing(turn, gridsArray, x, y, xEnemyCheck, yEnemyCheck) == true) return true;
 			if(canBishopSaveKing(turn, gridsArray, x, y, xEnemyCheck, yEnemyCheck) == true) return true;
 		}
-		else if(turn == -1) {
+		else if(turnBlack(turn)) {
 			if(canRookSaveKing(turn, gridsArray, x, y, xEnemyCheck, yEnemyCheck) == true) return true;
 			if(canBishopSaveKing(turn, gridsArray, x, y, xEnemyCheck, yEnemyCheck) == true) return true;
 		}
@@ -661,7 +651,7 @@ public class Checkmate {
 	}
 	
 	public boolean canPawnSaveKing(int turn, int gridsArray[][], int x, int y, int xEnemyCheck, int yEnemyCheck) {
-		if(turn == 1) {
+		if(turnWhite(turn)) {
 			if(x-1 >= 0 && y-1 >= 0) {
 				if(gridsArray[x-1][y-1] >= 7 && gridsArray[x-1][y-1] <= 12)
 				{
@@ -704,7 +694,7 @@ public class Checkmate {
 				}
 			}
 		}
-		else if(turn == -1) {
+		else if(turnBlack(turn)) {
 			if(x+1 <= 7 && y+1 <= 7) {
 				if(gridsArray[x+1][y+1] >= 1 && gridsArray[x+1][y+1] <= 6)
 				{
@@ -731,7 +721,7 @@ public class Checkmate {
 						returnGridsToNormal(gridsArray, x, y, x+1, y);
 					}
 				}
-				if(x == 1) {
+				if(turnWhite(x)) {
 					if(gridsArray[x+2][y] == 0) {
 						if(kingStillChecked(gridsArray, turn, x, y, x+2, y) == false) 
 						{
@@ -751,7 +741,7 @@ public class Checkmate {
 	}
 	
 	public boolean canKnightSaveKing(int turn, int gridsArray[][], int x, int y, int xEnemyCheck, int yEnemyCheck) {
-		if(turn == 1) {
+		if(turnWhite(turn)) {
 			int spin = 0;
 			do
 			{	
@@ -759,7 +749,7 @@ public class Checkmate {
 				int tempX = 0;
 				int tempY = 0;
 				
-				if(spin == 1)
+				if(turnWhite(spin))
 				{
 					tempX = x-1;
 					tempY = y-2;
@@ -899,7 +889,7 @@ public class Checkmate {
 				
 			}while(spin <= 8);
 			return false;
-		}else if(turn == -1) {
+		}else if(turnBlack(turn)) {
 			int spin = 0;
 			do
 			{	
@@ -907,7 +897,7 @@ public class Checkmate {
 				int tempX = 0;
 				int tempY = 0;
 				
-				if(spin == 1)
+				if(turnWhite(spin))
 				{
 					tempX = x-1;
 					tempY = y-2;

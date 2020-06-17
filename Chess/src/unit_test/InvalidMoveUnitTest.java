@@ -12,7 +12,7 @@ class InvalidMoveUnitTest {
 	
 	@Test
 	public void testInvalidMove() {
-int[][] grids = new int[8][8];
+		int[][] grids = new int[8][8];
 		
 		grids[3][4] = 1;
 		grids[2][3] = 12;

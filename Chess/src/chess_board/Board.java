@@ -51,65 +51,21 @@ public class Board {
 	
 	int endIndicator;
 	
-	//============================
-//	public int wPawn() {
-//		return 1;
-//	}
-//	public int wRook() {
-//		return 2;
-//	}
-//	public int wKnight() {
-//		return 3;
-//	}
-//	public int wBishop() {
-//		return 4;
-//	}
-//	public int wQueen() {
-//		return 5;
-//	}
-//	public int wKing() {
-//		return 6;
-//	}
-//	//============================
-//	public int bPawn() {
-//		return 7;
-//	}
-//	public int bRook() {
-//		return 8;
-//	}
-//	public int bKnight() {
-//		return 9;
-//	}
-//	public int bBishop() {
-//		return 10;
-//	}
-//	public int bQueen() {
-//		return 11;
-//	}
-//	public int bKing() {
-//		return 12;
-//	}
-	//============================
-	
 	public Board() {		
 		grids = new int[8][8];
 		turn = 1;
 		endIndicator = 0;
-		//ini buat pion
 		for (int i = 0; i < 8; i++) {
 			grids[6][i] = 1;
 			grids[1][i] = 7;
 		}
-		//ini buat piece lain
 		int decrement = 1;
 		int increment = 5;
 		for (int i = 0; i < 8; i++) {	
-			//buat dari r/R sampe k/K
 			if(i < 5) {
 				grids[7][i] = i + 2;
 				grids[0][i] = i + 8;
 			}
-			//buat b/B sampe r/R
 			else {
 				grids[7][i] = i - decrement;
 				grids[0][i] = i + increment;
@@ -117,47 +73,14 @@ public class Board {
 				increment -= 2;
 			}
 		}
-//		grids[2][0] = bKing();
-//		grids[2][1] = wQueen();
-//		grids[2][3] = wKing();
-//		
-//		grids[2][0] = bKing();
-//		grids[7][1] = wQueen();
-//		grids[2][2] = wKing();
-		
-//		grids[0][0] = bKing();
-//		grids[1][0] = wPawn();
-//		grids[2][0] = wKing();
-//		grids[3][0] = wQueen();
-//		grids[1][3] = wBishop();
-//		grids[2][3] = wKnight();
-//		grids[6][0] = bPawn();
-//		grids[5][1] = bPawn();
-//		grids[6][2] = bPawn();
-//		grids[5][3] = bPawn();
-//		grids[6][4] = bPawn();
-//		grids[5][5] = bPawn();
-//		grids[6][6] = bPawn();
-//		grids[5][7] = bPawn();
-//		grids[7][0] = wRook();
-//		grids[6][1] = wPawn();
-//		grids[7][2] = wBishop();
-//		grids[6][3] = wPawn();
-//		grids[7][4] = wKnight();
-//		grids[6][5] = wPawn();
-//		grids[7][6] = wRook();
-//		grids[6][7] = wPawn();
-//		
-//		grids[0][0] = bKing();
-//		grids[3][1] = wKing();
-//		grids[1][0] = wPawn();
 	}
 	
 	Scanner scan = new Scanner(System.in);
 
 	String input = null;
-	public void doTurn() {
-		print(grids);
+	public void doTurn() throws Exception {
+		PrintBoard pb = new PrintBoard();
+		pb.print(grids);
 		System.out.println();
 		
 		
@@ -168,21 +91,14 @@ public class Board {
 			do{ 
 				System.out.println("==========================");
 				System.out.print("white move: ");
-				input = scan.nextLine();
+				try {
+					input = scan.nextLine();
+				} catch (Exception e) {
+					throw new Exception("please input a valid format !");
+				}
 				System.out.println("==========================");
 				
-			} while(input.length() != 5 || 
-					!(input.charAt(0) >= 'A' && 
-					input.charAt(0) <= 'H') ||
-					!(input.charAt(1) >= '1' &&
-					input.charAt(1) <= '8') ||
-					(input.charAt(2) != '-') ||
-					!(input.charAt(3) >= 'A' && 
-					input.charAt(3) <= 'H') ||
-					!(input.charAt(4) >= '1' &&
-					input.charAt(4) <= '8') ||
-					!(grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] <= 6 &&
-					grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] >= 1));
+			} while(whiteInputValidation());
 		}
 		else if(turn == -1) {
 			blackEnPassant = false;
@@ -191,66 +107,53 @@ public class Board {
 			do {
 				System.out.println("==========================");
 				System.out.print("black move: ");
-				input = scan.nextLine();
+				try {
+					input = scan.nextLine();
+				} catch (Exception e) {
+					throw new Exception("please input a valid format !");
+				}
 				System.out.println("==========================");
-			} while(input.length() != 5 || 
-					!(input.charAt(0) >= 'A' && 
-					input.charAt(0) <= 'H') ||
-					!(input.charAt(1) >= '1' &&
-					input.charAt(1) <= '8') ||
-					(input.charAt(2) != '-') ||
-					!(input.charAt(3) >= 'A' && 
-					input.charAt(3) <= 'H') ||
-					!(input.charAt(4) >= '1' &&
-					input.charAt(4) <= '8') ||
-					!(grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] >= 7 &&
-					grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] <= 12));
+			} while(blackInputValidation());
 		}
-		// klo inputan pawn
-		if(grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] == 7 || grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] == 1) {
+		if(grids[getX1()][getY1()] == 7 || grids[getX1()][getY1()] == 1) {
 			pawnMovement(grids, input, turn);
 		}
 		
-		//klo inputan rook
-		else if(grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] == 8 || grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] == 2) {
+		else if(grids[getX1()][getY1()] == 8 || grids[getX1()][getY1()] == 2) {
 			Rook rook = new Rook();
-			if(rook.validateMovement(grids, (8 - (input.charAt(1) - 48)), (input.charAt(0) - 65), (8 - (input.charAt(4) - 48)), (input.charAt(3) - 65))) {
+			if(rook.validateMovement(grids, getX1(), getY1(), getX2(), getY2())) {
 				validMovement(grids, input, turn);
 				rookHasMoved( input,  turn,  moveRookLeftWhite,  moveRookRightWhite,  moveRookLeftBlack,  moveRookRightBlack);
 			}
 		}
 		
-		//klo inputan bishop
-		else if(grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] == 10 || grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] == 4) {
+		else if(grids[getX1()][getY1()] == 10 || grids[getX1()][getY1()] == 4) {
 			Bishop bishop = new Bishop();
-			if(bishop.validateMovement(grids, (8 - (input.charAt(1) - 48)), (input.charAt(0) - 65), (8 - (input.charAt(4) - 48)), (input.charAt(3) - 65))) {
+			if(bishop.validateMovement(grids, getX1(), getY1(), getX2(), getY2())) {
 				validMovement(grids, input, turn);
 			}
 		}
 		
-		//kalo inputannya knight
-		else if(grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] == 3  || grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] == 9 )
+		else if(grids[getX1()][getY1()] == 3  || grids[getX1()][getY1()] == 9 )
 		{
 			Knight knight = new Knight();
-			if(knight.validateMovement(grids, (8 - (input.charAt(1) - 48)), (input.charAt(0) - 65), (8 - (input.charAt(4) - 48)), (input.charAt(3) - 65)))
+			if(knight.validateMovement(grids, getX1(), getY1(), getX2(), getY2()))
 			{
 				validMovement(grids, input, turn);
 			}
 		}
 		
-		//kalo inputannya queen
-		else if(grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] == 5  || grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] == 11 )
+		else if(grids[getX1()][getY1()] == 5  || grids[getX1()][getY1()] == 11 )
 		{
 			Queen queen = new Queen();
-			if(queen.validateMovement(grids, (8 - (input.charAt(1) - 48)), (input.charAt(0) - 65), (8 - (input.charAt(4) - 48)), (input.charAt(3) - 65)))
+			if(queen.validateMovement(grids, getX1(), getY1(), getX2(), getY2()))
 			{
 				validMovement(grids, input, turn);
 			}
 							
 		}
 		
-		//klo inputannya king
-		else if(grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] == 6  || grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65] == 12 ) {
+		else if(grids[getX1()][getY1()] == 6  || grids[getX1()][getY1()] == 12 ) {
 			King king = new King();
 			
 			castlingSign(input, king);
@@ -258,8 +161,53 @@ public class Board {
 		}
 	}
 
+	private int getY2() {
+		return input.charAt(3) - 65;
+	}
+
+	private int getX2() {
+		return 8 - (input.charAt(4) - 48);
+	}
+
+	private int getY1() {
+		return input.charAt(0) - 65;
+	}
+
+	private int getX1() {
+		return 8 - (input.charAt(1) - 48);
+	}
+	
+	private boolean blackInputValidation() {
+		return input.length() != 5 || 
+				!(input.charAt(0) >= 'A' && 
+				input.charAt(0) <= 'H') ||
+				!(input.charAt(1) >= '1' &&
+				input.charAt(1) <= '8') ||
+				(input.charAt(2) != '-') ||
+				!(input.charAt(3) >= 'A' && 
+				input.charAt(3) <= 'H') ||
+				!(input.charAt(4) >= '1' &&
+				input.charAt(4) <= '8') ||
+				!(grids[getX1()][getY1()] >= 7 &&
+				grids[getX1()][getY1()] <= 12);
+	}
+	
+	private boolean whiteInputValidation() {
+		return input.length() != 5 || 
+				!(input.charAt(0) >= 'A' && 
+				input.charAt(0) <= 'H') ||
+				!(input.charAt(1) >= '1' &&
+				input.charAt(1) <= '8') ||
+				(input.charAt(2) != '-') ||
+				!(input.charAt(3) >= 'A' && 
+				input.charAt(3) <= 'H') ||
+				!(input.charAt(4) >= '1' &&
+				input.charAt(4) <= '8') ||
+				!(grids[getX1()][getY1()] <= 6 &&
+				grids[getX1()][getY1()] >= 1);
+	}
+
 	public void castlingSign(String input, King king) {
-		//kingside castling white
 		if(turn == 1 && (8 - (input.charAt(4) - 48)) - (8 - (input.charAt(1) - 48)) == 0 && (input.charAt(3) - 65) - (input.charAt(0) - 65) == 2 && checkWhite == 0 && moveRookRightWhite == 0 && moveKingWhite == 0 && grids[7][7] == 2)
 		{
 			System.out.println("Kingside castling white");
@@ -301,7 +249,6 @@ public class Board {
 			}
 			
 		}
-		//queenside castling white
 		else if(turn == 1 && (8 - (input.charAt(4) - 48)) - (8 - (input.charAt(1) - 48)) == 0 && (input.charAt(3) - 65) - (input.charAt(0) - 65) == -2 && checkWhite == 0 && moveRookLeftWhite == 0 && moveKingWhite == 0 && grids[7][0] == 2)
 		{
 			System.out.println("queenside castling white");
@@ -343,7 +290,6 @@ public class Board {
 			}
 			
 		}
-		//kingside castling black
 		else if(turn == -1 && (8 - (input.charAt(4) - 48)) - (8 - (input.charAt(1) - 48)) == 0 && (input.charAt(3) - 65) - (input.charAt(0) - 65) == 2 && checkBlack == 0 && moveRookRightBlack == 0 && moveKingBlack == 0 && grids[0][7] == 8)
 		{
 			System.out.println("Kingside castling black");
@@ -385,7 +331,6 @@ public class Board {
 			}
 			
 		}
-		//queenside castling black
 		else if(turn == -1 && (8 - (input.charAt(4) - 48)) - (8 - (input.charAt(1) - 48)) == 0 && (input.charAt(3) - 65) - (input.charAt(0) - 65) == -2 && checkBlack == 0 && moveRookLeftBlack == 0 && moveKingBlack == 0 && grids[0][0] == 8)
 		{
 			System.out.println("queenside castling black");
@@ -429,7 +374,6 @@ public class Board {
 		}else
 		{
 			if(king.validateMovement(grids, (8 - (input.charAt(1) - 48)), (input.charAt(0) - 65), (8 - (input.charAt(4) - 48)), (input.charAt(3) - 65))) {
-				//System.out.println("test");
 				validMovement(grids, input, turn);
 				kingHasMoved(input, turn, moveKingWhite, moveKingBlack);
 			}
@@ -437,7 +381,6 @@ public class Board {
 	}
 
 	public void kingHasMoved(String input, int turn, int moveKingWhite, int moveKingBlack) {
-		//karena turn udh keganti di validMovement, jadinya turnnya kebalik
 		if(turn == -1 && moveKingWhite == 0 && 8 - (input.charAt(1) - 48) == 7 && input.charAt(0) - 65 == 4)
 		{
 			System.out.println("Raja putih digerakin");
@@ -450,7 +393,6 @@ public class Board {
 	}
 
 	public void rookHasMoved(String input, int turn, int moveRookLeftWhite, int moveRookRightWhite, int moveRookLeftBlack, int moveRookRightBlack) {
-		//karena turn udh keganti di validMovement, jadinya turnnya kebalik
 		if(turn == -1 && 8 - (input.charAt(1) - 48) == 7 && input.charAt(0) - 65 == 0 && moveRookLeftWhite == 0)
 		{
 			System.out.println("Benteng kiri putih digerakin");
@@ -574,6 +516,7 @@ public class Board {
 	
 	public void enPassantMove(String input, int turns, int grids[][], int checkBlack, int checkWhite)
 	{
+		PrintBoard pb = new PrintBoard();
 		Checkmate cm = new Checkmate();
 		if(turns == 1)
 		{
@@ -603,8 +546,7 @@ public class Board {
 				if(checkBlack == 1)
 				{
 					if(cm.checkmate(grids, turns *= -1, 8 - (input.charAt(4) - 48), input.charAt(3) - 65)) {
-						//System.out.println("");
-						print(grids);
+						pb.print(grids);
 						System.out.println("");
 						System.out.println("Game Over, White Win!");
 						endIndicator = 1;
@@ -645,8 +587,7 @@ public class Board {
 				if(checkWhite == 1)
 				{
 					if(cm.checkmate(grids, turns *= -1, 8 - (input.charAt(4) - 48), input.charAt(3) - 65)) {
-						//System.out.println("");
-						print(grids);
+						pb.print(grids);
 						System.out.println("");
 						System.out.println("Game Over, Black Win!");
 						endIndicator = 1;
@@ -669,6 +610,7 @@ public class Board {
 	}
 	
 	public void validMovement(int[][] grids, String input, int turns) {
+		PrintBoard pb = new PrintBoard();
 		int temp;
 		temp = grids[8 - (input.charAt(4) - 48)][input.charAt(3) - 65];
 		grids[8 - (input.charAt(4) - 48)][input.charAt(3) - 65] = grids[8 - (input.charAt(1) - 48)][input.charAt(0) - 65];
@@ -688,7 +630,7 @@ public class Board {
 			
 			Stalemate stalemate = new Stalemate(); 
 			if(stalemate.stalemate(grids, turns*-1) == true) {
-				print(grids);
+				pb.print(grids);
 				System.out.println(""); 
 				System.out.println("Stalemate Draw!");
 				endIndicator = 1;
@@ -701,8 +643,7 @@ public class Board {
 			if(turns == 1 && checkBlack == 1)
 			{
 				if(cm.checkmate(grids, turns *= -1, 8 - (input.charAt(4) - 48), input.charAt(3) - 65)) {
-					//System.out.println("");
-					print(grids);
+					pb.print(grids);
 					System.out.println(""); 
 					System.out.println("Game Over, White Win!");		
 					endIndicator = 1;
@@ -714,8 +655,7 @@ public class Board {
 			}else if(turns == -1 && checkWhite == 1)
 			{
 				if(cm.checkmate(grids, turns *= -1, 8 - (input.charAt(4) - 48), input.charAt(3) - 65)) { 
-					//System.out.println("");
-					print(grids);
+					pb.print(grids);
 					System.out.println("");
 					System.out.println("Game Over, Black Win!");
 					endIndicator = 1;
@@ -740,95 +680,5 @@ public class Board {
 	public boolean isEnd(int endIndicator) {
 		if(endIndicator == 1) return true;
 		return false;
-	}
-	
-	public void print(int[][] grids) {	
-		int boardNumber = 8;
-		for (int i = 0; i < 8; i++) {
-			for (int j = 0; j < 8; j++) {
-				//buat ngambil value dr masing2 grid
-				int key = grids[i][j];
-				
-				switch(key) {
-					case 1:  
-						System.out.print("p ");
-						break;
-					
-					case 2: 
-						System.out.print("r ");
-						break;
-					
-					case 3:
-						System.out.print("n ");
-						break;
-					
-					case 4:
-						System.out.print("b ");
-						break;
-					
-					case 5:
-						System.out.print("q ");
-						break;
-					
-					case 6:
-						System.out.print("k ");
-						break;
-					
-					case 7:
-						System.out.print("P ");
-						break;
-					
-					case 8:
-						System.out.print("R ");
-						break;
-					
-					case 9:
-						System.out.print("N ");
-						break;
-					
-					case 10:
-						System.out.print("B ");
-						break;
-					
-					case 11:
-						System.out.print("Q ");
-						break;
-					
-					case 12:
-						System.out.print("K ");
-						break;
-					
-					default:{
-						if(i % 2 == 0 && j % 2 == 0) {
-							System.out.print("- ");
-						}
-						else if(i % 2 == 0 && j % 2 != 0) {
-							System.out.print("+ ");
-						}
-						else if(i % 2 != 0 && j % 2 == 0) {
-							System.out.print("+ ");
-						}
-						else if(i % 2 != 0 && j % 2 != 0) {
-							System.out.print("- ");
-						}
-					break;
-					}
-				}
-				//ini buat print angka disamping board
-				if(j == 7) {
-					System.out.print(boardNumber);
-					boardNumber--;
-				}
-			}
-			System.out.println();
-			
-			//ini buat print huruf dibawah board
-			if(i == 7) {
-				for (int j = 0; j < 8; j++) {
-					System.out.print((char)(j + 'A') + " ");
-				}
-			}
-		}
-		System.out.println();
 	}
 }

@@ -3,7 +3,6 @@ package chess_rule;
 import chess_piece.Bishop;
 import chess_piece.Knight;
 import chess_piece.Pawn;
-import chess_piece.Queen;
 import chess_piece.Rook;
 
 public class Stalemate {
@@ -16,12 +15,12 @@ public class Stalemate {
 	public int findXKing(int gridsArray[][], int turn) {
 		for (int i = 0; i < 8; i++) {
 			for(int j = 0; j < 8; j++) {
-				if(turn == 1) {
+				if(turnWhite(turn)) {
 					if(gridsArray[i][j] == 6) {
 						return i;
 					}
 				}
-				else if(turn == -1) {
+				else if(turnBlack(turn)) {
 					if(gridsArray[i][j] == 12) {
 						return i;
 					}
@@ -30,16 +29,24 @@ public class Stalemate {
 		}
 		return -1;
 	}
+
+	private boolean turnBlack(int turn) {
+		return turn == -1;
+	}
+
+	private boolean turnWhite(int turn) {
+		return turn == 1;
+	}
 	
 	public int findYKing(int gridsArray[][], int turn) {
 		for (int i = 0; i < 8; i++) {
 			for(int j = 0; j < 8; j++) {
-				if(turn == 1) {
+				if(turnWhite(turn)) {
 					if(gridsArray[i][j] == 6) {
 						return j;
 					}
 				}
-				else if(turn == -1) {
+				else if(turnBlack(turn)) {
 					if(gridsArray[i][j] == 12) {
 						return j;
 					}
@@ -57,18 +64,16 @@ public class Stalemate {
 		
 		if(invalidMove.validateInvalidMove(gridsArray, turn) == true) return false;
 		
-		//atas
 		if(xKing-1 >= 0) {
 			if(gridsArray[xKing-1][yKing] == 0) {
 				moveKing(gridsArray, xKing, yKing, xKing-1, yKing);
 				if(invalidMove.validateInvalidMove(gridsArray, turn) == true) {
-					//System.out.println("msk1");
 					checkCounter++;
 				}
 				moveKing(gridsArray, xKing-1, yKing, xKing, yKing);
 			}
 			else {
-				if(turn == 1) {
+				if(turnWhite(turn)) {
 					if(gridsArray[xKing-1][yKing] == 7 || gridsArray[xKing-1][yKing] == 8 || gridsArray[xKing-1][yKing] == 9 || gridsArray[xKing-1][yKing] == 10 || gridsArray[xKing-1][yKing] == 11 || gridsArray[xKing-1][yKing] == 12) {
 						int temp = gridsArray[xKing-1][yKing];
 						moveKing(gridsArray, xKing, yKing, xKing-1, yKing);
@@ -82,7 +87,7 @@ public class Stalemate {
 						checkCounter++;
 					}
 				}
-				else if(turn == -1) {
+				else if(turnBlack(turn)) {
 					if(gridsArray[xKing-1][yKing] == 1 || gridsArray[xKing-1][yKing] == 2 || gridsArray[xKing-1][yKing] == 3 || gridsArray[xKing-1][yKing] == 4 || gridsArray[xKing-1][yKing] == 5 || gridsArray[xKing-1][yKing] == 6) {
 						int temp = gridsArray[xKing-1][yKing]; 
 						moveKing(gridsArray, xKing, yKing, xKing-1, yKing);
@@ -99,11 +104,9 @@ public class Stalemate {
 			}
 		}
 		else {
-			//System.out.println("msk1");
 			checkCounter++;
 		}
 		
-		//bawah
 		if(xKing+1 <= 7) {
 			if(gridsArray[xKing+1][yKing] == 0) {
 				moveKing(gridsArray, xKing, yKing, xKing+1, yKing);
@@ -113,7 +116,7 @@ public class Stalemate {
 				moveKing(gridsArray, xKing+1, yKing, xKing, yKing);
 			}
 			else {
-				if(turn == 1) {
+				if(turnWhite(turn)) {
 					if(gridsArray[xKing+1][yKing] == 7 || gridsArray[xKing+1][yKing] == 8 || gridsArray[xKing+1][yKing] == 9 || gridsArray[xKing+1][yKing] == 10 || gridsArray[xKing+1][yKing] == 11 || gridsArray[xKing+1][yKing] == 12) {
 						int temp = gridsArray[xKing+1][yKing];
 						moveKing(gridsArray, xKing, yKing, xKing+1, yKing);
@@ -127,12 +130,11 @@ public class Stalemate {
 						checkCounter++;
 					}
 				}
-				else if(turn == -1) {
+				else if(turnBlack(turn)) {
 					if(gridsArray[xKing+1][yKing] == 1 || gridsArray[xKing+1][yKing] == 2 || gridsArray[xKing+1][yKing] == 3 || gridsArray[xKing+1][yKing] == 4 || gridsArray[xKing+1][yKing] == 5 || gridsArray[xKing+1][yKing] == 6) {
 						int temp = gridsArray[xKing+1][yKing];
 						moveKing(gridsArray, xKing, yKing, xKing+1, yKing);
 						if(invalidMove.validateInvalidMove(gridsArray, turn) == true) {
-							//System.out.println("msk9");
 							checkCounter++;
 						}
 						moveKing(gridsArray, xKing+1, yKing, xKing, yKing);
@@ -147,8 +149,7 @@ public class Stalemate {
 		else {
 			checkCounter++;
 		}
-			
-		//kiri
+		
 		if(yKing-1 >= 0) {
 			if(gridsArray[xKing][yKing-1] == 0) {
 				moveKing(gridsArray, xKing, yKing, xKing, yKing-1);
@@ -156,7 +157,7 @@ public class Stalemate {
 				moveKing(gridsArray, xKing, yKing-1, xKing, yKing);
 			}
 			else {
-				if(turn == 1) {
+				if(turnWhite(turn)) {
 					if(gridsArray[xKing][yKing-1] == 7 || gridsArray[xKing][yKing-1] == 8 || gridsArray[xKing][yKing-1] == 9 || gridsArray[xKing][yKing-1] == 10 || gridsArray[xKing][yKing-1] == 11 || gridsArray[xKing][yKing-1] == 12) {
 						int temp = gridsArray[xKing][yKing-1];
 						moveKing(gridsArray, xKing, yKing, xKing, yKing-1);
@@ -170,7 +171,7 @@ public class Stalemate {
 						checkCounter++;
 					}
 				}
-				else if(turn == -1) {
+				else if(turnBlack(turn)) {
 					if(gridsArray[xKing][yKing-1] == 1 || gridsArray[xKing][yKing-1] == 2 || gridsArray[xKing][yKing-1] == 3 || gridsArray[xKing][yKing-1] == 4 || gridsArray[xKing][yKing-1] == 5 || gridsArray[xKing][yKing-1] == 6) {
 						int temp = gridsArray[xKing][yKing-1];
 						moveKing(gridsArray, xKing, yKing, xKing, yKing-1);
@@ -187,22 +188,19 @@ public class Stalemate {
 			}	
 		}
 		else {
-			//System.out.println("msk2");
 			checkCounter++;
 		}
-			
-		//kanan
+		
 		if(yKing+1 <= 7) {
 			if(gridsArray[xKing][yKing+1] == 0) {
 				moveKing(gridsArray, xKing, yKing, xKing, yKing+1);
 				if(invalidMove.validateInvalidMove(gridsArray, turn) == true) {
-					//System.out.println("msk3");
 					checkCounter++;
 				}
 				moveKing(gridsArray, xKing, yKing+1, xKing, yKing);
 			}
 			else {
-				if(turn == 1) {
+				if(turnWhite(turn)) {
 					if(gridsArray[xKing][yKing+1] == 7 || gridsArray[xKing][yKing+1] == 8 || gridsArray[xKing][yKing+1] == 9 || gridsArray[xKing][yKing+1] == 10 || gridsArray[xKing][yKing+1] == 11 || gridsArray[xKing][yKing+1] == 12) {
 						int temp = gridsArray[xKing][yKing+1];
 						moveKing(gridsArray, xKing, yKing, xKing, yKing+1);
@@ -216,7 +214,7 @@ public class Stalemate {
 						checkCounter++;
 					}
 				}
-				else if(turn == -1) {
+				else if(turnBlack(turn)) {
 					if(gridsArray[xKing][yKing+1] == 1 || gridsArray[xKing][yKing+1] == 2 || gridsArray[xKing][yKing+1] == 3 || gridsArray[xKing][yKing+1] == 4 || gridsArray[xKing][yKing+1] == 5 || gridsArray[xKing][yKing+1] == 6) {
 						int temp = gridsArray[xKing][yKing+1];
 						moveKing(gridsArray, xKing, yKing, xKing, yKing+1);
@@ -235,8 +233,7 @@ public class Stalemate {
 		else {
 			checkCounter++;
 		}
-			
-		//kanan atas
+		
 		if(xKing-1 >= 0 && yKing+1 <= 7) {
 			if(gridsArray[xKing-1][yKing+1] == 0) {
 				moveKing(gridsArray, xKing, yKing, xKing-1, yKing+1);
@@ -244,7 +241,7 @@ public class Stalemate {
 				moveKing(gridsArray, xKing-1, yKing+1, xKing, yKing);
 			}
 			else {
-				if(turn == 1) {
+				if(turnWhite(turn)) {
 					if(gridsArray[xKing-1][yKing+1] == 7 || gridsArray[xKing-1][yKing+1] == 8 || gridsArray[xKing-1][yKing+1] == 9 || gridsArray[xKing-1][yKing+1] == 10 || gridsArray[xKing-1][yKing+1] == 11 || gridsArray[xKing-1][yKing+1] == 12) {
 						int temp = gridsArray[xKing-1][yKing+1];
 						moveKing(gridsArray, xKing, yKing, xKing-1, yKing+1);
@@ -258,7 +255,7 @@ public class Stalemate {
 						checkCounter++;
 					}
 				}
-				else if(turn == -1) {
+				else if(turnBlack(turn)) {
 					if(gridsArray[xKing-1][yKing+1] == 1 || gridsArray[xKing-1][yKing+1] == 2 || gridsArray[xKing-1][yKing+1] == 3 || gridsArray[xKing-1][yKing+1] == 4 || gridsArray[xKing-1][yKing+1] == 5 || gridsArray[xKing-1][yKing+1] == 6) {
 						int temp = gridsArray[xKing-1][yKing+1];
 						moveKing(gridsArray, xKing, yKing, xKing-1, yKing+1);
@@ -275,11 +272,9 @@ public class Stalemate {
 			}
 		}
 		else {
-			//System.out.println("msk23");
 			checkCounter++;
 		}
 		
-		//kiri atas
 		if(xKing-1 >= 0 && yKing-1 >= 0) {
 			if(gridsArray[xKing-1][yKing-1] == 0) {
 				moveKing(gridsArray, xKing, yKing, xKing-1, yKing-1);
@@ -287,7 +282,7 @@ public class Stalemate {
 				moveKing(gridsArray, xKing-1, yKing-1, xKing, yKing);
 			}
 			else {
-				if(turn == 1) {
+				if(turnWhite(turn)) {
 					if(gridsArray[xKing-1][yKing-1] == 7 || gridsArray[xKing-1][yKing-1] == 8 || gridsArray[xKing-1][yKing-1] == 9 || gridsArray[xKing-1][yKing-1] == 10 || gridsArray[xKing-1][yKing-1] == 11 || gridsArray[xKing-1][yKing-1] == 12) {
 						int temp = gridsArray[xKing-1][yKing-1];
 						moveKing(gridsArray, xKing, yKing, xKing-1, yKing-1);
@@ -301,7 +296,7 @@ public class Stalemate {
 						checkCounter++;
 					}
 				}
-				else if(turn == -1) {
+				else if(turnBlack(turn)) {
 					if(gridsArray[xKing-1][yKing-1] == 1 || gridsArray[xKing-1][yKing-1] == 2 || gridsArray[xKing-1][yKing-1] == 3 || gridsArray[xKing-1][yKing-1] == 4 || gridsArray[xKing-1][yKing-1] == 5 || gridsArray[xKing-1][yKing-1] == 6) {
 						int temp = gridsArray[xKing-1][yKing-1];
 						moveKing(gridsArray, xKing, yKing, xKing-1, yKing-1);
@@ -318,11 +313,9 @@ public class Stalemate {
 			}
 		}
 		else {
-			//System.out.println("msk55");
 			checkCounter++;
 		}
 		
-		//kiri bawah
 		if(xKing+1 <= 7 && yKing-1 >= 0) {
 			if(gridsArray[xKing+1][yKing-1] == 0) {
 				moveKing(gridsArray, xKing, yKing, xKing+1, yKing-1);
@@ -330,7 +323,7 @@ public class Stalemate {
 				moveKing(gridsArray, xKing+1, yKing-1, xKing, yKing);
 			}
 			else {
-				if(turn == 1) {
+				if(turnWhite(turn)) {
 					if(gridsArray[xKing+1][yKing-1] == 7 || gridsArray[xKing+1][yKing-1] == 8 || gridsArray[xKing+1][yKing-1] == 9 || gridsArray[xKing+1][yKing-1] == 10 || gridsArray[xKing+1][yKing-1] == 11 || gridsArray[xKing+1][yKing-1] == 12) {
 						int temp = gridsArray[xKing+1][yKing-1];
 						moveKing(gridsArray, xKing, yKing, xKing+1, yKing-1);
@@ -344,12 +337,11 @@ public class Stalemate {
 						checkCounter++;
 					}
 				}
-				else if(turn == -1) {
+				else if(turnBlack(turn)) {
 					if(gridsArray[xKing+1][yKing-1] == 1 || gridsArray[xKing+1][yKing-1] == 2 || gridsArray[xKing+1][yKing-1] == 3 || gridsArray[xKing+1][yKing-1] == 4 || gridsArray[xKing+1][yKing-1] == 5 || gridsArray[xKing+1][yKing-1] == 6) {
 						int temp = gridsArray[xKing+1][yKing-1];
 						moveKing(gridsArray, xKing, yKing, xKing+1, yKing-1);
 						if(invalidMove.validateInvalidMove(gridsArray, turn) == true) {
-							//System.out.println("msk9");
 							checkCounter++;
 						}
 						moveKing(gridsArray, xKing+1, yKing-1, xKing, yKing);
@@ -362,22 +354,19 @@ public class Stalemate {
 			}	
 		}
 		else {
-			//System.out.println("msk7");
 			checkCounter++;
 		}
 		
-		//kanan bawah
 		if(xKing+1 <= 7 && yKing+1 <= 7) {
 			if(gridsArray[xKing+1][yKing+1] == 0) {
 				moveKing(gridsArray, xKing, yKing, xKing+1, yKing+1);
 				if(invalidMove.validateInvalidMove(gridsArray, turn) == true) {
-					//System.out.println("msk8");
 					checkCounter++;
 				}
 				moveKing(gridsArray, xKing+1, yKing+1, xKing, yKing);
 			}
 			else {
-				if(turn == 1) {
+				if(turnWhite(turn)) {
 					if(gridsArray[xKing+1][yKing+1] == 7 || gridsArray[xKing+1][yKing+1] == 8 || gridsArray[xKing+1][yKing+1] == 9 || gridsArray[xKing+1][yKing+1] == 10 || gridsArray[xKing+1][yKing+1] == 11 || gridsArray[xKing+1][yKing+1] == 12) {
 						int temp = gridsArray[xKing+1][yKing+1];
 						moveKing(gridsArray, xKing, yKing, xKing+1, yKing+1);
@@ -391,12 +380,11 @@ public class Stalemate {
 						checkCounter++;
 					}
 				}
-				else if(turn == -1) {
+				else if(turnBlack(turn)) {
 					if(gridsArray[xKing+1][yKing+1] == 1 || gridsArray[xKing+1][yKing+1] == 2 || gridsArray[xKing+1][yKing+1] == 3 || gridsArray[xKing+1][yKing+1] == 4 || gridsArray[xKing+1][yKing+1] == 5 || gridsArray[xKing+1][yKing+1] == 6) {
 						int temp = gridsArray[xKing+1][yKing+1];
 						moveKing(gridsArray, xKing, yKing, xKing+1, yKing+1);
 						if(invalidMove.validateInvalidMove(gridsArray, turn) == true) {
-							//System.out.println("msk9");
 							checkCounter++;
 						}
 						moveKing(gridsArray, xKing+1, yKing+1, xKing, yKing);
@@ -417,71 +405,50 @@ public class Stalemate {
 			for(int i = 0; i < 8; i++) {
 				for(int j = 0; j < 8; j++) {
 					
-					if(turn == 1) {
-						//rook
+					if(turnWhite(turn)) {
 						if(gridsArray[i][j] == 2) {
 							if(validateRookMovement(gridsArray, turn, i, j) == false) return false;
 						}
-						//==========================
 						
-						//bishop
 						else if(gridsArray[i][j] == 4) {
 							if(validateBishopMovement(gridsArray, turn, i, j) == false) return false;
 						}
-						//==========================
 						
-						//queen
 						else if(gridsArray[i][j] == 5) { 
 							if(validateRookMovement(gridsArray, turn, i, j) == false) return false;
 							if(validateBishopMovement(gridsArray, turn, i, j) == false) return false;
-						} 
-						//==========================	
+						}
 						
-						//knight
 						else if(gridsArray[i][j] == 3) {
 							if(validateKnightMovement(gridsArray, turn, i, j) == false) return false;
 						}
-						//==========================
 						
-						//pawn
 						else if(gridsArray[i][j] == 1) {
 							if(validateWhitePawnMovement(gridsArray, turn, i, j) == false) return false;
 						}
-						//=========================
 					}
 					
-					else if(turn == -1) {
-						//rook
+					else if(turnBlack(turn)) {
 						if(gridsArray[i][j] == 8) {
 							if(validateRookMovement(gridsArray, turn, i, j) == false) return false;
 						}
-						//==========================
 						
-						//bishop
 						else if(gridsArray[i][j] == 10) {
 							if(validateBishopMovement(gridsArray, turn, i, j) == false) return false;
 						}
-						//==========================
 						
-						//queen
 						else if(gridsArray[i][j] == 11) {
 							if(validateRookMovement(gridsArray, turn, i, j) == false) return false;
 							if(validateBishopMovement(gridsArray, turn, i, j) == false) return false;
 						}
-						//==========================	
 						
-						//knight
 						else if(gridsArray[i][j] == 9) {
 							if(validateKnightMovement(gridsArray, turn, i, j) == false) return false;
 						}
-						//==========================
 						
-						//pawn
 						else if(gridsArray[i][j] == 7) {
 							if(validateBlackPawnMovement(gridsArray, turn, i, j) == false) return false;		
 						}
-						//=========================
-						
 					}
 					if(j == 7 && i == 7) return true;
 				}
@@ -491,50 +458,6 @@ public class Stalemate {
 		else if(checkCounter != 8){
 			return false;
 		}
-		
-//		int pawn = 0;
-//		int rook = 0;
-//		int knight = 0;
-//		int bishop = 0;
-//		int queen = 0;
-//		
-//		for(int i = 0; i < 8; i++) {
-//			for(int j = 0; j < 8; j++) {
-//				if(turn == 1) {
-//					if(gridsArray[i][j] == 1 || gridsArray[i][j] == 2 || gridsArray[i][j] == 3 || gridsArray[i][j] == 4 || gridsArray[i][j] == 5) return false;
-//					if(gridsArray[i][j] == 7) pawn++;
-//					else if(gridsArray[i][j] == 8) rook++;
-//					else if(gridsArray[i][j] == 9) knight++;
-//					else if(gridsArray[i][j] == 10) bishop++;
-//					else if(gridsArray[i][j] == 11) queen++;
-//				}
-//				else if(turn == -1) {
-//					if(gridsArray[i][j] == 7 || gridsArray[i][j] == 8 || gridsArray[i][j] == 9 || gridsArray[i][j] == 10 || gridsArray[i][j] == 11) return false;
-//					if(gridsArray[i][j] == 1) pawn++;
-//					else if(gridsArray[i][j] == 2) rook++;
-//					else if(gridsArray[i][j] == 3) knight++;
-//					else if(gridsArray[i][j] == 4) bishop++;
-//					else if(gridsArray[i][j] == 5) queen++;
-//				}
-//			}
-//		}
-//		
-//		System.out.println(pawn);
-//		System.out.println(rook);
-//		System.out.println(knight);
-//		System.out.println(bishop);
-//		System.out.println(queen);
-//		
-//		if(pawn >= 1 || queen == 1 || rook >= 1) return false;
-//		
-//		if(pawn == 0 && rook == 0 && queen == 0 && (bishop == 0 || knight == 0)) {
-//			if(bishop == 0) {
-//				if(knight == 0) return false;
-//			}
-//			else if(knight == 0) {
-//				if(bishop == 2 || bishop == 0) return false;
-//			}
-//		}
 				
 		return true;
 	}

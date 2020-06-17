@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 import chess_board.Board;
+import chess_board.PrintBoard;
 import chess_piece.Pawn;
 
 class BoardUnitTest {
@@ -142,6 +143,7 @@ class BoardUnitTest {
 	@Test
 	void testBlackInvalidEnPassantMove() {
 		Board board = new Board();
+		PrintBoard pb = new PrintBoard();
 		int[][] grids = new int[8][8];
 		
 		grids[1][3] = 12;
@@ -150,11 +152,11 @@ class BoardUnitTest {
 		grids[4][5] = 1;
 		
 		grids[4][6] = 7;
-		board.print(grids);
+		pb.print(grids);
 		board.enPassantMove("G4-F3", -1, grids, 0, 0);
 		
 		
-		board.print(grids);
+		pb.print(grids);
 		assert(grids[4][6] == 7);
 		assert(grids[4][5] == 1);
 	}
@@ -162,6 +164,7 @@ class BoardUnitTest {
 	@Test
 	void testBlackEnPassantMoveCheck() {
 		Board board = new Board();
+		PrintBoard pb = new PrintBoard();
 		int[][] grids = new int[8][8];
 		
 		grids[6][5] = 6;
@@ -169,11 +172,11 @@ class BoardUnitTest {
 		grids[4][6] = 1;
 		
 		grids[4][5] = 7;
-		board.print(grids);
+		pb.print(grids);
 		board.enPassantMove("F4-G3", -1, grids, 0, 1);
 		
 		
-		board.print(grids);
+		pb.print(grids);
 		assert(grids[5][6] == 7);
 		assert(grids[4][6] == 0);
 	}
@@ -181,6 +184,7 @@ class BoardUnitTest {
 	@Test
 	void testWhiteEnPassantMoveCheck() {
 		Board board = new Board();
+		PrintBoard pb = new PrintBoard();
 		int[][] grids = new int[8][8];
 		
 		grids[1][6] = 12;
@@ -188,11 +192,11 @@ class BoardUnitTest {
 		grids[3][5] = 7;
 		
 		grids[3][6] = 1;
-		board.print(grids);
+		pb.print(grids);
 		board.enPassantMove("G5-F6", 1, grids, 1, 0);
 		
 		
-		board.print(grids);
+		pb.print(grids);
 		assert(grids[2][5] == 1);
 		assert(grids[3][5] == 0);
 	}
@@ -230,9 +234,9 @@ class BoardUnitTest {
 		board.rookHasMoved("A8-A7", 1, 0, 0, 0, 0);
 		board.rookHasMoved("H8-H7", 1, 0, 0, 0, 0);
 	}
-//	
+	
 	@Test
-	void testCastlingKingSide() {
+	void testCastlingKingSide() throws Exception {
 		Board board = new Board();
 		
 		for (int i = 0; i < 11; i++) {
@@ -257,7 +261,7 @@ class BoardUnitTest {
 	
 	
 	@Test
-	void testCastlingQueenSide() {
+	void testCastlingQueenSide() throws Exception {
 		Board board = new Board();
 		
 		for (int i = 0; i < 12; i++) {
@@ -343,14 +347,15 @@ class BoardUnitTest {
 	@Test
 	void testPawnPromotion() {
 		Board board = new Board();
+		PrintBoard pb = new PrintBoard();
 		int[][] grids = new int[8][8];
 
 		grids[1][2] = 1;
 		grids[7][7] = 12;
 		
-		board.print(grids);
+		pb.print(grids);
 		board.pawnMovement(grids, "C7-C8", 1);
-		board.print(grids);
+		pb.print(grids);
 		assert(grids[1][2] == 0);
 	}
 	
@@ -377,6 +382,7 @@ class BoardUnitTest {
 	@Test
 	void testBlackEnPassantCheckmate() {
 		Board board = new Board();
+		PrintBoard pb = new PrintBoard();
 		int[][] grids = new int[8][8];
 		
 		grids[6][2] = 6;
@@ -389,7 +395,7 @@ class BoardUnitTest {
 		grids[7][7] = 8;
 		grids[0][1] = 8;
 		
-		board.print(grids);
+		pb.print(grids);
 		board.enPassantMove("E4-D3", -1, grids, 0, 1);
 		
 		assert(grids[5][3] == 7 && grids[4][3] == 0);
